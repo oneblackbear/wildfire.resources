@@ -7,7 +7,7 @@ class WildfireResource extends WaxModel{
     $this->define("media", "ManyToManyField", array('target_model'=>"WildfireMedia", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'group'=>'media', 'module'=>'media'));
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
-    $this->define("author", "ForeignKey", array('export'=>true, 'target_model'=>"WildfireUser", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
+    $this->define("author", "ForeignKey", array('export'=>true, 'target_model'=>"Staff", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
     parent::setup();
   }
 
