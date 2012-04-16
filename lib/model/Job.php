@@ -8,6 +8,7 @@ class Job extends WildfireResource{
     $this->define("date_go_live", "DateTimeField", array('label'=>'Go live date'));
     $this->define("flagged", "BooleanField");
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships'));
+    $this->define("schedule", "HasManyField", array('target_model'=>"Job", 'group'=>'relationships'));
   }
 
 }
