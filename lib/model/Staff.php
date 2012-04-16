@@ -8,6 +8,5 @@ class Staff extends WildfireResource{
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "IntegerField", array('maxlength'=>2, 'default'=>0));
   }
 
-
 }
 ?>
