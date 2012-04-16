@@ -4,7 +4,8 @@ class Job extends WildfireResource{
 
   public function setup(){
     parent::setup();
-    $this->define("hours_estimated", "IntegerField", array('required'=>true));
+    $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2"));
+    $this->define("hours_actual", "FloatField", array('required'=>true, 'maxlength'=>"12,2"));
     $this->define("status", "IntegerField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date'));
     $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date'));
