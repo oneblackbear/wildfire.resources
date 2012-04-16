@@ -8,5 +8,5 @@ CMSApplication::register_module("fee", array("display_name"=>"Fees", "link"=>"/a
 
 CMSApplication::register_module("job", array("display_name"=>"Jobs", "link"=>"/admin/job/"));
 CMSApplication::register_module("work", array("display_name"=>"Schedule", "link"=>"/admin/work/"));
-CMSApplication::register_module("jobcomment", array("display_name"=>"Comments on jobs", "link"=>"/admin/jobcomment/"));
+CMSApplication::register_module("jobcomment", array("display_name"=>"Comments on jobs", "link"=>"/admin/jobcomment/", 'split'=>true));
 ?>
