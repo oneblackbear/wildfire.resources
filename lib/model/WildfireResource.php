@@ -3,7 +3,7 @@ class WildfireResource extends WaxModel{
 
   public function setup(){
     $this->define("title", "CharField", array('export'=>true, 'maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
-    $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput"));
+    $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput", 'label'=>'Description'));
     $this->define("media", "ManyToManyField", array('target_model'=>"WildfireMedia", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'group'=>'media', 'module'=>'media'));
     parent::setup();
   }
