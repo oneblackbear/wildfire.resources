@@ -6,4 +6,5 @@ CMSApplication::register_module("fee", array("display_name"=>"Fees", "link"=>"/a
 CMSApplication::register_module("job", array("display_name"=>"Jobs", "link"=>"/admin/job/"));
 CMSApplication::register_module("organisation", array("display_name"=>"Organisations", "link"=>"/admin/organisation/"));
 CMSApplication::register_module("staff", array("display_name"=>"Staff", "link"=>"/admin/staff/"));
+CMSApplication::register_module("work", array("display_name"=>"Schedule", "link"=>"/admin/work/"));
 ?>
