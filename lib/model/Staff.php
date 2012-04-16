@@ -1,4 +1,6 @@
 <?
+//do admin by staff being a member of a 'super admin' user group - they can then do scheduling etc for the dept. they are in
+//add in passwords, email, usernames & general contact details
 class Staff extends WildfireResource{
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public function setup(){
