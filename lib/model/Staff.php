@@ -5,6 +5,7 @@ class Staff extends WildfireResource{
     parent::setup();
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships'));
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships'));
+    $this->define("clients", "ManyToManyField", array('target_model'=>"Client", 'group'=>'relationships'));
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "IntegerField", array('maxlength'=>2, 'default'=>0));
   }
 
