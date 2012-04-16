@@ -9,6 +9,7 @@ class Job extends WildfireResource{
     $this->define("flagged", "BooleanField");
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships'));
     $this->define("schedule", "HasManyField", array('target_model'=>"Job", 'group'=>'relationships'));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
   }
 
 }
