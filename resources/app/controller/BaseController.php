@@ -83,8 +83,8 @@ class BaseController extends WaxController{
     });
     WaxEvent::add("model.fetch", function(){
       $obj = WaxEvent::data();
-      if($obj->this_page && $obj->per_page) $obj->results = $obj->model->page($obj->this_page, $obj->per_page);
-      else $obj->results = $obj->model->all();
+      if($obj->this_page && $obj->per_page) $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
+      else $obj->cms_content = $obj->model->all();
     });
 
     /**
