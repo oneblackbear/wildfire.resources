@@ -31,14 +31,14 @@ class BaseController extends WaxController{
     return "/".str_replace("controller", "", strtolower(get_class($this))) ."/";
   }
   protected function cms_stacks(){
+    $controller_class = new stdClass;
+    $controller_class->title = ucwords(str_replace("controller", "", strtolower(get_class($this))));
+    $this->content_object_stack[] = $controller_class;
     if($this->action != "index"){
       $action_class = new stdClass;
       $action_class->title = Inflections::humanize($this->action);
       $this->content_object_stack[] = $action_class;
     }
-    $controller_class = new stdClass;
-    $controller_class->title = ucwords(str_replace("controller", "", strtolower(get_class($this))));
-    $this->content_object_stack[] = $controller_class;
   }
   protected function _access(){
     $this->active_staff = $this->staff_login();

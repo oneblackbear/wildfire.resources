@@ -1,12 +1,12 @@
 <a name="step"></a>
-<div class='form restricted_form'>
-  <h1>Congratulations <?=$active_staff->title?> on creating your account</h1>
+<div class='form restricted_form organisation_form'>
   <h2>Now lets create organisations!</h2>
-  <p>Normally you only really need one of these, but you can add more by clicking on the add organisation button</p>
+  <p>Congratulations <?=$active_staff->title?> on creating your account; lets move on to the next step. Fill in the name of your organisation details in the form below.</p>
   <?=$organisation_form->errors();?>
   <form action="#step" method="post" id="organisation_form">
     <fieldset class="inline_fields clearfix">
       <?=$organisation_form->title->render(array('label'=>'Organisation name', 'placeholder'=>'Organisation name'));?>
+      <?=$organisation_form->email->render(array('label'=>'Email', 'placeholder'=>'Contact email'));?>
       <input type="submit" name="join_submit" value="Add +" class="submit_button">
     </fieldset>
   </form>

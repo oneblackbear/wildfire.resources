@@ -2,10 +2,10 @@
   border:8px solid rgba(30,105,222,0.2);
 }
 .form fieldset{
-  margin-top:10px;
+  margin-top:15px;
 }
 .restricted_form{
-  width:60%;
+  width:62%;
   max-width:800px;
   margin:20px auto;
   padding:10px;
@@ -25,7 +25,7 @@ form textarea{
 
 form span{
   display:block;
-  margin-bottom:5px;
+  margin-bottom:15px;
 }
 form span label{
   float:left;
@@ -58,9 +58,7 @@ form textarea{
   form input.error_field{
     border-color:#a91c12;
   }
-  form .input_field{
-    width:25%;
-  }
+
 form span input,
 form span select,
 form span textarea{

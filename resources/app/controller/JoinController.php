@@ -91,7 +91,7 @@ class JoinController extends BaseController{
 
     WaxEvent::add("form.save.after", function(){
       $controller = WaxEvent::data();
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to($controller->url()."dash/");
+      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/dash/");
     });
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
