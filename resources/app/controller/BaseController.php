@@ -3,7 +3,7 @@ class BaseController extends WaxController{
 
   public $model_class = false;
   public $model_scope = "live";
-  public $staff = false;
+  public $active_staff = false;
   public $per_page = 15;
   public $form_name = "model_form";
   public $permissions = array(
