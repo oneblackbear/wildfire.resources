@@ -31,6 +31,13 @@ class BaseController extends WaxController{
   }
   protected function _events(){
     /**
+     * hook in to the base template view events to remove other plugin views :|
+     */
+    WaxEvent::add("wax.after_plugin_view_paths", function(){
+      $view = WaxEvent::data();
+      foreach($view->template_paths as $i=>$path) if(strpos($path, "/plugins/") && !strpos($path, "/plugins/wildfire.resources/")) unset($view->template_paths[$i]);
+    });
+    /**
      * permissions work on blacklist style
      * - an action in the permissions array is restricted to the user roles listed in its array
      * - if its not set in the permissions array then its publicly available
