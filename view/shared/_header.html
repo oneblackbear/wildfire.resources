@@ -1,13 +1,15 @@
-<div class='top_bar clearfix'>
-  <?if($active_staff):?>
-  <a href="/logout/" class='button logout'>Logout</a>
-  <a href="/help/" class='button help'>Help</a>
-  <?else:?>
-  <a href="/pricing/" class='button pricing'>Pricing</a>
-  <a href="/join/" class='button join'>Join</a>
-  <a href="/login/" class='button login'>Login</a>
-  <?endif?>
+<div class='top_bar'>
+  <div class='fixed clearfix'>
+    <?if($active_staff):?>
+    <a href="/logout/" class='button logout'>Logout</a>
+    <a href="/help/" class='button help'>Help</a>
+    <?else:?>
+    <a href="/login/" class='button login'>Login</a>
+    <a href="/join/" class='button join'>Join</a>
+    <a href="/pricing/" class='button pricing'>Pricing</a>
 
-  <h1 id="logo"><a href="/"><?=Config::get("site/name")?></a></h1>
+    <?endif?>
 
+    <h1 id="logo"><a href="/"><span><?=Config::get("site/name")?><span></a></h1>
+  </div>
 </div>

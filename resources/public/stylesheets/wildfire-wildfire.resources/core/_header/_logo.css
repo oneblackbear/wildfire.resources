@@ -1,0 +1,12 @@
+#logo{
+  float:left;
+  display:block;
+
+}
+  #logo a{
+    width:100px;
+    height:40px;
+  }
+    #logo a span{
+      display:none;
+    }

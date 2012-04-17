@@ -12,6 +12,17 @@ class JoinController extends BaseController{
 
   public function index(){
     WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
+  }
+  protected function _events(){
+    parent::_events();
+    WaxEvent::clear("form.setup");
+    WaxEvent::add("form.setup", function(){
+      $controller = WaxEvent::data();
+      $controller->model->columns['role'][1]['widget'] = "HiddenInput";
+      $controller->{$controller->form_name} = new WaxForm($controller->model);
+      $controller->{$controller->form_name}->role->value = "owner";
+    });
   }
 
   public function create(){$this->redirect_to("/");}

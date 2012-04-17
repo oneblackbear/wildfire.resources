@@ -6,6 +6,7 @@ class BaseController extends WaxController{
   public $active_staff = false;
   public $per_page = 15;
   public $form_name = "model_form";
+  public $model_saved = false;
   public $content_object_stack = array();
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
@@ -21,8 +22,14 @@ class BaseController extends WaxController{
     $this->cms_stacks();
   }
 
-  public function cms_stacks(){
-
+  public function base_url(){
+    return "/home/";
+  }
+  //the url of the controller
+  public function url(){
+    return "/".str_replace("controller", "", strtolower(get_class($this))) ."/";
+  }
+  protected function cms_stacks(){
     if($this->action != "index"){
       $action_class = new stdClass;
       $action_class->title = Inflections::humanize($this->action);
@@ -31,13 +38,6 @@ class BaseController extends WaxController{
     $controller_class = new stdClass;
     $controller_class->title = ucwords(str_replace("controller", "", strtolower(get_class($this))));
     $this->content_object_stack[] = $controller_class;
-  }
-  public function base_url(){
-    return "/home/";
-  }
-  //the url of the controller
-  public function url(){
-    return "/".str_replace("controller", "", strtolower(get_class($this))) ."/";
   }
   protected function _access(){
     WaxEvent::run("user.access", $this);
@@ -126,6 +126,20 @@ class BaseController extends WaxController{
     /**
      * handle saving a model
      */
+    WaxEvent::add("form.save", function(){
+      $controller = WaxEvent::data();
+      if($form = $controller->{$controller->form_name}){
+        //run the save
+        if($model_saved = $form->save()){
+          $controller->model_saved = $model_saved;
+          WaxEvent::run("form.save.after", $controller);
+        }
+      }
+    });
+    //after save hook
+    WaxEvent::add("form.save.after", function(){
+
+    });
     /**
      * creating the form
      */
@@ -139,11 +153,12 @@ class BaseController extends WaxController{
 
   public function create(){
     WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
   }
 
   public function edit(){
     WaxEvent::run("model.setup", $this);
-    WaxEvent::run("model.save", $this);
+    WaxEvent::run("form.save", $this);
   }
 
 }

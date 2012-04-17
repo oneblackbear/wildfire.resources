@@ -1,0 +1,59 @@
+form{
+  border:8px solid rgba(30,105,222,0.2);
+}
+
+.error_message{
+  display:block;
+  margin:3px;
+  color:#a91c12;
+}
+form textarea{
+  width:96%;
+  height:100px;
+  padding:10px 2%;
+}
+
+form span{
+  display:block;
+  margin-bottom:5px;
+}
+form span label{
+  float:left;
+  font-weight:bold;
+  font-size:108%;
+  width:43%;
+  padding-top:5px;
+}
+
+form span em{
+  float:left;
+  width:52%;
+  display:block;
+  font-style:normal;
+  padding-top:6px;
+}
+form span input,
+form span textarea{
+  padding:8px 5px;
+  font-size:108%;
+  font-size:108%;
+  border:1px solid #dcdcdc;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  box-shadow:0px 0px 3px rgba(0,0,0,0.1);
+}
+  form input.error_field{
+    border-color:#a91c12;
+  }
+form span input,
+form span select,
+form span textarea{
+  float:left;
+  width:52%;
+}
+form span select,
+form span textarea{
+  width:54%;
+}
+
