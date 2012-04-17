@@ -1,7 +1,7 @@
 <?
 class Staff extends WildfireResource{
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
-  public static $roles = array(''=>'-- Select --', 'standard'=>'Standard', 'privileged'=>'Privileged', 'admin'=>'Admin', 'owner'=>'Owner');
+  public static $roles = array('standard'=>'standard', 'privileged'=>'privileged', 'admin'=>'admin', 'owner'=>'owner');
   public function setup(){
     parent::setup();
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
