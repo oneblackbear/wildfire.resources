@@ -1,6 +1,7 @@
 <?
 class Staff extends WildfireResource{
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+  public static $roles = array(''=>'-- Select --', 'standard'=>'Standard', 'privileged'=>'Privileged', 'admin'=>'Admin', 'owner'=>'Owner');
   public function setup(){
     parent::setup();
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
@@ -10,6 +11,7 @@ class Staff extends WildfireResource{
     $this->define("telephone", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("email", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
+    $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$roles));
   }
 
 
