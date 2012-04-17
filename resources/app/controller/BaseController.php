@@ -35,7 +35,7 @@ class BaseController extends WaxController{
      */
     WaxEvent::add("wax.after_plugin_view_paths", function(){
       $view = WaxEvent::data();
-      foreach($view->template_paths as $i=>$path) if(strpos($path, "/plugins/") && !strpos($path, "/plugins/wildfire.resources/")) unset($view->template_paths[$i]);
+      foreach($view->template_paths as $i=>$path) if(strpos($path, "/plugins/") && !strpos($path, "/plugins/wildfire.")) unset($view->template_paths[$i]);
     });
     /**
      * permissions work on blacklist style
