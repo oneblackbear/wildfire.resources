@@ -1,5 +1,4 @@
 <?
-//some form of permissions will be needed...
 class Staff extends WildfireResource{
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public function setup(){
