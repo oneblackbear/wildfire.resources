@@ -6,6 +6,7 @@ class BaseController extends WaxController{
   public $active_staff = false;
   public $per_page = 15;
   public $form_name = "model_form";
+  public $content_object_stack = array();
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -17,8 +18,20 @@ class BaseController extends WaxController{
     parent::controller_global();
     $this->_events();
     $this->_access();
+    $this->cms_stacks();
   }
 
+  public function cms_stacks(){
+
+    if($this->action != "index"){
+      $action_class = new stdClass;
+      $action_class->title = Inflections::humanize($this->action);
+      $this->content_object_stack[] = $action_class;
+    }
+    $controller_class = new stdClass;
+    $controller_class->title = ucwords(str_replace("controller", "", strtolower(get_class($this))));
+    $this->content_object_stack[] = $controller_class;
+  }
   public function base_url(){
     return "/home/";
   }
