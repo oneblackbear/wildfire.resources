@@ -5,6 +5,7 @@ class BaseController extends WaxController{
   public $model_scope = "live";
   public $staff = false;
   public $per_page = 15;
+  public $form_name = "model_form";
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -100,6 +101,17 @@ class BaseController extends WaxController{
         WaxEvent::run("model.pagination.setup", $controller);
         WaxEvent::run("model.fetch", $controller);
       }
+      WaxEvent::run("form.setup", $controller);
+    });
+    /**
+     * handle saving a model
+     */
+    /**
+     * creating the form
+     */
+    WaxEvent::add("form.setup", function(){
+      $controller = WaxEvent::data();
+      $controller->{$controller->form_name} = new WaxForm($controller->model);
     });
   }
 
