@@ -1,5 +1,11 @@
-form{
+.form{
   border:8px solid rgba(30,105,222,0.2);
+}
+.restricted_form{
+  width:40%;
+  max-width:500px;
+  margin:20px auto;
+  padding:10px;
 }
 
 .error_message{
@@ -32,10 +38,12 @@ form span em{
   font-style:normal;
   padding-top:6px;
 }
-form span input,
-form span textarea{
+form label{
+  margin-right:10px;
+}
+form input,
+form textarea{
   padding:8px 5px;
-  font-size:108%;
   font-size:108%;
   border:1px solid #dcdcdc;
   border-radius:4px;
@@ -45,6 +53,9 @@ form span textarea{
 }
   form input.error_field{
     border-color:#a91c12;
+  }
+  form .input_field{
+    width:180px;
   }
 form span input,
 form span select,

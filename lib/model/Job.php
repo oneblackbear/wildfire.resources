@@ -13,7 +13,7 @@ class Job extends WildfireResource{
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships'));
     $this->define("schedule", "HasManyField", array('target_model'=>"Job", 'group'=>'relationships'));
     $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
-    $this->define("client", "ForeignKey", array('target_model'=>"Client", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
 
   }
 

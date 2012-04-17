@@ -1,6 +1,6 @@
 <?
 class BaseController extends WaxController{
-
+  public $user_session_name = "staff";
   public $model_class = false;
   public $model_scope = "live";
   public $active_staff = false;
@@ -159,6 +159,21 @@ class BaseController extends WaxController{
   public function edit(){
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
+  }
+
+
+  public function staff_login($email=false, $password=false, $hashed = false){
+    $user_model = new Staff;
+    if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
+      Session::set($this->user_session_name, md5($email));
+      return $found;
+    }elseif($email && $password && ($found = $user_model->clear()->filter("email", $email)->filter("password", hash_hmac("sha1", $password, Staff::$salt))->first()) ){
+      Session::set($this->user_session_name, md5($email));
+      return $found;
+    }elseif(($session = Session::get($this->user_session_name)) && ($found = $user_model->filter("md5(`email`)", $hash)->first())){
+      return $found;
+    }
+    return false;
   }
 
 }

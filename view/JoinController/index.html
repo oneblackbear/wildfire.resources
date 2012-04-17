@@ -1,10 +1,11 @@
 <a name="joining"></a>
-<form action="#joining" id="join_form" class='form'>
+<form action="#joining" id="join_form" class='form restricted_form' method="post">
   <fieldset>
     <h1>Join <?=Config::get("site/name")?></h1>
-    <p>To create your own resource management system start by filling in the form below.</p>
+    <p>To start off with, create your user account, this will be the owner of the management tool.</p>
     <?=$join_form->role->render();?>
     <span class='clearfix'><?=$join_form->title->render(array('label'=>'Your name'));?></span>
+    <span class='clearfix'><?=$join_form->email->render(array('label'=>'Your email address'));?></span>
     <span class='clearfix'><?=$join_form->password->render(array('label'=>'Your password'));?></span>
     <input type="submit" name="join_submit" value="Join" class="submit_button">
   </fieldset>
