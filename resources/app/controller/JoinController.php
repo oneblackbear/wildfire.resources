@@ -77,8 +77,14 @@ class JoinController extends BaseController{
     WaxEvent::clear("form.setup");
     WaxEvent::add("form.setup", function(){
       $controller = WaxEvent::data();
+
+      $choices = $controller->active_staff->organisations->all();
       $controller->model->columns['organisations'][1]['widget'] = "SelectInput";
-      $controller->model->columns['organisations'][1]['choices'] = $controller->active_staff->organisations;
+      $controller->model->columns['organisations'][1]['choices'] = $choices;
+
+      $choices = $controller->active_staff->departments->all();
+      $controller->model->columns['departments'][1]['widget'] = "SelectInput";
+      $controller->model->columns['departments'][1]['choices'] = $choices;
 
       $controller->{$controller->form_name} = new WaxForm($controller->model);
     });

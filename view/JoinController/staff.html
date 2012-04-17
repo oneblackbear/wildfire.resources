@@ -6,9 +6,12 @@
     <fieldset class="inline_fields clearfix">
       <?=$staff_form->title->render(array('label'=>'Persons name', 'placeholder'=>'Persons name'));?>
       <?=$staff_form->email->render(array('label'=>'Persons emails', 'placeholder'=>'Persons emails'));?>
+      <?=$staff_form->role->render(array('label'=>'Persons role'));?>
+    </fieldset>
+    <fieldset class="inline_fields clearfix">
       <?=$staff_form->organisations->render(array('label'=>'Organisation'));?>
       <?=$staff_form->departments->render(array('label'=>'Department'));?>
-      <?=$staff_form->role->render(array('label'=>'Persons role'));?>
+
       <input type="submit" name="join_submit" value="Add +" class="submit_button">
     </fieldset>
   </form>

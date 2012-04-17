@@ -1,6 +1,9 @@
 .form{
   border:8px solid rgba(30,105,222,0.2);
 }
+.form fieldset{
+  margin-top:10px;
+}
 .restricted_form{
   width:60%;
   max-width:800px;
