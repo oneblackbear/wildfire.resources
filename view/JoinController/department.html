@@ -1,0 +1,12 @@
+<a name="step"></a>
+<div class='form restricted_form'>
+  <h1>Now create some departments</h1>
+  <p>Using the form below add departments to your new organisation (<?=$organisation->title?>)</p>
+  <form action="#step" method="post">
+    <fieldset class="inline_fields clearfix">
+      <?=$deparment_form->title->render(array('label'=>'Department name', 'placeholder'=>'Department name'));?>
+      <input type="submit" name="join_submit" value="Add +" class="submit_button">
+    </fieldset>
+  </form>
+
+</div>

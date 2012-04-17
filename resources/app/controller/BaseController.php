@@ -8,6 +8,7 @@ class BaseController extends WaxController{
   public $form_name = "model_form";
   public $model_saved = false;
   public $content_object_stack = array();
+  public $redirect_formats = array("html");
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -40,6 +41,7 @@ class BaseController extends WaxController{
     $this->content_object_stack[] = $controller_class;
   }
   protected function _access(){
+    $this->active_staff = $this->staff_login();
     WaxEvent::run("user.access", $this);
   }
   protected function _events(){
@@ -58,7 +60,7 @@ class BaseController extends WaxController{
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
       if($roles = $controller->permissions[$controller->action]){
-        if(!$controller->staff || !in_array($controller->staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
+        if(!$controller->staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
       }
     });
     /**
@@ -170,7 +172,7 @@ class BaseController extends WaxController{
     }elseif($email && $password && ($found = $user_model->clear()->filter("email", $email)->filter("password", hash_hmac("sha1", $password, Staff::$salt))->first()) ){
       Session::set($this->user_session_name, md5($email));
       return $found;
-    }elseif(($session = Session::get($this->user_session_name)) && ($found = $user_model->filter("md5(`email`)", $hash)->first())){
+    }elseif(($sess = Session::get($this->user_session_name)) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
       return $found;
     }
     return false;

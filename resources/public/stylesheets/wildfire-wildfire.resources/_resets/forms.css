@@ -2,11 +2,12 @@
   border:8px solid rgba(30,105,222,0.2);
 }
 .restricted_form{
-  width:40%;
-  max-width:500px;
+  width:60%;
+  max-width:800px;
   margin:20px auto;
   padding:10px;
 }
+.inline_fields label{display:none;}
 
 .error_message{
   display:block;
@@ -55,7 +56,7 @@ form textarea{
     border-color:#a91c12;
   }
   form .input_field{
-    width:180px;
+    width:25%;
   }
 form span input,
 form span select,

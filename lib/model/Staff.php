@@ -10,7 +10,7 @@ class Staff extends WildfireResource{
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships'));
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "IntegerField", array('maxlength'=>2, 'default'=>0));
     $this->define("telephone", "CharField", array('scaffold'=>true, 'export'=>true));
-    $this->define("email", "CharField", array('required'=>true,'scaffold'=>true, 'export'=>true));
+    $this->define("email", "CharField", array('required'=>true,'scaffold'=>true, 'export'=>true, 'unique'=>true));
     $this->define("original_email", "CharField", array('editable'=>false));
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
     $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$roles));
