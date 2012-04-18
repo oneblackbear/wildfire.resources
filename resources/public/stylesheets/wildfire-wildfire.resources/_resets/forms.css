@@ -1,8 +1,9 @@
-.form{
+.repeat{
+  padding:10px;
   border:8px solid rgba(30,105,222,0.2);
 }
 .form fieldset{
-  margin-top:15px;
+  margin-bottom:10px;
 }
 .restricted_form{
   width:62%;
@@ -11,6 +12,17 @@
   padding:10px;
 }
 .inline_fields label{display:none;}
+.form li label{
+  display:inline;
+}
+ul.inline li{
+  float:left;
+  width:30%;
+  margin:0 0 5px 5px;
+}
+ul.inline li label{
+  margin-left:5px;
+}
 
 .error_message{
   display:block;
@@ -27,6 +39,11 @@ form span{
   display:block;
   margin-bottom:15px;
 }
+form span.button,
+form .button span{
+  margin-bottom:0;
+}
+form .button span
 form span label{
   float:left;
   font-weight:bold;
@@ -59,6 +76,12 @@ form textarea{
     border-color:#a91c12;
   }
 
+form input[type="text"][disabled="disabled"]{
+  border-width:0;
+  background:#f7f7f7;
+
+}
+
 form span input,
 form span select,
 form span textarea{
@@ -70,3 +93,24 @@ form span textarea{
   width:54%;
 }
 
+.inline_fields .error_message{display:none;}
+form.updated{
+  border-bottom:1px solid rgba(30,105,222,0.2);
+  margin-bottom:20px;
+}
+form.updated:last-child{
+  margin-bottom:0;
+  border-bottom-width:0;
+}
+form.updated fieldset:first-child{
+  background:url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right center;
+}
+form.updated .submit_button{
+  display:none;
+}
+
+.repeat form:first-child{
+  padding-bottom:10px;
+  margin-bottom:20px;
+  border-bottom:8px solid rgba(204,204,204,0.5);
+}

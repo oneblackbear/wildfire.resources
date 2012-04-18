@@ -1,3 +1,20 @@
 .department_form .text_field{
-  width:40%;
+  width:45%;
+}
+  .department_form .updated .text_field{
+    width:42%;
+  }
+  .department_form input[name="department[title]"]{
+    margin-right:5%;
+  }
+.department_form li{
+  font-size:138.5%;
+}
+.department_form .submit_button{
+  float:right;
+  margin-top:0;
+  margin-right:8px;
+}
+.department_form h4{
+  margin-bottom:5px;
 }

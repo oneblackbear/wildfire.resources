@@ -1,15 +1,17 @@
 <a name="step"></a>
-<div class='form restricted_form user_form'>
+<div class='form restricted_form user_form clearfix'>
   <h1>Join <?=Config::get("site/name")?></h1>
   <p>To start off with, create your user account, this will be the owner of the management tool.</p>
   <?=$join_form->errors();?>
-  <form action="#step" id="join_form" method="post">
-    <fieldset class='clearfix inline_fields'>
-    <?=$join_form->role->render();?>
-    <?=$join_form->title->render(array('label'=>'Your name', 'placeholder'=>'Your name'));?>
-    <?=$join_form->email->render(array('label'=>'Your email address', 'placeholder'=>'Your email'));?>
-    <?=$join_form->password->render(array('label'=>'Your password', 'placeholder'=>'Your password'));?>
-    <input type="submit" name="join_submit" value="Join" class="submit_button">
-    </fieldset>
-  </form>
+  <div class='repeat'>
+    <form action="#step" id="join_form" method="post">
+      <fieldset class='clearfix inline_fields'>
+      <?=$join_form->role->render();?>
+      <?=$join_form->title->render(array('label'=>'Your name', 'placeholder'=>'Your name'));?>
+      <?=$join_form->email->render(array('label'=>'Your email address', 'placeholder'=>'Your email'));?>
+      <?=$join_form->password->render(array('label'=>'Your password', 'placeholder'=>'Your password'));?>
+      <input type="submit" name="join_submit" value="Join" class="submit_button">
+      </fieldset>
+    </form>
+  </div>
 </div>

@@ -1,14 +1,16 @@
 <a name="step"></a>
-<div class='form restricted_form organisation_form'>
+<div class='form restricted_form organisation_form clearfix'>
   <h2>Now lets create organisations!</h2>
   <p>Congratulations <?=$active_staff->title?> on creating your account; lets move on to the next step. Fill in the name of your organisation details in the form below.</p>
-  <?=$organisation_form->errors();?>
-  <form action="#step" method="post" id="organisation_form">
-    <fieldset class="inline_fields clearfix">
-      <?=$organisation_form->title->render(array('label'=>'Organisation name', 'placeholder'=>'Organisation name'));?>
-      <?=$organisation_form->email->render(array('label'=>'Email', 'placeholder'=>'Contact email'));?>
-      <input type="submit" name="join_submit" value="Add +" class="submit_button">
-    </fieldset>
-  </form>
+  <div class='repeat'>
+  <?=partial("organisation", array('model'=>$model,'active_staff'=>$active_staff,'organisation_form'=>$organisation_form, 'controller'=>$controller, 'action'=>$action, 'active'=>true), "ajax");?>
 
+  <?foreach($active_staff->organisations as $org):?>
+    <?
+    $existing = new WaxForm($org);
+    ?>
+    <?=partial("organisation", array('model'=>$org,'active_staff'=>$active_staff,'organisation_form'=>$existing, 'controller'=>$controller, 'action'=>$action, 'active'=>false), "ajax");?>
+  <?endforeach?>
+  </div>
+  <a href="/<?=$controller?>/department/" class='button continue'>Continue &raquo;</a>
 </div>

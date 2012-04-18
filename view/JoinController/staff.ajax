@@ -1,0 +1,42 @@
+<form action="#step" method="get" class='duplicate async<?if($active != true):?> updated<?endif?>' data-action="/<?=$controller?>/<?=$action?>.ajax">
+  <?if($active):?>
+    <?=$staff_form->errors();?>
+    <fieldset class="inline_fields clearfix">
+      <?=$staff_form->title->render(array('label'=>'Persons name', 'placeholder'=>'Persons name'));?>
+      <?=$staff_form->email->render(array('label'=>'Persons emails', 'placeholder'=>'Persons emails'));?>
+      <?=$staff_form->role->render(array('label'=>'Persons role'));?>
+    </fieldset>
+    <fieldset class="inline_fields clearfix">
+      <h4>Is part of which organisation:</h4>
+      <?foreach($active_staff->organisations as $i => $row):?>
+      <input class='toggle' type='hidden' id="org_<?=$counter?>_<?=$row->primval?>" name='joins[<?=$model->table?>][organisations][]' value="">
+      <a href="#step" class='button off toggle' data-val="<?=$row->primval?>" data-for="org_<?=$counter?>_<?=$row->primval?>"><span><?=$row->title?></span></a>
+      <?endforeach?>
+    </fieldset>
+    <fieldset class="inline_fields clearfix">
+      <h4>Is part of which departments:</h4>
+      <?foreach($active_staff->departments as $i => $row):?>
+      <input class='toggle' type='hidden' id="dep_<?=$counter?>_<?=$row->primval?>" name='joins[<?=$model->table?>][departments][]' value="">
+      <a href="#step" class='button off toggle' data-val="<?=$row->primval?>" data-for="dep_<?=$counter?>_<?=$row->primval?>"><span><?=$row->title?></span></a>
+      <?endforeach?>
+    </fieldset>
+  <?else:?>
+  <fieldset class="inline_fields clearfix">
+    <?=$staff_form->title->render(array('label'=>'Persons name', 'placeholder'=>'Persons name', 'disabled'=>'disabled'));?>
+    <?=$staff_form->email->render(array('label'=>'Persons emails', 'placeholder'=>'Persons emails', 'disabled'=>'disabled'));?>
+    <?=$staff_form->role->render(array('label'=>'Persons role', 'disabled'=>'disabled'));?>
+  </fieldset>
+  <fieldset class="inline_fields clearfix">
+    <?foreach($model->organisations as $i => $row):?>
+    <a href="#step" class='button off'><span><?=$row->title?></span></a>
+    <?endforeach?>
+    <?foreach($model->departments as $i => $row):?>
+    <a href="#step" class='button off'><span><?=$row->title?></span></a>
+    <?endforeach?>
+  </fieldset>
+  <?endif?>
+  <fieldset class="inline_fields clearfix">
+    <input type="hidden" name="<?=$model->table?>[created_by]" value="<?=$active_staff->primval?>">
+    <input type="submit" name="join_submit" value="Add +" class="submit_button"<?if($active != true):?> disabled="disabled"<?endif?>>
+  </fieldset>
+</form>

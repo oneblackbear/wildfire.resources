@@ -1,0 +1,15 @@
+<form action="#step" method="post" id="organisation_form" class='duplicate async<?if($active != true):?> updated<?endif?>' data-action="/<?=$controller?>/<?=$action?>.ajax">
+  <?=$organisation_form->errors();?>
+  <fieldset class="inline_fields clearfix">
+    <?if($active == true):?>
+    <?=$organisation_form->title->render(array('label'=>'Organisation name', 'placeholder'=>'Organisation name'));?>
+    <?=$organisation_form->email->render(array('label'=>'Email', 'placeholder'=>'Contact email'));?>
+    <?else:?>
+    <?=$organisation_form->title->render(array('label'=>'Organisation name', 'placeholder'=>'Organisation name', 'disabled'=>'disabled'));?>
+    <?=$organisation_form->email->render(array('label'=>'Email', 'placeholder'=>'Contact email', 'disabled'=>'disabled'));?>
+    <?endif?>
+    <input type="hidden" name="joins[<?=$model->table?>][staff][]" value="<?=$active_staff->primval?>">
+    <input type="hidden" name="<?=$model->table?>[created_by]" value="<?=$active_staff->primval?>">
+    <input type="submit" name="join_submit" value="Add +" class="submit_button"<?if($active != true):?> disabled="disabled"<?endif?>>
+  </fieldset>
+</form>

@@ -1,21 +1,21 @@
 <a name="step"></a>
-<div class='form restricted_form'>
+<div class='form restricted_form staff_form clearfix'>
   <h1>Now create some members of staff</h1>
   <p>Using the form below you can create a member of staff and assign them to a department &amp; organisation</p>
-  <?=$staff_form->errors();?>
-  <form action="#step" method="post">
-    <fieldset class="inline_fields clearfix">
-      <?=$staff_form->title->render(array('label'=>'Persons name', 'placeholder'=>'Persons name'));?>
-      <?=$staff_form->email->render(array('label'=>'Persons emails', 'placeholder'=>'Persons emails'));?>
-      <?=$staff_form->role->render(array('label'=>'Persons role'));?>
-      <?=$staff_form->organisations->render(array('label'=>'Organisation'));?>
-      <?=$staff_form->departments->render(array('label'=>'Department'));?>
+  <div class='repeat'>
+  <?=partial("staff", array('model'=>$model,'active_staff'=>$active_staff,'deparment_form'=>$deparment_form, 'counter'=>0,'controller'=>$controller, 'action'=>$action, 'active'=>true), "ajax");?>
+  <?
+    $class = get_class($active_staff);
+    $lookup = new $class;
+  ?>
+  <?foreach($lookup->filter("created_by", $active_staff->primval)->all() as $employee):?>
+    <?
+    $existing = new WaxForm($employee);
+    ?>
+    <?=partial("staff", array('model'=>$employee,'active_staff'=>$active_staff, 'deparment_form'=>$existing, 'controller'=>$controller, 'counter'=>($i+1), 'action'=>$action, 'active'=>false), "ajax");?>
 
-      <input type="submit" name="join_submit" value="Add +" class="submit_button">
-    </fieldset>
-    <fieldset class="inline_fields clearfix">
-
-    </fieldset>
-  </form>
+  <?endforeach?>
+  </div>
+  <a href="/dash/" class='button continue'>Continue &raquo;</a>
 
 </div>

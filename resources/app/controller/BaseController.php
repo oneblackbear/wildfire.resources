@@ -60,7 +60,7 @@ class BaseController extends WaxController{
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
       if($roles = $controller->permissions[$controller->action]){
-        if(!$controller->staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
+        if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
       }
     });
     /**
@@ -117,7 +117,7 @@ class BaseController extends WaxController{
     WaxEvent::add('model.setup', function(){
       $controller = WaxEvent::data();
       if($id = Request::get("id")) $controller->model = new $controller->model_class($id);
-      else{
+      elseif(!$controller->model){
         $controller->model = new $controller->model_class($controller->model_scope);
         if($controller->model_filters || Request::param('filters')) WaxEvent::run("model.filters", $controller);
         WaxEvent::run("model.pagination.setup", $controller);
@@ -140,14 +140,27 @@ class BaseController extends WaxController{
     });
     //after save hook
     WaxEvent::add("form.save.after", function(){
-
+      $controller = WaxEvent::data();
+      $controller->model = $controller->model_saved;
+      WaxEvent::run("form.save.joins", $controller);
+    });
+    WaxEvent::add("form.save.joins", function(){
+      $controller = WaxEvent::data();
+      $table = $controller->model_saved->table;
+      $joins = Request::param("joins");
+      foreach((array) $joins[$table] as $col=>$primary_keys){
+        $class = $controller->model_saved->columns[$col][1]['target_model'];
+        if(!is_array($primary_keys)) $primary_keys = array($primary_keys);
+        $join = new $class;
+        $controller->model_saved->$col = $join->filter($join->primary_key, $primary_keys)->all();
+      }
     });
     /**
      * creating the form
      */
     WaxEvent::add("form.setup", function(){
       $controller = WaxEvent::data();
-      $controller->{$controller->form_name} = new WaxForm($controller->model);
+      if(!$controller->{$controller->form_name}) $controller->{$controller->form_name} = new WaxForm($controller->model);
     });
   }
 

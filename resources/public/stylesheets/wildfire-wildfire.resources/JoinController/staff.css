@@ -1,0 +1,9 @@
+.staff_form .input_field{
+  width:30%;
+}
+
+.staff_form .submit_button{
+  float:right;
+  margin-top:0;
+  margin-right:8px;
+}

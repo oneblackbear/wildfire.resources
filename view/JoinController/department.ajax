@@ -1,0 +1,33 @@
+<form action="#step" method="get" class='duplicate async<?if($active != true):?> updated<?endif?>' data-action="/<?=$controller?>/<?=$action?>.ajax">
+  <?if($active):?>
+    <?$orgs = $active_staff->organisations;?>
+    <?=$deparment_form->errors();?>
+    <fieldset class="inline_fields clearfix">
+      <?=$deparment_form->title->render(array('label'=>'Department name', 'placeholder'=>'Department name'));?>
+      <?=$deparment_form->email->render(array('label'=>'Contact email', 'placeholder'=>'Contact email'));?>
+    </fieldset>
+    <fieldset class="inline_fields clearfix">
+      <h4>Is part of which organisation:</h4>
+      <?foreach($orgs as $i => $row):?>
+      <input class='toggle' type='hidden' id="org_<?=$counter?>_<?=$row->primval?>" name='joins[<?=$model->table?>][organisations][]' value="<?if(in_array($row->primval, $org_ids)):?><?=$row->primval?><?else:?>0<?endif?>">
+      <a href="#step" class='button off toggle' data-val="<?=$row->primval?>" data-for="org_<?=$counter?>_<?=$row->primval?>"><span><?=$row->title?></span></a>
+      <?endforeach?>
+    </fieldset>
+  <?else:?>
+    <fieldset class="inline_fields clearfix">
+      <?=$deparment_form->title->render(array('label'=>'Department name', 'placeholder'=>'Department name', 'disabled'=>'disabled'));?>
+      <?=$deparment_form->email->render(array('label'=>'Contact email', 'placeholder'=>'Contact email', 'disabled'=>'disabled'));?>
+    </fieldset>
+    <fieldset class="inline_fields clearfix">
+      <?foreach($model->organisations as $i => $row):?>
+      <a href="#step" class='button toggle'><span><?=$row->title?></span></a>
+      <?endforeach?>
+    </fieldset>
+  <?endif?>
+  <fieldset class="inline_fields clearfix">
+    <input type="hidden" name="joins[<?=$model->table?>][staff][]" value="<?=$active_staff->primval?>">
+    <input type="hidden" name="<?=$model->table?>[created_by]" value="<?=$active_staff->primval?>">
+    <input type="submit" name="join_submit" value="Add +" class="submit_button"<?if($active != true):?> disabled="disabled"<?endif?>>
+  </fieldset>
+
+</form>
