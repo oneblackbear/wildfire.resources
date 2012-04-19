@@ -3,7 +3,7 @@
   <h1>Now create some members of staff</h1>
   <p>Using the form below you can create a member of staff and assign them to a department &amp; organisation</p>
   <div class='repeat'>
-  <?=partial("staff", array('model'=>$model,'active_staff'=>$active_staff,'deparment_form'=>$deparment_form, 'counter'=>0,'controller'=>$controller, 'action'=>$action, 'active'=>true), "ajax");?>
+  <?=partial("setup", array('model'=>$model,'active_staff'=>$active_staff,'deparment_form'=>$deparment_form, 'counter'=>0,'controller'=>$controller, 'action'=>$action, 'active'=>true), "ajax");?>
   <?
     $class = get_class($active_staff);
     $lookup = new $class;
@@ -12,7 +12,7 @@
     <?
     $existing = new WaxForm($employee);
     ?>
-    <?=partial("staff", array('model'=>$employee,'active_staff'=>$active_staff, 'deparment_form'=>$existing, 'controller'=>$controller, 'counter'=>($i+1), 'action'=>$action, 'active'=>false), "ajax");?>
+    <?=partial("setup", array('model'=>$employee,'active_staff'=>$active_staff, 'deparment_form'=>$existing, 'controller'=>$controller, 'counter'=>($i+1), 'action'=>$action, 'active'=>false), "ajax");?>
 
   <?endforeach?>
   </div>

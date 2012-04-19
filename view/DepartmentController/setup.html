@@ -1,0 +1,16 @@
+<a name="step"></a>
+<div class='form restricted_form department_form clearfix'>
+  <h1>Now create some departments</h1>
+  <p>Using the form below add departments to your organisations</p>
+  <div class='repeat'>
+  <?=partial("setup", array('model'=>$model,'active_staff'=>$active_staff,'deparment_form'=>$deparment_form, 'counter'=>0,'controller'=>$controller, 'action'=>$action, 'active'=>true), "ajax");?>
+  <?foreach($active_staff->departments as $i=>$dept):?>
+    <?
+    $existing = new WaxForm($dept);
+    ?>
+    <?=partial("setup", array('model'=>$dept,'active_staff'=>$active_staff, 'deparment_form'=>$existing, 'controller'=>$controller, 'counter'=>($i+1), 'action'=>$action, 'active'=>false), "ajax");?>
+  <?endforeach?>
+  </div>
+  <a href="/staff/setup/" class='button continue'>Continue &raquo;</a>
+
+</div>

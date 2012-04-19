@@ -30,7 +30,7 @@ class JoinController extends BaseController{
       //log the person in
       $controller->active_staff = $controller->staff_login($controller->model_saved->email, $controller->model_saved->password, true);
       $controller->model_saved->update_attributes(array('created_by'=>$controller->active_staff));
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to($controller->url()."organisation/");
+      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/organisation/setup/");
     });
 
     WaxEvent::run("model.setup", $this);
@@ -39,46 +39,6 @@ class JoinController extends BaseController{
 
   protected function _events(){
     parent::_events();
-
-  }
-
-  public function organisation(){
-    if(!$this->active_staff) $this->redirect_to("/?no-user");
-    $this->model_class = "Organisation";
-    $this->form_name = "organisation_form";
-    //after save of the form, join to the user and redirect to department
-    WaxEvent::add("form.save.after", function(){
-      $controller = WaxEvent::data();
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to($controller->url()."department/");
-    });
-    WaxEvent::run("model.setup", $this);
-    WaxEvent::run("form.save", $this);
-  }
-
-  public function department(){
-    if(!$this->active_staff) $this->redirect_to("/");
-    $this->model_class = "Department";
-    $this->form_name = "deparment_form";
-    WaxEvent::add("form.save.after", function(){
-      $controller = WaxEvent::data();
-      $controller->active = false;
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to($controller->url()."staff/");
-    });
-    WaxEvent::run("model.setup", $this);
-    WaxEvent::run("form.save", $this);
-
-  }
-
-  public function staff(){
-    if(!$this->active_staff) $this->redirect_to("/");
-    $this->model_class = "Staff";
-    $this->form_name = "staff_form";
-    WaxEvent::add("form.save.after", function(){
-      $controller = WaxEvent::data();
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/dash/");
-    });
-    WaxEvent::run("model.setup", $this);
-    WaxEvent::run("form.save", $this);
   }
 
   public function create(){$this->redirect_to("/");}
