@@ -10,6 +10,7 @@
     <?endif?>
     <input type="hidden" name="joins[<?=$model->table?>][staff][]" value="<?=$active_staff->primval?>">
     <input type="hidden" name="<?=$model->table?>[created_by]" value="<?=$active_staff->primval?>">
+    <input type="hidden" name="<?=$model->table?>[group_token]" value="<?=$active_staff->group_token?>">
     <input type="submit" name="join_submit" value="Add +" class="submit_button"<?if($active != true):?> disabled="disabled"<?endif?>>
   </fieldset>
 </form>

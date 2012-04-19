@@ -1,16 +1,20 @@
 <?
 class WildfireResource extends WaxModel{
-
+  public static $salt = "0bb";
   public function setup(){
     $this->define("title", "CharField", array('required'=>true, 'maxlength'=>255, 'scaffold'=>true, 'default'=>"enter title here", 'info_preview'=>1) );
     $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput", 'label'=>'Description'));
     $this->define("media", "ManyToManyField", array('target_model'=>"WildfireMedia", "eager_loading"=>true, "join_model_class"=>"WildfireOrderedTagJoin", "join_order"=>"join_order", 'group'=>'media', 'module'=>'media'));
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
-    $this->define("created_by", "IntegerField", array('target_model'=>"Staff", 'scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
+    $this->define("created_by", "IntegerField", array('scaffold'=>true, 'widget'=>'HiddenInput', 'info_preview'=>1));
+    $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
     parent::setup();
   }
 
+  public function before_insert(){
+    if(!$this->group_token) $this->group_token = hash_hmac("sha1", time(), self::$salt);
+  }
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0, $title=''){
     $model = new WaxModel;

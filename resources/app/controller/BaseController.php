@@ -1,5 +1,6 @@
 <?
 class BaseController extends WaxController{
+  public $name = false;
   public $user_session_name = "staff";
   public $model_class = false;
   public $model_scope = "live";
@@ -9,6 +10,8 @@ class BaseController extends WaxController{
   public $model_saved = false;
   public $content_object_stack = array();
   public $redirect_formats = array("html");
+  public $structure = array();
+  public $navigation_links = array('index', 'create');
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -23,11 +26,11 @@ class BaseController extends WaxController{
     $this->cms_stacks();
   }
 
-  public function base_url(){
+  protected function base_url(){
     return "/home/";
   }
   //the url of the controller
-  public function url(){
+  protected function url(){
     return "/".str_replace("controller", "", strtolower(get_class($this))) ."/";
   }
   protected function cms_stacks(){
@@ -41,7 +44,7 @@ class BaseController extends WaxController{
     }
   }
   protected function _access(){
-    $this->active_staff = $this->staff_login();
+    $this->active_staff = $this->_staff_login();
     WaxEvent::run("user.access", $this);
   }
   protected function _events(){
@@ -56,12 +59,14 @@ class BaseController extends WaxController{
      * permissions work on blacklist style
      * - an action in the permissions array is restricted to the user roles listed in its array
      * - if its not set in the permissions array then its publicly available
+     * - find the users access list
      */
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
       if($roles = $controller->permissions[$controller->action]){
         if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
       }
+      if($controller->active_staff) $controller->structure = $controller->active_staff->permissions();
     });
     /**
      * filter code nicked from cms controller
@@ -177,7 +182,7 @@ class BaseController extends WaxController{
   }
 
 
-  public function staff_login($email=false, $password=false, $hashed = false){
+  public function _staff_login($email=false, $password=false, $hashed = false){
     $user_model = new Staff;
     if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
       Session::set($this->user_session_name, md5($email));

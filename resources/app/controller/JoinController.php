@@ -10,6 +10,7 @@ class JoinController extends BaseController{
   public $model_class = "Staff";
   public $form_name = "join_form";
   public $active = false;
+  public $navigation_links = array();
 
   public function index(){
     //if the user is logged in, redirect to the dash board
@@ -28,7 +29,7 @@ class JoinController extends BaseController{
     WaxEvent::add("form.save.after", function(){
       $controller = WaxEvent::data();
       //log the person in
-      $controller->active_staff = $controller->staff_login($controller->model_saved->email, $controller->model_saved->password, true);
+      $controller->active_staff = $controller->_staff_login($controller->model_saved->email, $controller->model_saved->password, true);
       $controller->model_saved->update_attributes(array('created_by'=>$controller->active_staff));
       if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/organisation/setup/");
     });

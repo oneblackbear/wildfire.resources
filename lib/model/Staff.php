@@ -1,6 +1,6 @@
 <?
 class Staff extends WildfireResource{
-  public static $salt = "0bb";
+
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public static $roles = array('standard'=>'standard', 'privileged'=>'privileged', 'admin'=>'admin', 'owner'=>'owner');
   public function setup(){
@@ -16,10 +16,43 @@ class Staff extends WildfireResource{
   }
 
   public function before_insert(){
+    parent::before_insert();
     $this->original_email = $this->email;
     if($this->password) $this->password = hash_hmac("sha1", $this->password, self::$salt);
   }
 
+  //find all chunks of the site that this user has access to
+  public function permissions($for_navigation=true){
+    $permissions = array();
+    //find all controller directories
+    foreach(AutoLoader::controller_paths() as $path){
+      //find all controller class files
+      foreach(glob($path."*Controller.php") as $obj){
+        //from filename, create class name
+        $name = basename($obj, ".php");
+        //create a controller
+        $controller = new $name(false,false);
+        $methods = array();
+        //if its a basecontroller then look for its public methods
+        if($name != "BaseController" && $controller instanceOf BaseController){
+          $reflection = new ReflectionClass($controller);
+          foreach($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $info){
+            //if the class that has the method is either are basecontroller or the class itself
+            if(($info->class == "BaseController" || $info->class == $name) && $info->name[0] != "_" && $info->name != "controller_global"){
+              if(!($roles = $controller->permissions[$info->name]) || ($roles && in_array($this->role, $roles) ) ){
+                if(($for_navigation && in_array($info->name, $controller->navigation_links)) || !$for_navigation){
+                  if($info->name == "index") $methods[] = "Overview";
+                  else $methods[$info->name] = Inflections::humanize($info->name);
+                }
+              }
+            }
+          }
+          if(count($methods)) $permissions[$name] = array('options'=>$methods, 'name'=>(($controller->name)?$controller->name : basename($name,"Controller")));
+        }
+      }
+    }
+    return $permissions;
+  }
 
 }
 ?>
