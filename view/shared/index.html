@@ -1,0 +1,13 @@
+<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
+<div class='full padded clearfix'>
+  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff));?>
+
+  <div class='content clearfix'>
+
+    <?foreach($structure[$controller]['options'] as $action=>$name):?>
+      <?if($action !== 0):?>
+      <a class='link_block block-<?=$controller?>-<?=$action?> clearfix repeat' href="/<?=$controller?>/<?=$action?>/"><span><?=$name?></span></a>
+      <?endif?>
+    <?endforeach?>
+  </div>
+</div>

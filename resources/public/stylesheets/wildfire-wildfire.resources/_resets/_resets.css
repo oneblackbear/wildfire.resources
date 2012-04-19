@@ -35,6 +35,9 @@ pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}
 .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 /*************************/
 
+a{
+  color:#666666;
+}
 p, li{
   font-size:108%;
 }

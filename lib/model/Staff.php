@@ -49,7 +49,7 @@ class Staff extends WildfireResource{
               }
             }
           }
-          if(count($methods)) $permissions[strtolower(basename($name,"Controller"))] = array('options'=>$methods, 'name'=>(($controller->name)?$controller->name : basename($name,"Controller")));
+          if(count($methods)) $permissions[strtolower(basename($name,"Controller"))] = array('options'=>$methods, 'class'=>$name,'name'=>(($controller->name)?$controller->name : basename($name,"Controller")));
         }
       }
     }

@@ -1,5 +1,5 @@
 .top_bar{
-  padding:10px 0;
+  padding:0;
   background: rgb(227,228,229); /* Old browsers */
   background: -moz-linear-gradient(top, rgba(227,228,229,1) 0%, rgba(206,201,200,1) 50%, rgba(224,224,224,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(227,228,229,1)), color-stop(50%,rgba(206,201,200,1)), color-stop(100%,rgba(224,224,224,1))); /* Chrome,Safari4+ */

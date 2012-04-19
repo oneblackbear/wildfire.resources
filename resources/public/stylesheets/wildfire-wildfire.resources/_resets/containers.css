@@ -2,3 +2,31 @@
   width:960px;
   margin:0 auto;
 }
+
+.repeat{
+  padding:10px;
+  border:8px solid rgba(94, 94, 94, 0.2);
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+}
+
+.link_block{
+  float:left;
+  width:28%;
+  margin:10px 0;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-family:"Open Sans", helvetica, arial;
+  background:white;
+}
+.link_block:nth-child(2){
+  margin-left:3%;
+  margin-right:3%;
+}
+
+.content{
+  width:90%;
+  padding:10px 5%;
+
+}

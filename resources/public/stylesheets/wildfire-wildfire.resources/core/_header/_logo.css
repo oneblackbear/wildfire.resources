@@ -1,11 +1,11 @@
 #logo{
   float:left;
   display:block;
-
 }
   #logo a{
     width:100px;
     height:40px;
+    display:block;
   }
     #logo a span{
       display:none;

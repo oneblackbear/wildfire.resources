@@ -1,15 +1,31 @@
 .navbar{
-  width:96%;
-  padding:10px 2%;
   background:white;
-  border-bottom:3px solid rgba(30,105,222,0.3);
+  border-bottom:3px solid rgba(94,94,94,0.5);
 }
 .navbar h4{
   float:left;
   margin-bottom:0;
+  margin-right:10px;
 }
 .navbar select{
   float:left;
-  width:12%;
-  margin-left:10px;
+  width:70%;
+}
+
+.navbar .goto{
+  padding-top:4px;
+  float:left;
+  width:20%;
+  padding-right:1%;
+  margin-right:2%;
+}
+.navbar .filters{
+  float:left;
+  width:70%;
+}
+.navbar .filters input[type=text]{
+  width:150px;
+}
+.filters h4{
+  padding-top:3px;
 }

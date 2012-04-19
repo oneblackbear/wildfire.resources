@@ -11,7 +11,10 @@ class BaseController extends WaxController{
   public $content_object_stack = array();
   public $redirect_formats = array("html");
   public $structure = array();
-  public $navigation_links = array('index', 'create');
+  public $navigation_links = array('index', 'create', 'listing');
+  public $filter_fields=array(
+                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
+                        );
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -169,7 +172,9 @@ class BaseController extends WaxController{
     });
   }
 
-  public function index(){}
+  public function index(){
+    WaxEvent::run("model.setup", $this);
+  }
 
   public function create(){
     WaxEvent::run("model.setup", $this);
