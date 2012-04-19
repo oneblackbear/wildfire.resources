@@ -8,12 +8,23 @@ class Staff extends WildfireResource{
     parent::setup();
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships'));
-    foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "IntegerField", array('maxlength'=>2, 'default'=>0));
+    foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
+    $this->define("rate", "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("telephone", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("email", "CharField", array('required'=>true,'scaffold'=>true, 'export'=>true, 'unique'=>true));
     $this->define("original_email", "CharField", array('editable'=>false));
-    $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password'));
-    $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$roles));
+    $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password', 'editable'=>false));
+    $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::get_roles()));
+  }
+
+  public static function get_roles(){
+    $roles = self::$roles;
+    if($role = Session::get("LOGGED_IN_ROLE")){
+      $keys = array_flip(array_keys($roles));
+      $pos = $keys[$role];
+      $roles = array_slice($roles, 0, $pos+1);
+    }
+    return $roles;
   }
 
   public function before_insert(){

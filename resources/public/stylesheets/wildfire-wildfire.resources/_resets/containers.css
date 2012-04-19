@@ -20,13 +20,13 @@
   font-family:"Open Sans", helvetica, arial;
   background:white;
 }
-.link_block:nth-child(2){
+.link_block:nth-child(2n){
   margin-left:3%;
   margin-right:3%;
 }
 
 .content{
   width:90%;
-  padding:10px 5%;
+  padding:15px 5%;
 
 }

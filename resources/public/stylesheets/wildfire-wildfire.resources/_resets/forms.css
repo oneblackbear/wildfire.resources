@@ -85,9 +85,8 @@ form span textarea{
   float:left;
   width:52%;
 }
-form span select,
-form span textarea{
-  width:54%;
+form span select{
+  width:52%;
 }
 
 .inline_fields .error_message{display:none;}
@@ -114,4 +113,26 @@ form.updated .submit_button{
   border-bottom-width:0px;
   padding-bottom:0;
   margin-bottom:0;
+}
+
+form.editing fieldset{
+  float:left;
+  width:45%;
+  padding:10px;
+  margin-bottom:15px;
+  background:white;
+  border:8px solid rgba(204,204,204,0.5);
+}
+form.editing fieldset:nth-of-type(even){
+  float:right;
+}
+
+form.editing span label{
+  float:left;
+  width:35%;
+  font-weight:bold;
+  padding-top:6px;
+}
+.editing fieldset.updated{
+  background: url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right 98%;
 }

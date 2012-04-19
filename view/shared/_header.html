@@ -7,10 +7,9 @@
     <a href="/login/" class='button login'>Login</a>
     <a href="/join/" class='button join'>Join</a>
     <a href="/pricing/" class='button pricing'>Pricing</a>
-
     <?endif?>
 
-    <h1 id="logo"><a href="/"><span><?=Config::get("site/name")?><span></a></h1>
+    <h1 id="logo"><a href="/<?if($active_staff):?>dash/<?endif?>"><span><?=Config::get("site/name")?><span></a></h1>
     <h2><?=(($controller->name)? $controller->name : Inflections::humanize($controller))?></h2>
   </div>
 </div>

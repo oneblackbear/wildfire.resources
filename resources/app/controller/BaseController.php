@@ -5,21 +5,21 @@ class BaseController extends WaxController{
   public $model_class = false;
   public $model_scope = "live";
   public $active_staff = false;
-  public $per_page = 15;
+  public $per_page = 1;
   public $form_name = "model_form";
   public $model_saved = false;
   public $content_object_stack = array();
   public $redirect_formats = array("html");
   public $structure = array();
   public $navigation_links = array('index', 'create', 'listing');
+  public $scaffold_columns = array();
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
                         );
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
-                          'delete'=>array('owner'),
-                          'archive'=>array('owner', 'admin')
+                          'delete'=>array('owner')
                         );
 
   public function controller_global(){
@@ -101,6 +101,11 @@ class BaseController extends WaxController{
 
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
+    WaxEvent::add("model.columns", function(){
+      $obj = WaxEvent::data();
+      $model = new $obj->model_class;
+      foreach($model->columns as $col=>$info) if($info[1]['scaffold']) $obj->scaffold_columns[$col] = true;
+    });
     /**
      * setup the pagination on the model
      */
@@ -131,6 +136,7 @@ class BaseController extends WaxController{
         WaxEvent::run("model.pagination.setup", $controller);
         WaxEvent::run("model.fetch", $controller);
       }
+      WaxEvent::run("model.columns", $controller);
       WaxEvent::run("form.setup", $controller);
     });
     /**
@@ -191,11 +197,14 @@ class BaseController extends WaxController{
     $user_model = new Staff;
     if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
       Session::set($this->user_session_name, md5($email));
+      Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }elseif($email && $password && ($found = $user_model->clear()->filter("email", $email)->filter("password", hash_hmac("sha1", $password, Staff::$salt))->first()) ){
       Session::set($this->user_session_name, md5($email));
+      Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }elseif(($sess = Session::get($this->user_session_name)) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
+      Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }
     return false;

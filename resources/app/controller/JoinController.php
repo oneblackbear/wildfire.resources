@@ -21,6 +21,7 @@ class JoinController extends BaseController{
     WaxEvent::add("form.setup", function(){
       $controller = WaxEvent::data();
       $controller->model->columns['role'][1]['widget'] = "HiddenInput";
+      $controller->model->columns['password'][1]['editable'] = true;
       $controller->model->role = "owner";
       $controller->{$controller->form_name} = new WaxForm($controller->model);
     });

@@ -1,12 +1,21 @@
 #logo{
   float:left;
   display:block;
+  margin-bottom:0;
 }
   #logo a{
-    width:100px;
-    height:40px;
+    width:40px;
+    height:35px;
     display:block;
+    background:url('/images/wildfire-wildfire.resources/logo.png') no-repeat top center;
+    margin-right:10px;
   }
     #logo a span{
       display:none;
     }
+
+  .top_bar h2{
+    float:left;
+    margin-bottom:0;
+    padding-top:4px;
+  }

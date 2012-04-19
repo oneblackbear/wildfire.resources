@@ -27,6 +27,8 @@ jQuery(document).ready(function(){
 
           form.remove();
           parent.append(res).prepend(cloned);
+        }else{
+          form.replaceWith(res);
         }
       }
     });
