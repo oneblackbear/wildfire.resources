@@ -95,7 +95,6 @@ form span textarea{
 
 .inline_fields .error_message{display:none;}
 form.updated{
-  border-bottom:1px solid rgba(30,105,222,0.2);
   margin-bottom:20px;
 }
 form.updated:last-child{

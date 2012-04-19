@@ -3,6 +3,7 @@ class Staff extends WildfireResource{
 
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public static $roles = array('standard'=>'standard', 'privileged'=>'privileged', 'admin'=>'admin', 'owner'=>'owner');
+  public static $permission_cache = array();
   public function setup(){
     parent::setup();
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
@@ -23,6 +24,7 @@ class Staff extends WildfireResource{
 
   //find all chunks of the site that this user has access to
   public function permissions($for_navigation=true){
+    if(Staff::$permission_cache[$this->primval]) return Staff::$permission_cache[$this->primval];
     $permissions = array();
     //find all controller directories
     foreach(AutoLoader::controller_paths() as $path){
@@ -47,10 +49,12 @@ class Staff extends WildfireResource{
               }
             }
           }
-          if(count($methods)) $permissions[$name] = array('options'=>$methods, 'name'=>(($controller->name)?$controller->name : basename($name,"Controller")));
+          if(count($methods)) $permissions[strtolower(basename($name,"Controller"))] = array('options'=>$methods, 'name'=>(($controller->name)?$controller->name : basename($name,"Controller")));
         }
       }
     }
+    ksort($permissions);
+    Staff::$permission_cache[$this->primval] = $permissions;
     return $permissions;
   }
 

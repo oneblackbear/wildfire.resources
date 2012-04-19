@@ -1,0 +1,15 @@
+.navbar{
+  width:96%;
+  padding:10px 2%;
+  background:white;
+  border-bottom:3px solid rgba(30,105,222,0.3);
+}
+.navbar h4{
+  float:left;
+  margin-bottom:0;
+}
+.navbar select{
+  float:left;
+  width:12%;
+  margin-left:10px;
+}

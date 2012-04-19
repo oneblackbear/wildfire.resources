@@ -1,0 +1,12 @@
+<form class='full clearfix navbar' action="">
+  <h4>Select an area</h4>
+  <select name="redirect">
+    <?foreach($structure as $controller_name=>$data):?>
+    <optgroup label="<?=$data['name']?>">
+      <?foreach($data['options'] as $action_name=>$name):?>
+      <option value="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"<?if($controller_name == $controller && ($action_name == $action || $action == "index" && is_numeric($action_name))):?> selected="selected"<?endif?>><?=$data['name']?> <?=$name?></option>
+      <?endforeach?>
+    </optgroup>
+    <?endforeach?>
+  </select>
+</form>
