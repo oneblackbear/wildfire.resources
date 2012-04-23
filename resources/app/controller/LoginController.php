@@ -16,7 +16,6 @@ class LoginController extends BaseController{
 
     WaxEvent::run("form.setup", $this);
     if(($sent = Request::param('staff')) && ($password = $sent['password']) && ($email = $sent['email']) && $this->_staff_login($email, $password, false) ) $this->redirect_to("/dash/");
-    //exit;
   }
 
   public function create(){$this->redirect_to("/");}

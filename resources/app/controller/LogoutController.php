@@ -9,7 +9,7 @@ class LogoutController extends BaseController{
   public $navigation_links = array();
 
   public function index(){
-
+    $this->_staff_logout();
   }
 
   public function create(){$this->redirect_to("/");}

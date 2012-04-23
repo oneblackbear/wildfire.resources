@@ -68,7 +68,7 @@ class BaseController extends WaxController{
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
       if($roles = $controller->permissions[$controller->action]){
-        if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to("/dash/?no-access");
+        if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to("/login/?no-access");
       }
       if($controller->active_staff) $controller->structure = $controller->active_staff->permissions();
     });
@@ -215,6 +215,11 @@ class BaseController extends WaxController{
       return $found;
     }
     return false;
+  }
+
+  public function _staff_logout(){
+    Session::unset_session();
+    $this->redirect_to("/?lo");
   }
 
 }
