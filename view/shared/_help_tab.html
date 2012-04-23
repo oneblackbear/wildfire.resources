@@ -1,7 +1,9 @@
-
+<?if($cms_content && $cms_content->primval):?>
 <div class='help_tab clearfix'>
   <a href="#" class='button help'><span class='open'>&laquo; <small>Help</small></span><span class='close'>&raquo;</span></a>
   <div class='inside clearfix'>
     <h5>Help, information &amp; Links</h5>
+    <?=$cms_content->format_content()?>
   </div>
 </div>
+<?endif?>

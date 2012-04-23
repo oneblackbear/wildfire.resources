@@ -11,7 +11,8 @@ class BaseController extends WaxController{
   public $content_object_stack = array();
   public $redirect_formats = array("html");
   public $structure = array();
-  public $navigation_links = array('index', 'create', 'listing');
+  public $navigation_links = array('index', 'create');
+  public $operations = array('edit', 'delete');
   public $scaffold_columns = array();
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
@@ -220,6 +221,11 @@ class BaseController extends WaxController{
   public function _staff_logout(){
     Session::unset_session();
     $this->redirect_to("/?lo");
+  }
+
+  public function _help_tab(){
+    $content = new WildfireContent("live");
+    if($page = $content->filter("permalink", "/help/".$this->controller."/".$this->action."/")->first()) $this->cms_content = $page;
   }
 
 }
