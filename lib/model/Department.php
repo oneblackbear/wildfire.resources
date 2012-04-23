@@ -3,7 +3,7 @@ class Department extends WildfireResource{
 
   public function setup(){
     parent::setup();
-    $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships'));
+    $this->define("organisations", "ManyToManyField", array('scaffold'=>true,'target_model'=>"Organisation", 'group'=>'relationships'));
     $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships'));
     $this->define("main_contact", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'col_name'=>"main_contact"));
 

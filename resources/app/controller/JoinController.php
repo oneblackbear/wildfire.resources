@@ -31,7 +31,7 @@ class JoinController extends BaseController{
       $controller = WaxEvent::data();
       //log the person in
       $controller->active_staff = $controller->_staff_login($controller->model_saved->email, $controller->model_saved->password, true);
-      $controller->model_saved->update_attributes(array('created_by'=>$controller->active_staff));
+      $controller->model_saved->update_attributes(array('created_by'=>$controller->active_staff->primval));
       if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/organisation/setup/");
     });
 

@@ -33,7 +33,7 @@
             <?if($controller == "staff" && $row->primval == $active_staff->primval && $action == "delete"):?>
             <a href="#step" class='button off'><?=Inflections::humanize($action)?></a>
             <?else:?>
-            <a href="/<?=$controller?>/<?=$action?>/<?=$row->primval?>/" class='button <?=$action?>'><?=Inflections::humanize($action)?></a>
+            <a href="/<?=$controller?>/<?=$action?>/<?=$row->primval?>/" class='button button_<?=$action?>'><?=Inflections::humanize($action)?></a>
             <?endif?>
           <?endif?>
         <?endforeach?>

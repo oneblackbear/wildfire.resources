@@ -119,10 +119,9 @@ class BaseController extends WaxController{
     });
     WaxEvent::add("model.fetch", function(){
       $obj = WaxEvent::data();
-
+      $obj->model = $obj->model->filter("group_token", $obj->active_staff->group_token);
       if($obj->this_page && $obj->per_page) $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
       else $obj->cms_content = $obj->model->all();
-
     });
 
     /**
@@ -158,7 +157,8 @@ class BaseController extends WaxController{
     //after save hook
     WaxEvent::add("form.save.after", function(){
       $controller = WaxEvent::data();
-      $controller->model = $controller->model_saved;
+      if($controller->active_staff) $controller->model = $controller->model_saved->update_attributes(array('created_by'=>$controller->active_staff->primval, 'group_token'=>$controller->active_staff->group_token));
+      else $controller->model = $controller->model_saved;
       WaxEvent::run("form.save.joins", $controller);
     });
     WaxEvent::add("form.save.joins", function(){
@@ -194,6 +194,16 @@ class BaseController extends WaxController{
   public function edit(){
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
+  }
+  public function delete(){
+    WaxEvent::run("model.setup", $this);
+    if(($this->model_class == "Staff" && $this->model->primval != $this->active_staff->primval) || ($this->model_class != "Staff")){
+      $this->model->delete();
+      $this->redirect_to($this->url());
+    }else{
+      echo "failed";
+      exit;
+    }
   }
 
   public function _summary(){
