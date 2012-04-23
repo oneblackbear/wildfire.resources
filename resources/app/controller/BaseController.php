@@ -5,7 +5,7 @@ class BaseController extends WaxController{
   public $model_class = false;
   public $model_scope = "live";
   public $active_staff = false;
-  public $per_page = 1;
+  public $per_page = 20;
   public $form_name = "model_form";
   public $model_saved = false;
   public $content_object_stack = array();
@@ -48,6 +48,7 @@ class BaseController extends WaxController{
   }
   protected function _access(){
     $this->active_staff = $this->_staff_login();
+    if($this->active_staff) $this->active_staff->update_attributes(array('date_active'=>date("Y-m-d H:i:s")));
     WaxEvent::run("user.access", $this);
   }
   protected function _events(){
@@ -67,7 +68,7 @@ class BaseController extends WaxController{
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
       if($roles = $controller->permissions[$controller->action]){
-        if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to($controller->base_url()."?no-access");
+        if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to("/dash/?no-access");
       }
       if($controller->active_staff) $controller->structure = $controller->active_staff->permissions();
     });
@@ -78,7 +79,6 @@ class BaseController extends WaxController{
       $obj = WaxEvent::data();
       if(!$obj->model_filters) $obj->model_filters = Request::param('filters');
       $filterstring = "";
-
       foreach((array)$obj->model_filters as $name=>$value){
         $col_filter = "";
         if(strlen($value) && $filter = $obj->filter_fields[$name]){
@@ -86,7 +86,7 @@ class BaseController extends WaxController{
             if($opp = $filter['opposite_join_column']){
               $target = $obj->model->columns[$col][1]['target_model'];
               $join = new $target($value);
-              $ids = array();
+              $ids = array(0);
               foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
               $col_filter .= "(`".$obj->model->primary_key."` IN(".implode(",",$ids).")) OR";
             }
@@ -118,8 +118,10 @@ class BaseController extends WaxController{
     });
     WaxEvent::add("model.fetch", function(){
       $obj = WaxEvent::data();
+
       if($obj->this_page && $obj->per_page) $obj->cms_content = $obj->model->page($obj->this_page, $obj->per_page);
       else $obj->cms_content = $obj->model->all();
+
     });
 
     /**
@@ -174,6 +176,7 @@ class BaseController extends WaxController{
      */
     WaxEvent::add("form.setup", function(){
       $controller = WaxEvent::data();
+      if($controller->model->columns['group_token']) $controller->model->group_token = $controller->active_staff->group_token;
       if(!$controller->{$controller->form_name}) $controller->{$controller->form_name} = new WaxForm($controller->model);
     });
   }
@@ -192,6 +195,10 @@ class BaseController extends WaxController{
     WaxEvent::run("form.save", $this);
   }
 
+  public function _summary(){
+    $model = new $this->model_class;
+    $this->all = $model->filter("group_token", $this->active_staff->group_token)->all();
+  }
 
   public function _staff_login($email=false, $password=false, $hashed = false){
     $user_model = new Staff;

@@ -1,0 +1,31 @@
+.link_block{
+  float:left;
+  width:28%;
+  margin:10px 0;
+  text-decoration:none;
+  text-transform:uppercase;
+  background:white;
+}
+.link_block:nth-child(2n){
+  margin-left:3%;
+  margin-right:3%;
+}
+  .link_block a{
+    text-decoration:none;
+    font-family:"Open Sans", helvetica, arial;
+  }
+  .link_block .options{
+    margin-top:5px;
+    padding-top:5px;
+    border-top:1px solid rgba(94, 94, 94, 0.2);
+  }
+    .link_block .options a{
+      font-size:77%;
+    }
+
+  .summary{
+    margin-top:5px;
+    font-size:93%;
+    text-transform:none;
+  }
+  .summary p{margin-bottom:2px;}

@@ -15,6 +15,7 @@ class Staff extends WildfireResource{
     $this->define("original_email", "CharField", array('editable'=>false));
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password', 'editable'=>false));
     $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::get_roles()));
+    $this->define("date_active", "DateTimeField", array('editable'=>false));
   }
 
   public static function get_roles(){

@@ -1,0 +1,10 @@
+<div class='summary clearfix'>
+  <p>Currently have <?=$all->count()?> staff. The last created was:</p>
+  <?if($last = $all->order("date_created DESC")->first()):?>
+  <p>&raquo; <?=$last->title?></p>
+  <?endif?>
+  <?if($act = $all->filter("date_active > 0")->filter("id", $active_staff->primval, "!=")->order("date_active DESC")->first()):?>
+  <p>The last active staff member was:</p>
+  <p>&raquo; <?=$act->title?> on <?=date("jS M Y H:i", strtotime($act->date_active))?></p>
+  <?endif?>
+</div>

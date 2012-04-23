@@ -1,8 +1,0 @@
-<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
-<div class='full padded clearfix'>
-  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff));?>
-
-  <div class='content clearfix'>
-    <?=partial("index", array('model'=>$model,'scaffold_columns'=>$scaffold_columns, 'this_page'=>$this_page,'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'cms_content'=>$cms_content), "ajax");?>
-  </div>
-</div>

@@ -1,11 +1,14 @@
 <?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
 <div class='full padded clearfix'>
   <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff));?>
-
+  <div class='clearfix content'>
+    <h1>Welcome back, <?=$active_staff->title?></h1>
+  </div>
   <div class='content clearfix'>
+
     <?foreach(array_reverse($structure) as $con => $info):?>
       <?if($info['options'][0] && $con != $controller):?>
-      <a class='link_block block-<?=$con?> clearfix repeat' href="/<?=$con?>/"><span><?=$info['name']?></span></a>
+      <?=partial("$con/_dash", array('con'=>$con, 'info'=>$info, 'active_staff'=>$active_staff));?>
       <?endif?>
     <?endforeach?>
   </div>

@@ -1,13 +1,8 @@
-<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
+<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'model'=>$model, 'filter_fields'=>$filter_fields, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters));?>
 <div class='full padded clearfix'>
   <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff));?>
 
-  <div class='content clearfix'>
-
-    <?foreach($structure[$controller]['options'] as $action=>$name):?>
-      <?if($action !== 0):?>
-      <a class='link_block block-<?=$controller?>-<?=$action?> clearfix repeat' href="/<?=$controller?>/<?=$action?>/"><span><?=$name?></span></a>
-      <?endif?>
-    <?endforeach?>
+  <div class='content clearfix listing_block'>
+    <?=partial("index", array('model'=>$model,'scaffold_columns'=>$scaffold_columns, 'this_page'=>$this_page,'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'cms_content'=>$cms_content), "ajax");?>
   </div>
 </div>

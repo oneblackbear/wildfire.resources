@@ -29,3 +29,7 @@ h1#editheader.updated span{
 
   background:url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right center;
 }
+h1 a,
+h2 a{
+  text-decoration:none;
+}

@@ -1,0 +1,6 @@
+<div class='summary clearfix'>
+  <p>Currently have <?=$all->count()?> <?=strtolower($controller)?>s. The last created was:</p>
+  <?if($last = $all->order("date_created DESC")->first()):?>
+  <p>&raquo; <?=$last->title?></p>
+  <?endif?>
+</div>

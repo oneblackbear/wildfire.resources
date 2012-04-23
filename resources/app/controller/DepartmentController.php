@@ -2,6 +2,11 @@
 class DepartmentController extends BaseController{
   public $model_class = "Department";
   public $form_name = "deparment_form";
+  public $permissions = array(
+                          'create'=>array('owner'),
+                          'edit'=>array('owner', 'admin'),
+                          'delete'=>array('owner')
+                        );
 
   /**
    * setup actions are used by the join controller pages

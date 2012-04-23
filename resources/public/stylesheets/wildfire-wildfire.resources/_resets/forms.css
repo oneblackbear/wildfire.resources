@@ -23,8 +23,10 @@ ul.inline li label{
 
 .error_message{
   display:block;
-  margin:3px;
+  margin:3px 0;
   color:#a91c12;
+  float:left;
+  width:99%;
 }
 form textarea{
   width:96%;
@@ -134,5 +136,5 @@ form.editing span label{
   padding-top:6px;
 }
 .editing fieldset.updated{
-  background: url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right 98%;
+  background: white url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right 98%;
 }

@@ -1,0 +1,5 @@
+<div class='link_block block-<?=$con?> clearfix repeat'>
+  <a href="/<?=$con?>/"><span><?=$info['name']?></span></a>
+  <?=partial($con."/_summary", array('active_staff'=>$active_staff));?>
+  <div class='options'><?foreach($info['options'] as $action=>$name):?><a href="/<?=$con?>/<?if(!is_numeric($action)):?><?=$action?>/<?endif?>" class='small'><?=$name?></a>&nbsp;&nbsp;<?endforeach?></div>
+</div>

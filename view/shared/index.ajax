@@ -2,6 +2,7 @@
   <?if($cms_content->total_pages > 1):?>
   <?=paginate_links($cms_content, 2, "&laquo;", "&raquo;")?>
   <?endif?>
+  <h1>List of <?=ucwords($controller)?></h1>
 </div>
 <table class='listing'>
   <thead>

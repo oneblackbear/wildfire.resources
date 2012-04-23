@@ -2,10 +2,11 @@
   <form class='goto' action="#top">
     <h4>Go to</h4>
     <select name="redirect">
+      <option value="">-- Select --</option>
       <?foreach($structure as $controller_name=>$data):?>
       <optgroup label="<?=$data['name']?>">
         <?foreach($data['options'] as $action_name=>$name):?>
-        <option value="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"<?if($controller_name == $controller && ($action_name == $action || $action == "index" && is_numeric($action_name))):?> selected="selected"<?endif?>><?=$data['name']?> <?=$name?></option>
+        <option value="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"><?=$data['name']?> <?=$name?></option>
         <?endforeach?>
       </optgroup>
       <?endforeach?>
@@ -14,7 +15,7 @@
   <?if(count($filter_fields)):?>
   <form class='filters' action="#top">
     <h4>Filters</h4>
-    <fieldset class='filters_container' id="filters_container" data-replace=".data_table" data-action="/<?=$controller?>/<?=$action?>/.ajax">
+    <fieldset class='filters_container' id="filters_container" data-replace=".listing_block" data-action="/<?=$controller?>/<?=$action?>/.ajax">
       <?foreach($filter_fields as $name=>$field):?>
       <?if($field['editable'] !== false):?>
       <?=partial($field['partial'], array('controller'=>$controller, 'field'=>$field, 'name'=>$name, 'data'=>$data, 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>

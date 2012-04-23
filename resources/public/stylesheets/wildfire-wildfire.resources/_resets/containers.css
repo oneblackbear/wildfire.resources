@@ -11,19 +11,6 @@
   -moz-border-radius:4px;
 }
 
-.link_block{
-  float:left;
-  width:28%;
-  margin:10px 0;
-  text-decoration:none;
-  text-transform:uppercase;
-  font-family:"Open Sans", helvetica, arial;
-  background:white;
-}
-.link_block:nth-child(2n){
-  margin-left:3%;
-  margin-right:3%;
-}
 
 .content{
   width:90%;

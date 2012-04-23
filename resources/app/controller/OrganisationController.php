@@ -2,6 +2,12 @@
 class OrganisationController extends BaseController{
   public $model_class = "Organisation";
   public $form_name = "organisation_form";
+  public $permissions = array(
+                          'create'=>array('owner'),
+                          'edit'=>array('owner', 'admin'),
+                          'delete'=>array('owner'),
+                          'index'=>array('owner', 'admin', 'privileged')
+                        );
 
   /**
    * setup actions are used by the join controller pages
