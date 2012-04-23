@@ -1,6 +1,6 @@
 <?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
 <div class='full padded clearfix'>
-  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff));?>
+  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
   <div class='clearfix content'>
     <h1>Welcome back, <?=$active_staff->title?></h1>
   </div>

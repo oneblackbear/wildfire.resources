@@ -57,6 +57,8 @@ th{
   font-weight:bold;
 }
 
+table .button{margin-top:0;}
+
 tbody tr:nth-of-type(odd){
   background-color:#f7f7f7;
 }
