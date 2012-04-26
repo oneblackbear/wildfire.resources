@@ -5,7 +5,8 @@ class DepartmentController extends BaseController{
   public $permissions = array(
                           'create'=>array('owner'),
                           'edit'=>array('owner', 'admin'),
-                          'delete'=>array('owner')
+                          'delete'=>array('owner'),
+                          'index'=>array('owner', 'admin', 'privileged')
                         );
 
   /**

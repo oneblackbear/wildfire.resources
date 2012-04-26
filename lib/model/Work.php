@@ -1,7 +1,7 @@
 <?
 class Work extends WaxModel{
 
-  public static $status_options = array('scheduled'=>'scheduled', 'pending-approval'=>'pending approval', 'completed'=>'completed');
+  public static $status_options = array('scheduled'=>'scheduled', 'completed'=>'completed');
 
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
@@ -11,7 +11,7 @@ class Work extends WaxModel{
     $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true));
     $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true));
     $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true));
-    $this->define("hours_used", "FloatField", array('maxlength'=>'12,2', 'label'=>'Actual hours'));
+    $this->define("hours_used", "FloatField", array('maxlength'=>'12,2', 'label'=>'Actual hours used so far'));
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
 
 

@@ -6,8 +6,8 @@ class Staff extends WildfireResource{
   public static $permission_cache = array();
   public function setup(){
     parent::setup();
+    $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships'));
     $this->define("work", "ManyToManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("rate", "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
