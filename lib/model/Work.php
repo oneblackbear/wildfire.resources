@@ -37,15 +37,14 @@ class Work extends WaxModel{
     if(($staff = $this->staff) && $staff->count() && ($first = $staff->first())) return $first->title;
     else return "?";
   }
-  public function colour($join="jobs"){
-    if(($items = $this->$join) && ($item = $items->first())){
-      if($item->primval%3 == 0) $pattern = "ff0000";
-      else if($item->primval%5 == 0) $pattern = "00ff00";
-      else $pattern = "0000ff";
-      $colours = new CSSColour;
-      $remainder = $item->primval%9;
-      return $colours->lighten($pattern, $remainder/10);
-    }else return "ececec";
+  public function colour($join="jobs", $weight=false, $func="lighten"){
+    if(($items = $this->$join) && ($item = $items->first())) return $item->colour(false, $weight, $func);
+    else return "#ececec";
+  }
+
+  public function job(){
+    if(($jobs = $this->jobs) && ($job = $jons->first())) return $job;
+    return false;
   }
 }
 ?>

@@ -10,11 +10,14 @@ class WildfireResource extends WaxModel{
     $this->define("created_by", "IntegerField", array('widget'=>'HiddenInput'));
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
     parent::setup();
+    $this->define("saved_colour", "CharField", array('editable'=>false));
   }
 
   public function before_insert(){
+    parent::before_insert();
     if(!$this->group_token) $this->group_token = hash_hmac("sha1", time(), self::$salt);
   }
+
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0, $title=''){
     $model = new WaxModel;
@@ -53,19 +56,22 @@ class WildfireResource extends WaxModel{
     if($this->columns['date_created'] && !$this->date_created) $this->date_created = date("Y-m-d H:i:s");
     if($this->columns['date_modified']) $this->date_modified = date("Y-m-d H:i:s");
     if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
+    if(!$this->saved_colour){
+      $colours = new CSSColour;
+      $this->saved_colour = $colours->RGB2Hex(array(rand(0,255), rand(0,255), rand(0,255)));
+    }
   }
 
   public function css_selector(){
     return Inflections::underscore($this->title);
   }
 
-  public function colour(){
-    if($this->primval%3 == 0) $pattern = "ff0000";
-    else if($this->primval%5 == 0) $pattern = "00ff00";
-    else $pattern = "0000ff";
+  public function colour($join=false, $weight, $func="lighten"){
+    if($join && ($joins = $this->$join) && ($item = $joins->first()) ) return $item->colour(false, $weight, $func);
+    if(!$weight) return "#".$this->saved_colour;
     $colours = new CSSColour;
-    $remainder = $this->primval%10;
-    return $colours->lighten($pattern, $remainder/10);
+    return "#".$colours->$func($this->saved_colour, $weight);
   }
+
 }
 ?>

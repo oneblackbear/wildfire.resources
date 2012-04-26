@@ -49,7 +49,7 @@
         <span class='calendar_date'><?=$start?></span>
         <?foreach($events as $primval):?>
           <?if($work = $calendar_content[$primval]):?>
-          <a href="#" data-p="<?=$primval?>" class='work js-colour tiny' data-type="background" data-colour="<?=$work->colour()?>"><span><?=$work->who()?> <?=$work->name()?> (<?=$work->hours?>)</span></a>
+          <a href="#" id="w<?=$primval?>" class='work js-colour tiny' data-border-left="6px solid <?=$work->colour("staff")?>" data-background="<?=$work->colour()?>" data-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
           <?endif?>
         <?endforeach?>
       </td>

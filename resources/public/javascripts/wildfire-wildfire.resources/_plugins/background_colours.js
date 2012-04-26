@@ -3,10 +3,11 @@ jQuery(document).ready(function(){
   jQuery(window).bind("colourise", function(){
     jQuery(".js-colour").each(function(){
       var obj = jQuery(this),
-          attr = obj.attr("data-type"),
-          val = "#"+obj.attr("data-colour")
+          data = obj.data()
           ;
-      obj.css(attr,val);
+      for(var i in data){
+        obj.css(i, data[i]);
+      }
     });
   });
 

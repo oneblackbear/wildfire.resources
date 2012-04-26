@@ -5,6 +5,7 @@ class WorkController extends BaseController{
   public $name = "Work";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
+                          'departments' => array('columns'=>array('departments'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
   public $navigation_links = array('index', 'create', 'listing');
@@ -23,9 +24,9 @@ class WorkController extends BaseController{
   }
 
   public function index(){
-    //if no filters, default to active member of staff
-    if(!Request::param('filters')){
-      $this->model_filters['staff'] = $this->active_staff->primval;
+    //if no filters, default to active member of staffs department
+    if(!Request::param('filters') && ($depts = $this->active_staff->departments) && ($dept = $depts->first()) ){
+      $this->model_filters['departments'] = $dept->primval;
     }
     //no pagination
     $this->per_page = false;
