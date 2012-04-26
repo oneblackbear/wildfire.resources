@@ -54,5 +54,9 @@ class WildfireResource extends WaxModel{
     if($this->columns['date_modified']) $this->date_modified = date("Y-m-d H:i:s");
     if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
   }
+
+  public function css_selector(){
+    return Inflections::underscore($this->title);
+  }
 }
 ?>

@@ -6,6 +6,12 @@ class StaffController extends BaseController{
                           'text' => array('columns'=>array('title', 'email'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'departments' => array('columns'=>array('departments'), 'partial'=>'_filters_select', 'opposite_join_column'=>'staff')
                         );
+  public $permissions = array(
+                          'index' => array('owner', 'admin', 'privileged'),
+                          'create'=>array('owner', 'admin'),
+                          'edit'=>array('owner', 'admin'),
+                          'delete'=>array('owner')
+                        );
 
   /**
    * setup actions are used by the join controller pages

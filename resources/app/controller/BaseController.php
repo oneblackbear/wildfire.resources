@@ -129,12 +129,22 @@ class BaseController extends WaxController{
      * - first looks for a valid id in the url (for /controller/edit/x/)
      * - then looks for filters applied for this model (like a listing)
      */
+    WaxEvent::add("model.setup.id", function(){
+      $controller = WaxEvent::data();
+      $controller->model = new $controller->model_class($controller->requested_id);
+    });
+    WaxEvent::add("model.setup.listing", function(){
+      $controller = WaxEvent::data();
+      $controller->model = new $controller->model_class($controller->model_scope);
+      WaxEvent::run("model.filters", $controller);
+    });
     WaxEvent::add('model.setup', function(){
       $controller = WaxEvent::data();
-      if($id = Request::get("id")) $controller->model = new $controller->model_class($id);
-      elseif(!$controller->model){
-        $controller->model = new $controller->model_class($controller->model_scope);
-        if($controller->model_filters || Request::param('filters')) WaxEvent::run("model.filters", $controller);
+      if($id = Request::get("id")){
+        $controller->requested_id = $id;
+        WaxEvent::run("model.setup.id", $controller);
+      }elseif(!$controller->model){
+        WaxEvent::run("model.setup.listing", $controller);
         WaxEvent::run("model.pagination.setup", $controller);
         WaxEvent::run("model.fetch", $controller);
       }

@@ -2,7 +2,7 @@
 class Staff extends WildfireResource{
 
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
-  public static $roles = array('standard'=>'standard', 'privileged'=>'privileged', 'admin'=>'admin', 'owner'=>'owner');
+  public static $roles = array('standard'=>'client', 'privileged'=>'staff', 'admin'=>'admin', 'owner'=>'owner');
   public static $permission_cache = array();
   public function setup(){
     parent::setup();

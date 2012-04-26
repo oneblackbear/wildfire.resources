@@ -11,6 +11,21 @@
   -moz-border-radius:4px;
 }
 
+.row{background:white;}
+  .row .extra{
+    float:left;
+    width:30%;
+    padding:0 1%;
+    border-right:1px solid rgba(94, 94, 94, 0.2)
+
+  }
+  .row .extra:first-child{
+    padding-left:0;
+  }
+  .row .extra:nth-child(3n){
+    padding-right:0;
+    border-right:0;
+  }
 
 .content{
   width:90%;

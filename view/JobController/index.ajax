@@ -1,0 +1,20 @@
+<div class='pagination_block clearfix top_pagintion'>
+  <h1>Current <?=(($name) ? $name : ucwords($controller))?></h1>
+</div>
+<?foreach($cms_content as $content):?>
+<div class='row repeat clearfix <?=$content->css_selector()?>'>
+  <h3 class='no-margin clearfix'><span class='date'><?=$content->completion_date()?></span><?=$content->title?></h3>
+  <div class='block clearfix'>
+    <div class='info extra clearfix'>
+      <p><?=word_truncation($content->content, 30, true)?></p>
+    </div>
+    <div class='work extra clearfix'>
+      <h6>Latest Work</h6>
+    </div>
+    <div class='comments extra clearfix'>
+      <h6>Latest Comments</h6>
+    </div>
+  </div>
+
+</div>
+<?endforeach?>
