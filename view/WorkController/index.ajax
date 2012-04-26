@@ -38,18 +38,18 @@
         if($cal_month < 10) $cal_month = "0".(int)$cal_month;
         if($start < 10) $start = "0".(int)$start;
         $index = $cal_year."-".$cal_month."-".$start;
-        if(isset($months_events[$index])){$extra_class = " event ";}
+        if(isset($month_events[$index])){$extra_class = " event ";}
         elseif($index == date("Y-m-d")){$extra_class =" today ";}
         else{$extra_class="";}
 
-
+        $events = (array)$month_events[$index];
         ?>
 
-      <td class="<?=$class?><?=$extra_class?> day_<?=$count?>" data-day="<?=$index?>">
+      <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
         <span class='calendar_date'><?=$start?></span>
-        <?foreach((array)$months_events[$index] as $primval):?>
+        <?foreach($events as $primval):?>
           <?if($work = $calendar_content[$primval]):?>
-          <a href="#" class='work js-bg' data-bg="<?=$work->css_bg()?>"><?=$work->who()?> <?=$work->name()?> (<?=$work->hours?>)</a>
+          <a href="#" data-p="<?=$primval?>" class='work js-colour tiny' data-type="background" data-colour="<?=$work->colour()?>"><span><?=$work->who()?> <?=$work->name()?> (<?=$work->hours?>)</span></a>
           <?endif?>
         <?endforeach?>
       </td>

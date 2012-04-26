@@ -7,7 +7,7 @@ class WorkController extends BaseController{
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
-  public $navigation_links = array('index', 'create');
+  public $navigation_links = array('index', 'create', 'listing');
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
@@ -43,13 +43,14 @@ class WorkController extends BaseController{
     //generate month_events list
     $this->calendar_content = array();
     $model = $this->calendar->range_filter($this->model, $year, $month);
+    $this->month_events = array();
     foreach($model->all() as $row){
       $this->calendar_content[$row->primval] = $row;
       $start = date("Ymd", strtotime($row->date_start));
       $end = date("Ymd", strtotime($row->date_end));
       for($i=$start; $i<=$end; $i++){
         $index = date("Y-m-d", strtotime($i));
-        $this->month_events[$index][] = $row->primval;
+        $this->month_events[$index][$row->primval] = $row->primval;
       }
     }
   }

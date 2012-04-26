@@ -58,5 +58,14 @@ class WildfireResource extends WaxModel{
   public function css_selector(){
     return Inflections::underscore($this->title);
   }
+
+  public function colour(){
+    if($this->primval%3 == 0) $pattern = "ff0000";
+    else if($this->primval%5 == 0) $pattern = "00ff00";
+    else $pattern = "0000ff";
+    $colours = new CSSColour;
+    $remainder = $this->primval%10;
+    return $colours->lighten($pattern, $remainder/10);
+  }
 }
 ?>

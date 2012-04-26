@@ -13,3 +13,10 @@ td.next,
 td.previous{
   background:#ededed;
 }
+.work{
+  padding:6px;
+  display:block;
+}
+.work.tiny{
+  font-size:77%;
+}

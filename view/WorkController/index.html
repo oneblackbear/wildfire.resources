@@ -4,7 +4,7 @@
   <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
 
   <div class='content clearfix listing_block'>
-    <?=partial("index", array('model'=>$model,'scaffold_columns'=>$scaffold_columns, 'calendar'=>$calendar, 'calendar_content'=>$calendar_content, 'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'months_events'=>$months_events, 'operations'=>$operations, 'permissions'=>$permissions, 'table'=>$table), "ajax");?>
+    <?=partial("index", array('month_events'=>$month_events,'model'=>$model,'scaffold_columns'=>$scaffold_columns, 'calendar'=>$calendar, 'calendar_content'=>$calendar_content, 'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'months_events'=>$months_events, 'operations'=>$operations, 'permissions'=>$permissions, 'table'=>$table), "ajax");?>
 
   </div>
 </div>

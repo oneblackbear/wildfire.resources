@@ -17,7 +17,6 @@ function filter_list(trigger_element, replace){
     type:"get",
     success:function(res){
       form.removeClass("loading");
-      console.log(replace);
       jQuery(replace).html(res);
       jQuery(window).trigger("filter.trigger");
     },
