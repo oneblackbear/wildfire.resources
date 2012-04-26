@@ -65,3 +65,7 @@ tbody tr:nth-of-type(odd){
 table a{
   text-decoration:none;
 }
+
+.no-margin{
+  margin-bottom:0;
+}

@@ -194,6 +194,7 @@ class BaseController extends WaxController{
 
   public function index(){
     WaxEvent::run("model.setup", $this);
+    $this->use_view = "listing";
   }
 
   public function create(){

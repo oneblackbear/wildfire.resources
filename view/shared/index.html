@@ -1,8 +1,0 @@
-<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'model'=>$model, 'filter_fields'=>$filter_fields, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters));?>
-<div class='full padded clearfix'>
-  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
-
-  <div class='content clearfix listing_block'>
-    <?=partial("index", array('model'=>$model,'scaffold_columns'=>$scaffold_columns, 'this_page'=>$this_page,'controller'=>$controller, 'name'=>$name, 'action'=>$action, 'active_staff'=>$active_staff, 'cms_content'=>$cms_content, 'operations'=>$operations, 'permissions'=>$permissions), "ajax");?>
-  </div>
-</div>

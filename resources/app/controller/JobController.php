@@ -17,7 +17,7 @@ class JobController extends BaseController{
 
   protected function _events(){
     parent::_events();
-
+    //filter the visible jobs to your organisation if you are a standard user
     WaxEvent::add("model.filters", function(){
       $controller = WaxEvent::data();
       if($controller->active_staff->role == 'standard'){
@@ -49,6 +49,7 @@ class JobController extends BaseController{
     //fetch the same data as listing, it will just be displayed differently, but no pagination
     $this->this_page = false;
     parent::index();
+    $this->use_view = "index";
     /**
      * from all data we now have find those that either have no work attached,
      * or who have work items that aren't set as complete
@@ -56,7 +57,7 @@ class JobController extends BaseController{
     $ongoing = array();
     foreach($this->cms_content as $row){
       //as soon as find an item thats not complete, remove the job from the list & break out
-      foreach($row->schedule as $item){
+      foreach($row->work as $item){
         if($item->primval && $item->status == "completed"){
           $this->cms_content->filter("id", $row->primval, "!=");
           break;

@@ -9,10 +9,10 @@
       <p><?=word_truncation($content->content, 30, true)?></p>
     </div>
     <div class='work extra clearfix'>
-      <h6>Latest Work</h6>
+      <h6 class='no-margin'>Latest Work</h6>
     </div>
     <div class='comments extra clearfix'>
-      <h6>Latest Comments</h6>
+      <h6 class='no-margin'>Latest Comments</h6>
     </div>
   </div>
 

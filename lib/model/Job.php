@@ -10,7 +10,7 @@ class Job extends WildfireResource{
     $this->define("date_go_live", "DateTimeField", array('label'=>'Go live date', 'required'=>true, 'scaffold'=>true));
     $this->define("flagged", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable()));
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships'));
-    $this->define("schedule", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships'));
+    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships'));
     $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
