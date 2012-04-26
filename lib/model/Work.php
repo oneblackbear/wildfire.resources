@@ -33,5 +33,9 @@ class Work extends WaxModel{
     $this->date_modified = date("Y-m-d H:i:s");
   }
 
+  public function who(){
+    if(($staff = $this->staff) && $staff->count() && ($first = $staff->first())) return $first->title;
+    else return "?";
+  }
 }
 ?>

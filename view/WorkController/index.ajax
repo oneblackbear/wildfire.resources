@@ -1,0 +1,68 @@
+<div class='pagination_block clearfix top_pagintion'>
+  <h1>Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?></h1>
+</div>
+<table class='calendar'>
+  <thead>
+    <tr>
+      <th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="row">
+      <?
+      $cal_month = $table['current_month'];
+      $cal_year = $table['current_year'];
+      $start = $table['first_date_on_calendar'];
+      $omonth = $cal_month;
+      $cal_month = $cal_month-1;
+      $class = "previous";
+      ?>
+      <?for($count=0; $count<$table['days_on_calendar']; $count++):?>
+        <?
+
+        if($count == $table['first_day_number']){
+          $start=1;
+          $class="current";
+          $cal_month++;
+        }elseif(($start-1) == $table['last_day_of_month'] && $class!="previous"){
+          $start=1;
+          $class="next";
+          $cal_month++;
+        }
+        if($cal_month < 10) $cal_month = "0".(int)$cal_month;
+        if($start < 10) $start = "0".(int)$start;
+        $index = $cal_year."-".$cal_month."-".$start;
+        if(isset($months_events[$index])){$extra_class = " event ";}
+        elseif($index == date("Y-m-d")){$extra_class =" today ";}
+        else{$extra_class="";}
+
+
+        ?>
+
+      <td class="<?=$class?><?=$extra_class?> day_<?=$count?>" data-day="<?=$index?>">
+        <span class='calendar_date'><?=$start?></span>
+        <?foreach((array)$months_events[$index] as $primval):?>
+          <?if($work = $calendar_content[$primval]):?>
+          <a href="#" class='work js-bg' data-bg="<?=$work->css_bg()?>"><?=$work->who()?> <?=$work->name()?> (<?=$work->hours?>)</a>
+          <?endif?>
+        <?endforeach?>
+      </td>
+
+      <?if(fmod($count+1,7)==0):?>
+      </tr><tr class="row">
+        <?$empty = true?>
+      <?else:?>
+        <?$empty = false;?>
+      <?endif?>
+      <?$start++?>
+      <?endfor?>
+
+    </tr>
+  </tbody>
+</table>

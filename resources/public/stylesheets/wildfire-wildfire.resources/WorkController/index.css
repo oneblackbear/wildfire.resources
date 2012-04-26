@@ -1,0 +1,15 @@
+table.calendar td,
+table.calendar th{
+  border-right:1px solid rgb(214,214,214);
+  border-bottom:1px solid rgb(214,214,214);
+}
+table.calendar td{padding:0;}
+span.calendar_date{
+  display:block;
+  padding:4px 6px;
+  margin-bottom:4px;
+}
+td.next,
+td.previous{
+  background:#ededed;
+}
