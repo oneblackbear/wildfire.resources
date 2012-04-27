@@ -8,10 +8,10 @@ jQuery(document).ready(function(){
         ;
     jQuery.ajax({
       url:dest,
-      data:data,
       type:"get",
       success:function(res){
-
+        tab.find(".inside").html(res);
+        jQuery(".help_tab .help.button").trigger("click");
       }
     });
   });

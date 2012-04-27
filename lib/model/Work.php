@@ -29,8 +29,15 @@ class Work extends WaxModel{
     $this->date_created = date("Y-m-d H:i:s");
   }
   public function before_save(){
+    parent::before_save();
     if(!$this->title) $this->title = "WORK";
     $this->date_modified = date("Y-m-d H:i:s");
+
+    //if this has been joined to a job, check to make sure the time is before the end date of the job
+    if(($job = $this->job()) && ($end = date("Ymd", strtotime($job->date_end)))){
+      if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot be scheduled after the deadline");
+      if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work cannot be scheduled after the deadline");
+    }
   }
 
   public function who(){
@@ -53,6 +60,64 @@ class Work extends WaxModel{
   }
   public function private_comments(){
     return $this->comments;
+  }
+
+  public function start_end_times($sd = false, $ed = false){
+    if($sd) $start = $sd;
+    else $start = strtotime($this->date_start);
+    if($ed) $end = $ed;
+    else $end = strtotime($this->date_end);
+
+    $sysm = date("F Y", $start);
+    $smsd = date("md", $start);
+    $emed = date("md", $end);
+    $end_short = $start_short = "";
+    $start_txt = date("jS F", $start);
+    $start_short = date("D j M", $start);
+
+    if(date("Y") != date("Y", $start)){
+      $start_txt .= " " .date("Y", $start);
+      $start_short .= " " .date("Y", $start);
+    }
+    //if not on the same day
+    if($smsd != $emed){
+      $end_text = " - " .date("jS F", $end);
+      $end_short = " - ". date("D j M", $end);
+    }
+    if(date("Y", $start) != date("Y", $end)){
+      $end_text .= " " .date("Y", $end);
+      $end_short .= " " .date("Y", $end);
+    }
+    return array('string'=>$start_txt . $end_text, 'sysm'=>$sysm, 'start'=>$start, 'end'=>$end, 'short_string'=>$start_short. $end_short);
+  }
+
+  public function date_string(){
+    $times = $this->start_end_times();
+    return $times['string'];
+  }
+  /**
+   * return when the due date for the job is, this is an educated guess
+   * - looks for the first listed date that is after the start date of this job
+   * and returns that
+   */
+  public function due_date($labels=false){
+    if($job = $this->job()) return $job->next_milestone(date("Ymd", strtotime($this->date_start)), $labels);
+    return false;
+  }
+  /**
+   * nice helper function to say how tight a class is
+   */
+  public function tightness(){
+    if($compare = $this->due_date()){
+      $start_date = date("Ymd", strtotime($this->date_start));
+      $diff = date_diff(date_create($start_date), date_create($compare['day']));
+      $val = $diff->format("%R%a");
+      if($val <= 1) return "gnats-ass";
+      else if($val <= 3) return "eye-of-needle";
+      else if($val <= 5) return "breath-easy";
+      else return "eon";
+    }
+    return "unkown";
   }
 }
 ?>

@@ -73,5 +73,39 @@ class WildfireResource extends WaxModel{
     return "#".$colours->$func($this->saved_colour, $weight);
   }
 
+  public function start_end_times($sd = false, $ed = false){
+    if($sd) $start = $sd;
+    else $start = strtotime($this->date_start);
+    if($ed) $end = $ed;
+    else $end = strtotime($this->date_end);
+
+    $sysm = date("F Y", $start);
+    $smsd = date("md", $start);
+    $emed = date("md", $end);
+    $end_short = $start_short = "";
+    $start_txt = date("jS F", $start);
+    $start_short = date("D j M", $start);
+
+    if(date("Y") != date("Y", $start)){
+      $start_txt .= " " .date("Y", $start);
+      $start_short .= " " .date("Y", $start);
+    }
+    //if not on the same day
+    if($smsd != $emed){
+      $end_text = " - " .date("jS F", $end);
+      $end_short = " - ". date("D j M", $end);
+    }
+    if(date("Y", $start) != date("Y", $end)){
+      $end_text .= " " .date("Y", $end);
+      $end_short .= " " .date("Y", $end);
+    }
+    return array('string'=>$start_txt . $end_text, 'sysm'=>$sysm, 'start'=>$start, 'end'=>$end, 'short_string'=>$start_short. $end_short);
+  }
+
+  public function date_string(){
+    $times = $this->start_end_times();
+    return $times['string'];
+  }
+
 }
 ?>

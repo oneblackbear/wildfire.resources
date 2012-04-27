@@ -36,12 +36,28 @@ class Job extends WildfireResource{
     else return $base ." due_future ";
   }
 
-  public function times($format = "jS F Y"){
+  public function times($format = "jS F Y", $use_label=true, $cols=array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live')){
     $dates = array();
-    foreach(array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live') as $col){
-      if($this->$col && ($label = $this->columns[$col][1]['label']) ) $dates[$label] = date($format, strtotime($this->$col));
+    foreach($cols as $col){
+      if($this->$col){
+        if(!$use_label || (!$label = $this->columns[$col][1]['label'])) $label = $col;
+        $dates[$label] = date($format, strtotime($this->$col));
+      }
     }
     return $dates;
+  }
+
+  public function next_milestone($date=false, $labels=false){
+    $times = $this->times("Ymd", $labels);
+    if(!$date) $date = date("Ymd");
+    $compare = false;
+    foreach($times as $col=>$day){
+      if($day > $date){
+        $compare = array('day'=>$day, 'col'=>$col);
+        break;
+      }
+    }
+    return $compare;
   }
 }
 ?>

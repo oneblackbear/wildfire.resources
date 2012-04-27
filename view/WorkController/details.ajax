@@ -1,6 +1,10 @@
-<?$job = $model->job();?>
+<?
+$job = $model->job();
+$due = $model->due_date(true);
+?>
 <div class='clearfix split'>
   <h5><?=$model->title?></h5>
+  <h6 class='header <?=$model->tightness()?>'>(<strong><?=$model->date_string()?></strong>)</h6>
   <?if($job):?>
     <p><?=$job->content?></p>
   <?endif?>
@@ -8,7 +12,7 @@
 <?if($job):?>
 <div class='clearfix split'>
   <h6>Timings</h6>
-  <?foreach($job->times() as $name=>$value):?><p class='small'><strong><?=$name?>:</strong>&nbsp;<?=$value?></p><?endforeach?>
+  <?foreach($job->times() as $name=>$value):?><p class='small<?if($due['col'] == $name):?> active<?endif?>'><strong><?=$name?>:</strong>&nbsp;<?=$value?></p><?endforeach?>
 </div>
 <?endif?>
 <?if(($public = $model->public_comments()) && $public->count()):?>

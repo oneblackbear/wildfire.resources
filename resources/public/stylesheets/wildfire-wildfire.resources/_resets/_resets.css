@@ -69,3 +69,12 @@ table a{
 .no-margin{
   margin-bottom:0;
 }
+.small{
+  font-size:100%;
+  margin-bottom:5px;
+}
+
+.active{
+  padding:4px;
+  border:1px solid black;
+}
