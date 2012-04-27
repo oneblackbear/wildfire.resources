@@ -14,13 +14,19 @@ class WorkController extends BaseController{
                           'edit'=>array('owner', 'admin'),
                           'delete'=>array('owner', 'admin'),
                           'listing'=>array('owner'),
-                          'index'=>array('owner', 'admin', 'privileged')
+                          'index'=>array('owner', 'admin', 'privileged'),
+                          'details'=>array('owner', 'admin', 'privileged')
                         );
 
 
 
   public function listing(){
     parent::index();
+  }
+
+  //like the form, but non-editable
+  public function details(){
+    WaxEvent::run("model.setup", $this);
   }
 
   public function index(){

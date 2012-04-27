@@ -30,5 +30,17 @@
 .content{
   width:90%;
   padding:15px 5%;
+}
 
+.scrolling.small{
+  height:80px;
+  overflow:auto;
+}
+.scrolling.medium{
+  height:120px;
+  overflow: auto;
+}
+.scrolling.large{
+  height:180px;
+  overflow: auto;
 }

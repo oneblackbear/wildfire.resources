@@ -43,8 +43,16 @@ class Work extends WaxModel{
   }
 
   public function job(){
-    if(($jobs = $this->jobs) && ($job = $jons->first())) return $job;
+    if(($jobs = $this->jobs) && ($job = $jobs->first())) return $job;
     return false;
+  }
+
+  public function public_comments(){
+    if($job = $this->job()) return $job->comments;
+    return false;
+  }
+  public function private_comments(){
+    return $this->comments;
   }
 }
 ?>

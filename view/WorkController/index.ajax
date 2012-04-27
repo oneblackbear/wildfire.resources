@@ -1,5 +1,25 @@
+<?
+$cal_month = $table['current_month'];
+$cal_year = $table['current_year'];
+$start = $table['first_date_on_calendar'];
+$omonth = $cal_month;
+if($cal_month == 1){
+  $cal_month = 12;
+  $cal_year--;
+}else $cal_month = $cal_month-1;
+
+if($cal_month == 12){
+  $next_month = 1;
+  $next_year = $table['current_year']+1;
+}else{
+  $next_month = $table['current_month']+1;
+  $next_year = $table['current_year'];
+}
+$class = "previous";
+
+?>
 <div class='pagination_block clearfix top_pagintion'>
-  <h1>Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?></h1>
+  <h1><a href="?month=<?=$cal_month?>&amp;year=<?=$cal_year?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next_month?>&amp;year=<?=$next_year?>">&raquo;</a></h1>
 </div>
 <table class='calendar'>
   <thead>
@@ -15,14 +35,7 @@
   </thead>
   <tbody>
     <tr class="row">
-      <?
-      $cal_month = $table['current_month'];
-      $cal_year = $table['current_year'];
-      $start = $table['first_date_on_calendar'];
-      $omonth = $cal_month;
-      $cal_month = $cal_month-1;
-      $class = "previous";
-      ?>
+
       <?for($count=0; $count<$table['days_on_calendar']; $count++):?>
         <?
 
@@ -38,18 +51,17 @@
         if($cal_month < 10) $cal_month = "0".(int)$cal_month;
         if($start < 10) $start = "0".(int)$start;
         $index = $cal_year."-".$cal_month."-".$start;
-        if(isset($month_events[$index])){$extra_class = " event ";}
-        elseif($index == date("Y-m-d")){$extra_class =" today ";}
+        if($index == date("Y-m-d")){$extra_class =" today ";}
         else{$extra_class="";}
 
         $events = (array)$month_events[$index];
         ?>
 
       <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
-        <span class='calendar_date'><?=$start?></span>
+        <span class='calendar_date<?if($active_staff->role == "admin" || $active_staff->role == "owner"):?> dbl-click<?endif?>'><?=$start?></span>
         <?foreach($events as $primval):?>
           <?if($work = $calendar_content[$primval]):?>
-          <a href="#" id="w<?=$primval?>" class='work js-colour tiny' data-border-left="6px solid <?=$work->colour("staff")?>" data-background="<?=$work->colour()?>" data-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
+          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click' data-css-border-left="6px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
           <?endif?>
         <?endforeach?>
       </td>

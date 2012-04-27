@@ -35,5 +35,13 @@ class Job extends WildfireResource{
     else if($complete < $now) return $base . " due_past ";
     else return $base ." due_future ";
   }
+
+  public function times($format = "jS F Y"){
+    $dates = array();
+    foreach(array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live') as $col){
+      if($this->$col && ($label = $this->columns[$col][1]['label']) ) $dates[$label] = date($format, strtotime($this->$col));
+    }
+    return $dates;
+  }
 }
 ?>

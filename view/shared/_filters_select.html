@@ -6,6 +6,6 @@ $col = new $class("filters_select");
   <label for="filters_<?=$name?>"><?=$name?>:</label>
   <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
     <option value="">-- Any <?=ucwords($name)?> --</option>
-    <?foreach($col->all() as $id=>$row):?><option value='<?=$row->primval?>' class="js-colour" data-color="<?=$row->colour()?>"<?if($model_filters[$name] == $row->primval):?> selected="selected"<?endif?>><?=$row->humanize()?></option><?endforeach?>
+    <?foreach($col->all() as $id=>$row):?><option value='<?=$row->primval?>' class="stylize" data-css-color="<?=$row->colour()?>"<?if($model_filters[$name] == $row->primval):?> selected="selected"<?endif?>><?=$row->humanize()?></option><?endforeach?>
   </select>
 </div>

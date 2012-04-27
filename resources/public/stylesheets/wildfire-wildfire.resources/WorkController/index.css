@@ -13,6 +13,9 @@ td.next,
 td.previous{
   background:#ededed;
 }
+td.today{
+  background:#f1da36;
+}
 .work{
   padding:6px;
   display:block;

@@ -1,0 +1,29 @@
+<?$job = $model->job();?>
+<div class='clearfix split'>
+  <h5><?=$model->title?></h5>
+  <?if($job):?>
+    <p><?=$job->content?></p>
+  <?endif?>
+</div>
+<?if($job):?>
+<div class='clearfix split'>
+  <h6>Timings</h6>
+  <?foreach($job->times() as $name=>$value):?><p class='small'><strong><?=$name?>:</strong>&nbsp;<?=$value?></p><?endforeach?>
+</div>
+<?endif?>
+<?if(($public = $model->public_comments()) && $public->count()):?>
+<div class="clearfix split scrolling small">
+  <h6>Public Comments</h6>
+  <?foreach($public as $comment):?>
+  <a href="#" class='comment_link inline_load'><?=$comment->title?></a>
+  <?endforeach?>
+</div>
+<?endif?>
+<?if(($private = $model->private_comments()) && $private->count()):?>
+<div class="clearfix split scrolling small">
+  <h6>Private Comments</h6>
+  <?foreach($private as $comment):?>
+  <a href="#" class='comment_link inline_load'><?=$comment->title?></a>
+  <?endforeach?>
+</div>
+<?endif?>
