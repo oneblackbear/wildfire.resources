@@ -2,7 +2,7 @@
 class Work extends WaxModel{
 
   public static $status_options = array('scheduled'=>'scheduled', 'completed'=>'completed');
-  public static $cache = array();
+  public static $cached = array();
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
     $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
@@ -41,25 +41,23 @@ class Work extends WaxModel{
   }
 
   public function who(){
-    if($who = Work::$cache['who'][$this->primval]) return $who;
+    if($who = Work::$cached['who'][$this->primval]) return $who;
     else if(($staff = $this->staff) && $staff->count() && ($first = $staff->first())){
-      Work::$cache[$this->primval]['who'] = $first->title;
+      Work::$cached[$this->primval]['who'] = $first->title;
       return $first->title;
     }
     else return "?";
   }
   public function colour($join="jobs", $weight=false, $func="lighten"){
-    if($colour = Work::$cache['colour'][$join][$weight][$func][$this->primval]) return $colour;
-    else if(($items = $this->$join) && ($item = $items->first())){
-      Work::$cache['colour'][$join][$weight][$func][$this->primval] = $item->colour(false, $weight, $func);
-      return Work::$cache['colour'][$join][$weight][$func][$this->primval];
+    if(($items = $this->$join) && ($item = $items->first())){
+      return $item->colour(false, $weight, $func);
     }else return "#ececec";
   }
 
   public function job(){
-    if($j = Work::$cache['job'][$this->primval]) return new Job($j);
+    if($j = Work::$cached['job'][$this->primval]) return new Job($j);
     else if(($jobs = $this->jobs) && ($job = $jobs->first())){
-      Work::$cache['job'][$this->primval] = $job->primval;
+      Work::$cached['job'][$this->primval] = $job->primval;
       return $job;
     }
     return false;
@@ -119,7 +117,7 @@ class Work extends WaxModel{
    * nice helper function to say how tight a class is
    */
   public function tightness(){
-    if($tight = Work::$cache['tightness'][$this->primval]) return $tight;
+    if($tight = Work::$cached['tightness'][$this->primval]) return $tight;
     else if($compare = $this->due_date()){
       $start_date = date("Ymd", strtotime($this->date_start));
       $diff = date_diff(date_create($start_date), date_create($compare['day']));
@@ -128,7 +126,7 @@ class Work extends WaxModel{
       else if($val <= 3) $tight = "eye-of-needle";
       else if($val <= 5) $tight = "breath-easy";
       else $tight = "eon";
-      Work::$cache['tightness'][$this->primval] = $tight;
+      Work::$cached['tightness'][$this->primval] = $tight;
       return $tight;
     }
     return "unkown";

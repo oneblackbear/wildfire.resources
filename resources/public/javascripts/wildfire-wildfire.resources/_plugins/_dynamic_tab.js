@@ -11,7 +11,8 @@ jQuery(document).ready(function(){
       type:"get",
       success:function(res){
         tab.find(".inside").html(res);
-        jQuery(".help_tab .help.button").trigger("click");
+        if(tab.hasClass("show")) jQuery(".help_tab .help.button").trigger("click").trigger("click");
+        else jQuery(".help_tab .help.button").trigger("click");
       }
     });
   });
