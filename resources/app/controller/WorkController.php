@@ -4,8 +4,7 @@ class WorkController extends BaseController{
   public $form_name = "work_form";
   public $name = "Work";
   public $filter_fields=array(
-                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
-                          'departments' => array('columns'=>array('departments'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
+                          'department' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
   public $navigation_links = array('index', 'create', 'listing');

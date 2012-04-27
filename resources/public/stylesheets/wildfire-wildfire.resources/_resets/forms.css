@@ -90,6 +90,7 @@ form span textarea{
 form span select{
   width:52%;
 }
+form span.no-label select{width:98%;}
 
 .inline_fields .error_message{display:none;}
 form.updated{

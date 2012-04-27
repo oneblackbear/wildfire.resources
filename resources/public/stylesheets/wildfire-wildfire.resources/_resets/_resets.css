@@ -44,6 +44,9 @@ p, li{
 p{
   margin-bottom:15px;
 }
+p > strong{
+  font-weight:bold;
+}
 table{
   width:100%;
   background:white;
@@ -52,6 +55,7 @@ table{
 td,th{
   padding:6px 8px;
   font-size:108%;
+  vertical-align:top;
 }
 th{
   font-weight:bold;
@@ -77,4 +81,8 @@ table a{
 .active{
   padding:4px;
   border:1px solid black;
+}
+
+.dbl-click{
+  cursor:pointer;
 }

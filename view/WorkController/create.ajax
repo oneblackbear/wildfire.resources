@@ -1,0 +1,46 @@
+<form action="#step" method="get" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax">
+  <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span>Create new <?=$controller?></span></h5>
+  <?=$$form_name->errors();?>
+
+  <?
+  $jobs = new Job("live");
+  $staff = new Staff;
+  $dept = new Department;
+  ?>
+  <div class='split clearfix'>
+    <span class='clearfix no-label'>
+      <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
+      <?foreach($jobs->filter("group_token", $active_staff->group_token)->all() as $job):?>
+      <option value="<?=$job->primval?>"><?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
+      <?endforeach?>
+      </select>
+    </span>
+  </div>
+
+  <div class='split clearfix'>
+    <span class='clearfix no-label'>
+      <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
+      <?foreach($dept->filter("group_token", $active_staff->group_token)->all() as $dep):?>
+      <option value="<?=$dep->primval?>"><?=$dep->title?></option>
+      <?endforeach?>
+      </select>
+    </span>
+  </div>
+
+  <div class='split clearfix'>
+    <span class='clearfix no-label'>
+      <select name="<?=$model->table?>[staff_id]" id="<?=$model->table?>_staff">
+      <?foreach($staff->filter("group_token", $active_staff->group_token)->all() as $staff):?>
+      <option value="<?=$staff->primval?>"><?=$staff->title?></option>
+      <?endforeach?>
+      </select>
+    </span>
+  </div>
+
+  <div class='split clearfix'>
+    <span class='clearfix'><?=$$form_name->date_start->render();?></span>
+    <span class='clearfix'><?=$$form_name->date_end->render();?></span>
+    <span class='clearfix'><?=$$form_name->hours->render();?></span>
+  </div>
+  <input type="submit" name="form_submit" value="Save" class='button submit_button'>
+</form>

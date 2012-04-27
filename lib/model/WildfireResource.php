@@ -58,10 +58,13 @@ class WildfireResource extends WaxModel{
     if($this->columns['content']) $this->content =  CmsTextFilter::filter("before_save", $this->content);
     if(!$this->saved_colour){
       $colours = new CSSColour;
-      $this->saved_colour = $colours->RGB2Hex(array(rand(0,255), rand(0,255), rand(0,255)));
+      $this->saved_colour = $colours->RGB2Hex($this->get_rgb());
     }
   }
 
+  public function get_rgb(){
+    return array(rand(125,255), rand(125,255), rand(125,255));
+  }
   public function css_selector(){
     return Inflections::underscore($this->title);
   }

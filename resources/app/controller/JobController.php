@@ -5,7 +5,7 @@ class JobController extends BaseController{
   public $name = "Jobs";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
-                          'departments' => array('columns'=>array('departments'), 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs')
+                          'departments' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs')
                         );
   public $navigation_links = array('index', 'create', 'listing');
   public $permissions = array(
@@ -31,10 +31,10 @@ class JobController extends BaseController{
   public function _summary(){
     $model = new $this->model_class;
     //standard staff (clients) can only see jobs attached to them
-    if($this->active_staff->role == 'standard'){
+    if($controller->active_staff->role == 'standard'){
       $orgs = array(0);
-      foreach($this->active_staff->organisations as $o) $orgs[] = $o->primval;
-      $model = $model->filter("organisation_id", $orgs);
+      foreach($controller->active_staff->organisations as $o) $orgs[] = $o->primval;
+      $controller->model = $controller->model->filter("organisation_id", $orgs);
     }
     $this->all = $model->filter("group_token", $this->active_staff->group_token)->all();
   }
@@ -50,22 +50,8 @@ class JobController extends BaseController{
     $this->this_page = false;
     parent::index();
     $this->use_view = "index";
-    /**
-     * from all data we now have find those that either have no work attached,
-     * or who have work items that aren't set as complete
-     */
-    $ongoing = array();
-    foreach($this->cms_content as $row){
-      //as soon as find an item thats not complete, remove the job from the list & break out
-      foreach($row->work as $item){
-        if($item->primval && $item->status == "completed"){
-          $this->cms_content->filter("id", $row->primval, "!=");
-          break;
-        }
-      }
-    }
     //restrict the data to the ongoing versions
-    $this->cms_content = $this->cms_content->order("date_go_live ASC")->all();
+    $this->cms_content = $this->cms_content->scope("live")->order("date_go_live ASC")->all();
   }
 
   /**

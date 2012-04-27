@@ -188,6 +188,7 @@ class BaseController extends WaxController{
     WaxEvent::add("form.setup", function(){
       $controller = WaxEvent::data();
       if($controller->model->columns['group_token']) $controller->model->group_token = $controller->active_staff->group_token;
+      if($data = Request::param("pre_".$controller->model->table)) foreach($data as $c=>$v) $controller->model->$c = $v;
       if(!$controller->{$controller->form_name}) $controller->{$controller->form_name} = new WaxForm($controller->model);
     });
   }

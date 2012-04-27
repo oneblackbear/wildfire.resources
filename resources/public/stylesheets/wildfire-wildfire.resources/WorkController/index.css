@@ -4,7 +4,7 @@ table.calendar th{
   border-bottom:1px solid rgb(214,214,214);
 }
 table.calendar td{padding:0;}
-span.calendar_date{
+.calendar_date{
   display:block;
   padding:4px 6px;
   margin-bottom:4px;
@@ -14,7 +14,7 @@ td.previous{
   background:#ededed;
 }
 td.today{
-  background:#f1da36;
+  background:#CEF7A3;
 }
 .work{
   padding:6px;
@@ -27,12 +27,16 @@ td.today{
 .header.gnats-ass{
   color:red;
 }
-.header.breath-easy{
-  color:#207cca;
-}
-.header.eye-of-needle{
+.header.easy-peasy{
   color:#299a0b;
+}
+.header.room-to-spare{
+  color:#207cca;
 }
 .header.eon{
   color:black;
+}
+
+td.highlight{
+  background:#f1da36;
 }

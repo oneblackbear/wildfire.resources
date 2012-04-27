@@ -16,7 +16,7 @@ if($cal_month == 12){
   $next_year = $table['current_year'];
 }
 $class = "previous";
-
+$now = date("Ymd");
 ?>
 <div class='pagination_block clearfix top_pagintion'>
   <h1><a href="?month=<?=$cal_month?>&amp;year=<?=$cal_year?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next_month?>&amp;year=<?=$next_year?>">&raquo;</a></h1>
@@ -58,10 +58,14 @@ $class = "previous";
         ?>
 
       <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
-        <span class='calendar_date<?if($active_staff->role == "admin" || $active_staff->role == "owner"):?> dbl-click<?endif?>'><?=$start?></span>
+        <?if(($active_staff->role == "admin" || $active_staff->role == "owner") && (str_replace("-", "", $index) >= $now) ):?>
+        <a href="/<?=$controller?>/create/" data-col_start="pre_<?=$model->table?>[date_start]" data-col_end="pre_<?=$model->table?>[date_end]" data-col_value="<?=$index?>" class='calendar_date range-click'><?=$start?></a>
+        <?else:?>
+        <span class='calendar_date'><?=$start?></span>
+        <?endif?>
         <?foreach($events as $primval):?>
           <?if($work = $calendar_content[$primval]):?>
-          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
+          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
           <?endif?>
         <?endforeach?>
       </td>

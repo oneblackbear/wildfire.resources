@@ -5,19 +5,19 @@ class Work extends WaxModel{
   public static $cached = array();
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
-    $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("staff", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
 
     $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships'));
-    $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true));
-    $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true));
-    $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true));
+    $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true, 'required'=>true));
+    $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true, 'required'=>true));
+    $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true, 'required'=>true));
     $this->define("hours_used", "FloatField", array('maxlength'=>'12,2', 'label'=>'Actual hours used so far'));
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
 
 
-    $this->define("jobs", "ManyToManyField", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships'));
-    $this->define("clients", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships'));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true,'required'=>true));
 
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
@@ -29,15 +29,23 @@ class Work extends WaxModel{
     $this->date_created = date("Y-m-d H:i:s");
   }
   public function before_save(){
-    parent::before_save();
+
     if(!$this->title) $this->title = "WORK";
+    if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
     $this->date_modified = date("Y-m-d H:i:s");
 
-    //if this has been joined to a job, check to make sure the time is before the end date of the job
-    if(($job = $this->job()) && ($end = date("Ymd", strtotime($job->date_go_live)))){
-      if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot start after the deadline for '$job->title' ($job->date_go_live)");
-      if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work end date must be before the deadline of '$job->title' ($job->date_go_live)");
+    if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
+      $this->title = $job->title;
+      $this->organisation_id = $job->organisation_id;
+
+      //if this has been joined to a job, check to make sure the time is before the end date of the job
+      if(($end = date("Ymd", strtotime($job->date_go_live)))){
+        if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot start after the deadline for '$job->title' ($job->date_go_live)");
+        if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work end date must be before the deadline of '$job->title' ($job->date_go_live)");
+      }
+
     }
+    parent::before_save();
   }
 
   public function who(){
@@ -48,23 +56,15 @@ class Work extends WaxModel{
     }
     else return "?";
   }
-  public function colour($join="jobs", $weight=false, $func="lighten"){
-    if(($items = $this->$join) && ($item = $items->first())){
-      return $item->colour(false, $weight, $func);
-    }else return "#ececec";
+  public function colour($join="job", $weight=false, $func="lighten"){
+    if($this->columns[$join][0] == "ForeignKey" && ($item = $this->$join) && ($item)) return $item->colour(false, $weight, $func);
+    else if($items = $this->$join && ($item = $items->first())) return $item->colour(false, $weight, $func);
+    else return "#ff0000";
   }
 
-  public function job(){
-    if($j = Work::$cached['job'][$this->primval]) return new Job($j);
-    else if(($jobs = $this->jobs) && ($job = $jobs->first())){
-      Work::$cached['job'][$this->primval] = $job->primval;
-      return $job;
-    }
-    return false;
-  }
 
   public function public_comments(){
-    if($job = $this->job()) return $job->comments;
+    if($job = $this->job) return $job->comments;
     return false;
   }
   public function private_comments(){
@@ -110,7 +110,7 @@ class Work extends WaxModel{
    * and returns that
    */
   public function due_date($labels=false){
-    if($job = $this->job()) return $job->next_milestone(date("Ymd", strtotime($this->date_start)), $labels);
+    if($job = $this->job) return $job->next_milestone(date("Ymd", strtotime($this->date_start)), $labels);
     return false;
   }
   /**
@@ -119,12 +119,12 @@ class Work extends WaxModel{
   public function tightness(){
     if($tight = Work::$cached['tightness'][$this->primval]) return $tight;
     else if($compare = $this->due_date()){
-      $start_date = date("Ymd", strtotime($this->date_start));
+      $start_date = date("Ymd", strtotime($this->date_end));
       $diff = date_diff(date_create($start_date), date_create($compare['day']));
       $val = $diff->format("%R%a");
       if($val <= 1) $tight = "gnats-ass";
-      else if($val <= 3) $tight = "eye-of-needle";
-      else if($val <= 5) $tight = "breath-easy";
+      else if($val <= 3) $tight = "easy-peasy";
+      else if($val <= 5) $tight = "room-to-spare";
       else $tight = "eon";
       Work::$cached['tightness'][$this->primval] = $tight;
       return $tight;

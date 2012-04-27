@@ -15,7 +15,27 @@ class Job extends WildfireResource{
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
   }
-
+  /**
+   * from all data we now have find those that either have no work attached,
+   * or who have work items that aren't set as complete
+   */
+  public function scope_live(){
+    $cms_content = new Job;
+    foreach($cms_content as $row){
+      //as soon as find an item thats not complete, remove the job from the list & break out
+      foreach($row->work as $item){
+        if($item->primval && $item->status == "completed"){
+          $this->filter("id", $row->primval, "!=");
+          break;
+        }
+      }
+    }
+    $this->order("date_go_live ASC");
+    return $this;
+  }
+  public function scope_filters_select(){
+    return $this->scope_live();
+  }
   public function is_editable(){
     $allowed = false;
     if(Session::get("LOGGED_IN_ROLE") == "owner" || Session::get("LOGGED_IN_ROLE") == "admin") return true;
@@ -59,5 +79,10 @@ class Job extends WildfireResource{
     }
     return $compare;
   }
+
+  public function get_rgb(){
+    return array(rand(0,124), rand(0,124), rand(0,124));
+  }
+
 }
 ?>
