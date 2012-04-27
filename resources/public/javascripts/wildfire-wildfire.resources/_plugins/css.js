@@ -8,6 +8,7 @@ jQuery(document).ready(function(){
       for(var i in data){
         if(i.substring(0,3) == "css"){
           var prop = i.replace("css", "").toLowerCase();
+          if(prop == "border") prop = "border-left";
           obj.css(prop, data[i]);
         }
       }

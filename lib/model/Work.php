@@ -2,7 +2,7 @@
 class Work extends WaxModel{
 
   public static $status_options = array('scheduled'=>'scheduled', 'completed'=>'completed');
-
+  public static $cache = array();
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
     $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
@@ -34,23 +34,34 @@ class Work extends WaxModel{
     $this->date_modified = date("Y-m-d H:i:s");
 
     //if this has been joined to a job, check to make sure the time is before the end date of the job
-    if(($job = $this->job()) && ($end = date("Ymd", strtotime($job->date_end)))){
-      if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot be scheduled after the deadline");
-      if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work cannot be scheduled after the deadline");
+    if(($job = $this->job()) && ($end = date("Ymd", strtotime($job->date_go_live)))){
+      if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot start after the deadline for '$job->title' ($job->date_go_live)");
+      if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work end date must be before the deadline of '$job->title' ($job->date_go_live)");
     }
   }
 
   public function who(){
-    if(($staff = $this->staff) && $staff->count() && ($first = $staff->first())) return $first->title;
+    if($who = Work::$cache['who'][$this->primval]) return $who;
+    else if(($staff = $this->staff) && $staff->count() && ($first = $staff->first())){
+      Work::$cache[$this->primval]['who'] = $first->title;
+      return $first->title;
+    }
     else return "?";
   }
   public function colour($join="jobs", $weight=false, $func="lighten"){
-    if(($items = $this->$join) && ($item = $items->first())) return $item->colour(false, $weight, $func);
-    else return "#ececec";
+    if($colour = Work::$cache['colour'][$join][$weight][$func][$this->primval]) return $colour;
+    else if(($items = $this->$join) && ($item = $items->first())){
+      Work::$cache['colour'][$join][$weight][$func][$this->primval] = $item->colour(false, $weight, $func);
+      return Work::$cache['colour'][$join][$weight][$func][$this->primval];
+    }else return "#ececec";
   }
 
   public function job(){
-    if(($jobs = $this->jobs) && ($job = $jobs->first())) return $job;
+    if($j = Work::$cache['job'][$this->primval]) return new Job($j);
+    else if(($jobs = $this->jobs) && ($job = $jobs->first())){
+      Work::$cache['job'][$this->primval] = $job->primval;
+      return $job;
+    }
     return false;
   }
 
@@ -108,14 +119,17 @@ class Work extends WaxModel{
    * nice helper function to say how tight a class is
    */
   public function tightness(){
-    if($compare = $this->due_date()){
+    if($tight = Work::$cache['tightness'][$this->primval]) return $tight;
+    else if($compare = $this->due_date()){
       $start_date = date("Ymd", strtotime($this->date_start));
       $diff = date_diff(date_create($start_date), date_create($compare['day']));
       $val = $diff->format("%R%a");
-      if($val <= 1) return "gnats-ass";
-      else if($val <= 3) return "eye-of-needle";
-      else if($val <= 5) return "breath-easy";
-      else return "eon";
+      if($val <= 1) $tight = "gnats-ass";
+      else if($val <= 3) $tight = "eye-of-needle";
+      else if($val <= 5) $tight = "breath-easy";
+      else $tight = "eon";
+      Work::$cache['tightness'][$this->primval] = $tight;
+      return $tight;
     }
     return "unkown";
   }

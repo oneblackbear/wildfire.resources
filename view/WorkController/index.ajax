@@ -61,7 +61,7 @@ $class = "previous";
         <span class='calendar_date<?if($active_staff->role == "admin" || $active_staff->role == "owner"):?> dbl-click<?endif?>'><?=$start?></span>
         <?foreach($events as $primval):?>
           <?if($work = $calendar_content[$primval]):?>
-          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click' data-css-border-left="6px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
+          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("jobs", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
           <?endif?>
         <?endforeach?>
       </td>
