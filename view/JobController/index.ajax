@@ -2,8 +2,9 @@
   <h1>Current <?=(($name) ? $name : ucwords($controller))?></h1>
 </div>
 <?foreach($cms_content as $content):?>
+  <?$client = $content->client?>
 <div class='row repeat clearfix <?=$content->css_selector()?>'>
-  <h3 class='no-margin clearfix'><span class='date'><?=$content->completion_date()?></span><?=$content->title?></h3>
+  <h3 class='no-margin clearfix'><span class='date'>(<?=$client->title?> @ <?=$content->completion_date()?>)</span><?=$content->title?></h3>
   <div class='block clearfix'>
     <div class='info extra clearfix'>
       <p><?=word_truncation($content->content, 30, true)?></p>

@@ -19,6 +19,10 @@
 .todos form.no-border.no-margin label{
   font-size:146.5%;
   font-weight:normal;
+  width:60%;
+}
+.todos form.no-border.no-margin label small{
+  font-size:55%;
 }
 .todos form.no-border.no-margin input[type="checkbox"]{
   margin-top:5px;
@@ -36,4 +40,5 @@
   display:inline-block;
   margin:0 0 0 10px;
   padding:7px 8px;
+  float:right;
 }

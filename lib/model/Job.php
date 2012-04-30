@@ -72,12 +72,15 @@ class Job extends WildfireResource{
     if(!$date) $date = date("Ymd");
     $compare = false;
     foreach($times as $col=>$day){
-      if($day > $date){
+      if($day >= $date){
         $compare = array('day'=>$day, 'col'=>$col);
         break;
       }
     }
     return $compare;
+  }
+  public function deadline(){
+    return $this->completion_date("d M");
   }
 
   public function get_rgb(){

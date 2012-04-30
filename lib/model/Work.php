@@ -87,7 +87,7 @@ class Work extends WaxModel{
     $emed = date("md", $end);
     $end_short = $start_short = "";
     $start_txt = date("jS F", $start);
-    $start_short = date("D j M", $start);
+    $start_short = date("j M", $start);
 
     if(date("Y") != date("Y", $start)){
       $start_txt .= " " .date("Y", $start);
@@ -96,7 +96,7 @@ class Work extends WaxModel{
     //if not on the same day
     if($smsd != $emed){
       $end_text = " - " .date("jS F", $end);
-      $end_short = " - ". date("D j M", $end);
+      $end_short = " - ". date("j M", $end);
     }
     if(date("Y", $start) != date("Y", $end)){
       $end_text .= " " .date("Y", $end);
@@ -107,7 +107,7 @@ class Work extends WaxModel{
 
   public function date_string(){
     $times = $this->start_end_times();
-    return $times['string'];
+    return $times['short_string'];
   }
   /**
    * return when the due date for the job is, this is an educated guess
