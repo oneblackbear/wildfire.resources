@@ -49,7 +49,7 @@ $next = $table['next_info'];
         <?foreach($events as $primval=>$i):?>
           <?$work = $calendar_content[$primval];?>
           <?if($work && ($work instanceOf Work)):?>
-            <?$used += ($work->hours_used)? $work->hours_used : $work->hours;?>
+            <?$used += $work->hours;?>
             <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
           <?elseif($work && $work instanceOf Job):?>
             <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>

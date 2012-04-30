@@ -1,0 +1,10 @@
+<?
+$due = $model->due_date(true);
+?>
+<form action="#step" method="post" class='async editing row no-border no-margin<?if($model->status == "completed"):?> completed<?endif?>'  data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax">
+  <?=$$form_name->errors()?>
+  <input type="hidden" name="<?=$model->table?>[status]" value="scheduled">
+  <span class='header no-margin <?=$model->tightness()?> padded'>(<?=$model->date_string()?>) <small><?=$model->hours?> hrs per day</small></span>
+  <span class='no-margin clearfix checkbox'><input type="checkbox" name="<?=$model->table?>[status]" value="completed"<?if($model->status == "completed"):?> checked="checked"<?endif?> class='input_field checkbox'><label class='dbl-click' data-href="/<?=$controller?>/details/<?=$model->primval?>/" title="click for details"><?=$model->title?></label> <input type="text" name="<?=$model->table?>[hours_used]" class='small inline' value="<?=$model->hours_used?>" placeholder="hours used"> <input type="submit" class="button submit_button" value="update" name="form_update"></span>
+
+</form>

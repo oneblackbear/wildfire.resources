@@ -15,7 +15,8 @@ class WorkController extends BaseController{
                           'listing'=>array('owner'),
                           'index'=>array('owner', 'admin', 'privileged'),
                           'details'=>array('owner', 'admin', 'privileged'),
-                          'todo'=>array('owner', 'admin', 'privileged')
+                          'todo'=>array('owner', 'admin', 'privileged'),
+                          'update'=>array('owner', 'admin', 'privileged')
                         );
 
 
@@ -69,8 +70,14 @@ class WorkController extends BaseController{
     ksort($this->month_events);
   }
 
+  public function update(){
+    WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
+  }
+
   public function todo(){
     unset($this->filter_fields['department']);
+    //add in the days filter
     $this->filter_fields['days'] = array(
                                     'columns'=>array('date_start', 'date_end'),
                                     'partial'=>'_filters_range',
@@ -86,7 +93,7 @@ class WorkController extends BaseController{
     }
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
-    $this->cms_content = $this->cms_content->order("date_start ASC")->all();
+    if($this->cms_content) $this->cms_content = $this->cms_content->order("date_start ASC")->all();
   }
 
 }

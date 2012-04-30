@@ -94,7 +94,7 @@ class Staff extends WildfireResource{
         $work[$row->primval]['title'] = $row->title;
         $range = $cal->date_range_array($row->date_start, $row->date_end);
         foreach($range as $index=>$bool){
-          $work[$row->primval]['hours'][$index] = ($row->hours_used) ? $row->hours_used : $row->hours;
+          $work[$row->primval]['hours'][$index] = $row->hours;
           $d = date("Ymd", strtotime($d+1));
         }
       }

@@ -2,3 +2,38 @@
   float:right;
   width:40%;
 }
+.todos .todo_list{
+  float:left;
+  width:52%;
+}
+
+.padded{
+  padding-left:16px;
+}
+
+.todos form.no-border.no-margin{
+  padding-bottom:5px;
+  margin-bottom:5px;
+  border-bottom:1px solid rgba(94, 94, 94, 0.2) !important;
+}
+.todos form.no-border.no-margin label{
+  font-size:146.5%;
+  font-weight:normal;
+}
+.todos form.no-border.no-margin input[type="checkbox"]{
+  margin-top:5px;
+}
+
+.todos form input.small{
+  padding:5px;
+}
+.todos form input.inline{
+  border-width:0;
+  width:15%;
+}
+.todos form input.submit_button{
+  width:auto;
+  display:inline-block;
+  margin:0 0 0 10px;
+  padding:7px 8px;
+}

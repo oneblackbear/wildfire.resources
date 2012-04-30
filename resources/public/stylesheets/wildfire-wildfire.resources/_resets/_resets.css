@@ -73,6 +73,12 @@ table a{
 .no-margin{
   margin-bottom:0;
 }
+.no-border,
+form.no-border,
+div.no-border,
+body div .no-border{
+  border-width:0 !important;
+}
 .small{
   font-size:100%;
   margin-bottom:5px;

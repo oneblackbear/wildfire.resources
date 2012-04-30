@@ -10,10 +10,6 @@ $staff = new Staff;
   <div class='clearfix split'>
     <h5><?=$model->title?></h5>
     <h6 class='header <?=$model->tightness()?>'>(<strong><?=$model->date_string()?></strong>)<br><small><?=$model->hours?> hrs per day</small></h6>
-    <?if($staff = $model->staff):?>
-    <p class='no-margin'><strong><?=$staff->title?></strong></p>
-    <?endif?>
-
     <?if($active_staff->role == "admin" || $active_staff->role == "owner"):?>
     </div>
     <div class='split clearfix details'>
@@ -35,6 +31,9 @@ $staff = new Staff;
 
     <?if($job):?>
     <h6>Details</h6>
+    <?if($staff = $model->staff):?>
+    <p class='no-margin'><strong><?=$staff->title?></strong></p>
+    <?endif?>
     <div class='scrolling medium'><p class='small'><?=$job->content?></p></div>
     <?endif?>
 

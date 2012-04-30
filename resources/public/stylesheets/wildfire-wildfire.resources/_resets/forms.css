@@ -81,6 +81,17 @@ form input[type="text"][disabled="disabled"]{
   background:#f7f7f7;
 
 }
+form input[type="checkbox"]{
+  width:auto !important;
+  margin-right:1%;
+  float:left;
+}
+body form span.checkbox{
+  margin-top:3px;
+}
+body form span.checkbox label{
+  padding:0;
+}
 
 form span input,
 form span select,
@@ -155,4 +166,13 @@ form .split{
   margin:5px 0;
   padding:10px 0 0 0;
   border-bottom:1px solid rgba(204,204,204,0.5);
+}
+
+form.completed label,
+form.completed span,
+form.completed h3,
+form.completed h4,
+form.completed h5
+{
+  text-decoration:line-through;
 }

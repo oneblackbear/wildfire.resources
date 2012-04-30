@@ -65,8 +65,7 @@ class Work extends WaxModel{
   }
 
   public function hours_spent(){
-    if($this->hours_used) return $this->hours_used.":".$this->hours;
-    else return $this->hours;
+    return $this->hours;
   }
 
   public function public_comments(){
