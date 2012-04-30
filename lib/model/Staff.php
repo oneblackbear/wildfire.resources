@@ -88,12 +88,12 @@ class Staff extends WildfireResource{
   public function work_by_date($start, $end){
     $work = array();
     if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
-    elseif(($worked = $this->work) && ($worked = $worked->between($start,$end)->all())){
+    elseif(($worked = $this->work) && ($worked = $worked->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all())){
       $cal = new Calendar;
       foreach($worked as $row){
         $work[$row->primval]['title'] = $row->title;
-        $range = $cal->date_range_array($row->date_start, $row->date_end);
-        foreach($range as $index=>$bool){
+        $range = array_intersect(array_keys($cal->date_range_array($start, $end)), array_keys($cal->date_range_array($row->date_start, $row->date_end)) );
+        foreach($range as $index){
           $work[$row->primval]['hours'][$index] = $row->hours;
           $d = date("Ymd", strtotime($d+1));
         }
@@ -106,6 +106,7 @@ class Staff extends WildfireResource{
   public function usage($start, $end){
     if($cache = Staff::$work_cache['totals'][$start.$end]) return $cache;
     $work = $this->work_by_date($start, $end);
+
     $total_work = 0;
     foreach($work as $day) foreach($day['hours'] as $t) $total_work+= $t;
     return $total_work;

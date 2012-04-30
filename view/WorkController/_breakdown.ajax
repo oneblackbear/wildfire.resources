@@ -3,11 +3,9 @@ $totals = array();
 if(!$chart_type) $chart_type = "ColumnChart";
 ?>
 <div class='staff_summary clearfix row repeat clearfix graph_summary <?=$date_start."-".$date_end?>'>
-  <?if(!$no_name):?>
   <div class='profile'>
-    <h3 class='no-margin clearfix'><span class='date'>using <?=$person->usage($date_start, $date_end)?>hrs</span><?=$person->title?> (<small><?=date("d M", strtotime($date_start))?> - <?=date("d M", strtotime($date_end))?></small>)</h3>
+    <h3 class='no-margin clearfix'><span class='date'>using <?=$person->usage($date_start, $date_end)?>hrs</span><?if(!$no_name):?><?=$person->title?><?endif?> (<small><?=date("d M", strtotime($date_start))?> - <?=date("d M", strtotime($date_end))?></small>)</h3>
   </div>
-  <?endif?>
   <table class='staff_data data tiny graph job_graph' data-type="<?=$chart_type?>">
     <thead>
     <tr>
