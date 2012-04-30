@@ -82,21 +82,24 @@ class BaseController extends WaxController{
       $filterstring = "";
       foreach((array)$obj->model_filters as $name=>$value){
         $col_filter = "";
-        if(strlen($value) && $filter = $obj->filter_fields[$name]){
-          foreach($filter['columns'] as $col){
-            if($opp = $filter['opposite_join_column']){
-              $target = $obj->model->columns[$col][1]['target_model'];
-              $join = new $target($value);
-              $ids = array(0);
-              foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
-              $col_filter .= "(`".$obj->model->primary_key."` IN(".implode(",",$ids).")) OR";
+        if(strlen($value) && ($filter = $obj->filter_fields[$name])){
+          if($filter['columns']){
+            foreach($filter['columns'] as $col){
+              if($opp = $filter['opposite_join_column']){
+                $target = $obj->model->columns[$col][1]['target_model'];
+                $join = new $target($value);
+                $ids = array(0);
+                foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
+                $col_filter .= "(`".$obj->model->primary_key."` IN(".implode(",",$ids).")) OR";
+              }
+              elseif($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
+              elseif($filter['fuzzy_right']) $col_filter .= "`$col` LIKE '".($value)."%' OR";
+              elseif($filter['fuzzy_left']) $col_filter .= "`$col` LIKE '%".($value)."' OR";
+              elseif($filter['dates'] && ($choices = $filter['choices']) && ($range = $choices[$value])) $col_filter .= "(`$col` BETWEEN '".date("Y-m-d", strtotime($range['min']))."' AND '".date("Y-m-d", strtotime($range['max']))."') OR ";
+              else $col_filter .= "`$col`='".($value)."' OR";
             }
-            elseif($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
-            elseif($filter['fuzzy_right']) $col_filter .= "`$col` LIKE '".($value)."%' OR";
-            elseif($filter['fuzzy_left']) $col_filter .= "`$col` LIKE '%".($value)."' OR";
-            else $col_filter .= "`$col`='".($value)."' OR";
+            $filterstring .= "(".trim($col_filter, " OR").") AND ";
           }
-          $filterstring .= "(".trim($col_filter, " OR").") AND ";
         }
       }
 

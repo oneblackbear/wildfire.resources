@@ -7,9 +7,11 @@ TODO:
   - on creating user, send invite email
   - password reset page
   - user profile page
+  JOB:
+  - on create / modify send email to admins about the new job (optional flag)
   WORK:
-  - summary
   - todo list
+  - on create / modify send email to staff member assigned (optional flag)
   REPORTS:
   - all of it!
 

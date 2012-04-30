@@ -1,0 +1,9 @@
+<div class='status_filter parent_filter'>
+  <label for="filters_<?=$name?>"><?=$name?>:</label>
+  <select name="filters[<?=$name?>]" id="filters_<?=$name?>">
+    <option value="">-- Any <?=ucwords($name)?> --</option>
+    <?foreach($field['choices'] as $choice=>$vals):?>
+    <option value="<?=$choice?>" <?if($model_filters[$name] == $choice):?> selected="selected"<?endif?>><?=$choice?></option>
+    <?endforeach?>
+  </select>
+</div>

@@ -7,14 +7,15 @@ class WorkController extends BaseController{
                           'department' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
-  public $navigation_links = array('index', 'create', 'listing');
+  public $navigation_links = array('index', 'create', 'listing', 'todo');
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
                           'delete'=>array('owner', 'admin'),
                           'listing'=>array('owner'),
                           'index'=>array('owner', 'admin', 'privileged'),
-                          'details'=>array('owner', 'admin', 'privileged')
+                          'details'=>array('owner', 'admin', 'privileged'),
+                          'todo'=>array('owner', 'admin', 'privileged')
                         );
 
 
@@ -68,7 +69,17 @@ class WorkController extends BaseController{
       $this->month_events[$end]["j".$row->primval] = $row->primval;
     }
     ksort($this->month_events);
+  }
 
+  public function todo(){
+    unset($this->filter_fields['department']);
+    $this->filter_fields['days'] = array('columns'=>array('date_start', 'date_end'), 'partial'=>'_filters_range', 'dates'=>true,'choices'=>array('-1, now, +1'=>array('min'=>'yesterday', 'max'=>'tomorrow')) );
+    if(!Request::param('filters')){
+      $this->model_filters['days'] = '-1, now, +1';
+      $this->model_filters['staff'] = $this->active_staff->primval;
+    }
+    WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
   }
 
 }

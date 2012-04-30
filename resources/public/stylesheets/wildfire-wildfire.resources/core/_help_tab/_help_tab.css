@@ -5,6 +5,7 @@
   right:0;
   margin-top:-3px;
   min-height:420px;
+  z-index:100;
 }
   .help_tab.show{
     width:290px;
