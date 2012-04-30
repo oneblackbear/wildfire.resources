@@ -110,5 +110,9 @@ class WildfireResource extends WaxModel{
     return $times['string'];
   }
 
+  public function between($start, $end){
+    return $this->filter("((`date_start` BETWEEN '".$start."' AND '".$end."') OR (`date_end` BETWEEN '".$start."' AND '".$end."'))");
+  }
+
 }
 ?>

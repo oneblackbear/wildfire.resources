@@ -83,6 +83,9 @@ class Job extends WildfireResource{
   public function get_rgb(){
     return array(rand(0,124), rand(0,124), rand(0,124));
   }
+  public function between($start, $end){
+    return $this->filter("((`date_go_live` BETWEEN '".$start."' AND '".$end."') )");
+  }
 
 }
 ?>

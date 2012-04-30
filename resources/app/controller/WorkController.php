@@ -54,12 +54,8 @@ class WorkController extends BaseController{
     $this->month_events = array();
     foreach($model->all() as $row){
       $this->calendar_content[$row->primval] = $row;
-      $start = date("Ymd", strtotime($row->date_start));
-      $end = date("Ymd", strtotime($row->date_end));
-      for($i=$start; $i<=$end; $i++){
-        $index = date("Y-m-d", strtotime($i));
-        $this->month_events[$index][$row->primval] = $row->primval;
-      }
+      $range = $this->calendar->date_range_array($row->date_start, $row->date_end);
+      foreach($range as $index=>$bool) $this->month_events[$index][$row->primval] = $row->primval;
     }
 
     //find all jobs within this time period as well
@@ -70,14 +66,13 @@ class WorkController extends BaseController{
       $this->month_events[$end]["j".$row->primval] = $row->primval;
     }
     ksort($this->month_events);
-
   }
 
   public function todo(){
     unset($this->filter_fields['department']);
-    $this->filter_fields['days'] = array('columns'=>array('date_start', 'date_end'), 'partial'=>'_filters_range', 'dates'=>true,'choices'=>array('-1, now, +1'=>array('min'=>'yesterday', 'max'=>'tomorrow')) );
+    $this->filter_fields['days'] = array('columns'=>array('date_start', 'date_end'), 'partial'=>'_filters_range', 'dates'=>true,'choices'=>array('-1 to +1'=>array('min'=>'yesterday', 'max'=>'tomorrow')) );
     if(!Request::param('filters')){
-      $this->model_filters['days'] = '-1, now, +1';
+      $this->model_filters['days'] = '-1 to +1';
       $this->model_filters['staff'] = $this->active_staff->primval;
     }
     WaxEvent::run("model.setup", $this);

@@ -89,12 +89,11 @@ class Staff extends WildfireResource{
     $work = array();
     if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
     elseif(($worked = $this->work) && ($worked = $worked->between($start,$end)->all())){
+      $cal = new Calendar;
       foreach($worked as $row){
         $work[$row->primval]['title'] = $row->title;
-        $d = $_start = date("Ymd", strtotime($row->date_start));
-        $_end = date("Ymd", strtotime($row->date_end));
-        while($d <= $_end){
-          $index = date("Y-m-d", strtotime($d));
+        $range = $cal->date_range_array($row->date_start, $row->date_end);
+        foreach($range as $index=>$bool){
           $work[$row->primval]['hours'][$index] = ($row->hours_used) ? $row->hours_used : $row->hours;
           $d = date("Ymd", strtotime($d+1));
         }

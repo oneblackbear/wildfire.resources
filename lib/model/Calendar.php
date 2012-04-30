@@ -62,13 +62,19 @@ class Calendar{
 
   public function range_filter($model, $year, $month, $start_col="date_start", $end_col="date_end"){
     if(!$year) $year = $this->current_year;
-    if($month && $month < 10) $month = "0".str_replace("0", "", $month);
-    $sql = "(";
-    //exact match for start month
-    $sql .= "(`$start_col` BETWEEN '$year".($month-1)."23' AND '$year".($month)."07') AND ";
-    $sql .= "(`$end_col` BETWEEN '$year".($month-1)."23' AND '$year".($month)."07')";
-    $sql .= ")";
-    return $model->filter($sql);
+    return $model->between($year."-".($month-1)."-23", $year."-".($month+1)."-07");
+  }
+
+  public function date_range_array($start, $end, $format ="Y-m-d"){
+    $d = date("Ymd", strtotime($start));
+    $end = date("Ymd", strtotime($end));
+    $dates = array();
+    while($d <= $end){
+      $index = date($format, strtotime($d));
+      $dates[$index] = 1;
+      $d = date("Ymd", strtotime($d+1));
+    }
+    return $dates;
   }
 
 }
