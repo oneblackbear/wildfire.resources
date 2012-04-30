@@ -17,6 +17,7 @@ if($cal_month == 12){
 }
 $class = "previous";
 $now = date("Ymd");
+$all_days = array();
 ?>
 <div class='pagination_block clearfix top_pagintion'>
   <h1><a href="?month=<?=$cal_month?>&amp;year=<?=$cal_year?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next_month?>&amp;year=<?=$next_year?>">&raquo;</a></h1>
@@ -55,19 +56,27 @@ $now = date("Ymd");
         else{$extra_class="";}
 
         $events = (array)$month_events[$index];
+        $all_days[] = $index;
         ?>
 
       <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
         <?if(($active_staff->role == "admin" || $active_staff->role == "owner") && (str_replace("-", "", $index) >= $now) ):?>
-        <a href="/<?=$controller?>/create/" data-col_start="pre_<?=$model->table?>[date_start]" data-col_end="pre_<?=$model->table?>[date_end]" data-col_value="<?=$index?>" class='calendar_date range-click'><?=$start?></a>
+        <a href="/<?=$controller?>/create/" data-col_start="pre_<?=$model->table?>[date_start]" data-col_end="pre_<?=$model->table?>[date_end]" data-col_value="<?=$index?>&amp;month=<?=$cal_month?>&amp;year=<?=$cal_year?>" class='calendar_date range-click'><?=$start?></a>
         <?else:?>
         <span class='calendar_date'><?=$start?></span>
         <?endif?>
-        <?foreach($events as $primval):?>
-          <?if($work = $calendar_content[$primval]):?>
-          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours?>hrs)</span></a>
+        <?$used = 0;?>
+        <?foreach($events as $primval=>$i):?>
+          <?$work = $calendar_content[$primval];?>
+          <?if($work && ($work instanceOf Work)):?>
+          <?$used += ($work->hours_used)? $work->hours_used : $work->hours;?>
+          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
+          <?elseif($work && $work instanceOf Job):?>
+          <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>
           <?endif?>
         <?endforeach?>
+        <?$available = Staff::hours_available(date("l", strtotime($index)), $active_staff->group_token );?>
+        <span class='tiny day-data'><?=$used?> hrs of <?=$available?> (<strong><?=number_format(($used / ($available/100)))?>%</strong>)</span>
       </td>
 
       <?if(fmod($count+1,7)==0):?>
@@ -82,3 +91,5 @@ $now = date("Ymd");
     </tr>
   </tbody>
 </table>
+
+<?=partial("_breakdown", array('all_days'=>$all_days,'table'=>$table,'model'=>$model, 'calendar'=>$calendar, 'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'operations'=>$operations, 'permissions'=>$permissions, 'model_filters'=>$model_filters), "html");?>

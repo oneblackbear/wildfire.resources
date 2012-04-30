@@ -51,7 +51,7 @@ jQuery(document).ready(function(){
   });
 
 
-  var range_start = false
+  var range_start = false,
       range_end = false;
   jQuery(".range-click").live("click", function(e){
     e.preventDefault();
@@ -64,12 +64,19 @@ jQuery(document).ready(function(){
       range_end.attr("href", range_end.attr("href")+"?"+range_filters);
       jQuery(window).trigger("dynamic-tab", [range_end, tab]);
     }
-    if(!range_start){
+    if(!range_start || (range_start && range_end)){
+      if(tab.hasClass("show")) jQuery(".help_tab .help.button").trigger("click");
       range_start = jQuery(this);
       range_start.parents("td").addClass('highlight');
     }
 
 
+  });
+
+  jQuery(window).bind("closed-help-tab", function(e){
+    jQuery(".highlight").removeClass("highlight");
+    range_start = false;
+    range_end = false;
   });
 
 });

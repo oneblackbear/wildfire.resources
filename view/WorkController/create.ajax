@@ -1,4 +1,5 @@
-<form action="#step" method="get" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax">
+<form action="#step" method="post" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax" data-trigger-element="#filters_department" data-trigger="change">
+
   <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span>Create new <?=$controller?></span></h5>
   <?=$$form_name->errors();?>
 

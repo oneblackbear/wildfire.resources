@@ -11,7 +11,10 @@
   -moz-border-radius:4px;
 }
 
-.row{background:white;}
+.row{
+  background:white;
+  margin-bottom:15px;
+}
   .row .extra{
     float:left;
     width:30%;

@@ -8,7 +8,9 @@ jQuery(document).ready(function(){
         cloned = form.clone(),
         dest = form.attr("data-action"),
         method = form.attr("method"),
-        data = form.serialize()
+        data = form.serialize(),
+        trigger_ele = form.attr("data-trigger-element"),
+        trigger = form.attr("data-trigger")
         ;
     jQuery.ajax({
       url:dest,
@@ -29,6 +31,10 @@ jQuery(document).ready(function(){
           parent.append(res).prepend(cloned);
         }else{
           form.replaceWith(res);
+        }
+        console.log("jQuery("+trigger_ele+").trigger("+trigger+");");
+        if(trigger && trigger_ele){
+          jQuery(trigger_ele).trigger(trigger);
         }
       }
     });

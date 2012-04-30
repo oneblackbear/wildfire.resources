@@ -28,6 +28,7 @@ ul.inline li label{
   float:left;
   width:99%;
 }
+  #dynamic-tab-content span.error_message{display:none;}
 form textarea{
   width:96%;
   height:100px;
@@ -92,6 +93,16 @@ form span select{
 }
 form span.no-label select{width:98%;}
 
+form span.split_field input{
+  float:left;
+  width:44%;
+}
+form span.split_field input:last-child{
+  margin-left:3%;
+}
+form span.split_field label{display:none;}
+
+
 .inline_fields .error_message{display:none;}
 form.updated{
   margin-bottom:20px;
@@ -138,4 +149,10 @@ form.editing span label{
 }
 .editing fieldset.updated{
   background: white url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right 98%;
+}
+
+form .split{
+  margin:5px 0;
+  padding:10px 0 0 0;
+  border-bottom:1px solid rgba(204,204,204,0.5);
 }

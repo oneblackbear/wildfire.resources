@@ -4,6 +4,8 @@ class Staff extends WildfireResource{
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public static $roles = array('standard'=>'client', 'privileged'=>'staff', 'admin'=>'admin', 'owner'=>'owner');
   public static $permission_cache = array();
+  public static $hours_per_day_cache = array();
+  public static $work_cache = array();
   public function setup(){
     parent::setup();
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
@@ -27,6 +29,18 @@ class Staff extends WildfireResource{
       $roles = array_slice($roles, 0, $pos+1);
     }
     return $roles;
+  }
+
+  public static function hours_available($day_of_week="monday", $token){
+    $day_of_week = strtolower($day_of_week);
+    $time = 0;
+    if($time = Staff::$hours_per_day_cache[$day_of_week]) return $time;
+    else{
+      $model = new Staff;
+      foreach($model->filter("group_token", $token)->filter("`hours_on_".$day_of_week."` > 0.0")->all()as $r) $time += $r->row["hours_on_".$day_of_week];
+      Staff::$hours_per_day_cache[$day_of_week] = $time;
+    }
+    return $time;
   }
 
   public function before_insert(){
@@ -69,6 +83,30 @@ class Staff extends WildfireResource{
     ksort($permissions);
     Staff::$permission_cache[$this->primval] = $permissions;
     return $permissions;
+  }
+
+  public function work_by_date($start, $end){
+    $work = array();
+    if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
+    foreach($this->work as $row){
+      $work[$row->primval]['title'] = $row->title;
+      $_start = date("Ymd", strtotime($row->date_start));
+      $_end = date("Ymd", strtotime($row->date_end));
+      for($i=$_start; $i<=$_end; $i++){
+        $index = date("Y-m-d", strtotime($i));
+        $work[$row->primval]['hours'][$index] = ($row->hours_used) ? $row->hours_used : $row->hours;
+      }
+    }
+    Staff::$work_cache[$this->primval][$start.$end] = $work;
+    return $work;
+  }
+
+  public function usage($start, $end){
+    if($cache = Staff::$work_cache['totals'][$start.$end]) return $cache;
+    $work = $this->work_by_date($start, $end);
+    $total_work = 0;
+    foreach($work as $day) foreach($day['hours'] as $t) $total_work+= $t;
+    return $total_work;
   }
 
 }

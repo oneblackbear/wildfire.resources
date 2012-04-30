@@ -5,8 +5,10 @@ jQuery(document).ready(function(){
         parent = obj.parent(),
         close = parent.hasClass("show")
         ;
-    if(close) parent.removeClass("show");
-    else parent.addClass("show");
+    if(close){
+      parent.removeClass("show");
+      jQuery(window).trigger("closed-help-tab");
+    }else parent.addClass("show");
 
   });
 

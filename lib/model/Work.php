@@ -34,14 +34,16 @@ class Work extends WaxModel{
     if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
     $this->date_modified = date("Y-m-d H:i:s");
 
+    if($this->date_end < $this->date_start) $this->add_error("date_end", "End date must be after the start date.");
+
     if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
       $this->title = $job->title;
       $this->organisation_id = $job->organisation_id;
 
       //if this has been joined to a job, check to make sure the time is before the end date of the job
       if(($end = date("Ymd", strtotime($job->date_go_live)))){
-        if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work cannot start after the deadline for '$job->title' ($job->date_go_live)");
-        if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work end date must be before the deadline of '$job->title' ($job->date_go_live)");
+        if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
+        if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
       }
 
     }
@@ -62,6 +64,10 @@ class Work extends WaxModel{
     else return "#ff0000";
   }
 
+  public function hours_spent(){
+    if($this->hours_used) return $this->hours_used.":".$this->hours;
+    else return $this->hours;
+  }
 
   public function public_comments(){
     if($job = $this->job) return $job->comments;

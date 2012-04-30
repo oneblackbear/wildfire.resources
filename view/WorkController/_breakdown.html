@@ -1,0 +1,28 @@
+<?
+$cal_month = $table['current_month'];
+$cal_year = $table['current_year'];
+$start = $table['first_date_on_calendar'];
+$omonth = $cal_month;
+if($cal_month == 1){
+  $cal_month = 12;
+  $cal_year--;
+}else $cal_month = $cal_month-1;
+?>
+
+<div class='pagination_block clearfix top_pagintion'>
+  <h2>By Staff Member</h2>
+</div>
+
+  <?
+  $staff = new Staff;
+  if($id = $model_filters['staff']) $staff->filter("id", $id);
+  else if($model_filters['department'] && ($dep = new Department($model_filters['department']) )){
+    $ids = array(0);
+    foreach($dep->staff as $st) $ids[] = $st->primval;
+    $staff->filter("id", $ids);
+  }
+  ?>
+  <?foreach($staff->filter("group_token", $active_staff->group_token)->all() as $person):?>
+    <?=partial("_breakdown", array('person'=>$person, 'date_start'=>$table['start_date'], 'date_end'=>$table['end_date'], 'all_days'=>$all_days), "ajax");?>
+  <?endforeach?>
+  <div id="chart"></div>

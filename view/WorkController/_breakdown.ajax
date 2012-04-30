@@ -1,0 +1,40 @@
+<?
+$totals = array();
+if(!$chart_type) $chart_type = "ColumnChart";
+?>
+<div class='staff_summary clearfix row repeat clearfix'>
+  <div class='profile'>
+    <h3 class='no-margin clearfix'><span class='date'>using <?=$person->usage($date_start, $date_end)?>hrs</span><?=$person->title?> (<small><?=date("d M", strtotime($date_start))?> - <?=date("d M", strtotime($date_end))?></small>)</h3>
+  </div>
+  <table class='staff_data data tiny graph job_graph' data-type="<?=$chart_type?>">
+    <thead>
+    <tr>
+      <td>Job</td>
+      <?foreach($all_days as $day):?>
+        <th data-i="<?=$day?>"><?=date("m-d", strtotime($day))?></th>
+      <?endforeach?>
+    </tr>
+    </thead>
+    <tbody>
+  <?foreach($person->work_by_date($date_start, $date_end) as $work):?>
+    <tr>
+      <th><?=$work['title']?></th>
+    <?foreach($all_days as $day):?>
+      <?$v = ($work['hours'][$day]) ? $work['hours'][$day] : 0;
+        $totals[$day] += $v;
+      ?>
+      <td data-i="<?=$day?>"><?=$v?></td>
+    <?endforeach?>
+    </tr>
+  <?endforeach?>
+    </tbody>
+    <tr class='totals'>
+      <th>Totals</th>
+      <?foreach($totals as $t):?>
+      <td data-i="<?=$day?>"><?=$t?></td>
+      <?endforeach?>
+    </tr>
+
+  </table>
+  <div class='chart' id="chart-<?=$person->primval?>-<?=time()?>"></div>
+</div>

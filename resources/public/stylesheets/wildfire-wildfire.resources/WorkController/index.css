@@ -20,7 +20,7 @@ td.today{
   padding:6px;
   display:block;
 }
-.work.tiny{
+.tiny{
   font-size:65%;
 }
 
@@ -39,4 +39,22 @@ td.today{
 
 td.highlight{
   background:#f1da36;
+}
+.job_end{
+  display:block;
+  width:10px;
+  height:10px;
+  border-radius:40px;
+  -webkit-border-radius:40px;
+  -moz-border-radius:40px;
+  margin:5px;
+  float:right;
+}
+  .job_end span{
+    display:none;
+  }
+
+.day-data{
+  display:block;
+  padding:4px 6px;
 }

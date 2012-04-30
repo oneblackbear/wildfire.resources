@@ -1,3 +1,16 @@
 RESOURCES REQUIRES:
 - wildfire v7
 - meta plugin
+
+TODO:
+  USERS:
+  - on creating user, send invite email
+  - password reset page
+  - user profile page
+  WORK:
+  - summary
+  - todo list
+  REPORTS:
+  - all of it!
+
+

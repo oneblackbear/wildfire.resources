@@ -7,7 +7,7 @@
   min-height:420px;
 }
   .help_tab.show{
-    width:250px;
+    width:290px;
     background:white;
 
   }
@@ -38,7 +38,7 @@
 
   .help_tab .inside{
     display:none;
-    width:220px;
+    width:260px;
     min-height:400px;
     position:absolute;
     right:0;
@@ -60,4 +60,11 @@
 #dynamic-tab-content .inner{
   max-height:600px;
   overflow:auto;
+}
+
+#dynamic-tab-content span.form_field{
+  margin-bottom:5px;
+}
+#dynamic-tab-content input.submit_button{
+  margin-bottom:10px;
 }

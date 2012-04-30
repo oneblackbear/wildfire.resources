@@ -26,12 +26,13 @@ class WorkController extends BaseController{
   //like the form, but non-editable
   public function details(){
     WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
   }
 
   public function index(){
     //if no filters, default to active member of staffs department
     if(!Request::param('filters') && ($depts = $this->active_staff->departments) && ($dept = $depts->first()) ){
-      $this->model_filters['departments'] = $dept->primval;
+      $this->model_filters['department'] = $dept->primval;
     }
     //no pagination
     $this->per_page = false;
@@ -59,6 +60,16 @@ class WorkController extends BaseController{
         $this->month_events[$index][$row->primval] = $row->primval;
       }
     }
+    //find all jobs within this time period as well
+    $job = new Job("live");
+    foreach($job->all() as $row){
+      $this->calendar_content["j".$row->primval] = $row;
+      $end = date("Y-m-d", strtotime($row->date_go_live));
+      $this->month_events[$end]["j".$row->primval] = $row->primval;
+    }
+    ksort($this->month_events);
+
   }
+
 }
 ?>

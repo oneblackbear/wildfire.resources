@@ -6,7 +6,7 @@ function filter_list(trigger_element, replace){
       r = fieldset.attr('data-replace')
       ;
   form.addClass('loading');
-  fieldset.find("input[type='text'], select").each(function(){
+  fieldset.find("input[type='text'], select, input[type='hidden']").each(function(){
     var field = jQuery(this), nm = field.attr('name'), pl = field.attr('placeholder'), val = field.val();
     if(val != pl) data[nm] = val;
     else data[nm]='';
