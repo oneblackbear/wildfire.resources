@@ -56,6 +56,9 @@ class Calendar{
     $table_array['end_date'] = $this->end_date = date("Ymd", mktime(0,0,0, $this->current_month, $table_array['days_on_calendar'] - $table_array['first_day_number'], $this->current_year));
     $table_array['next'] = date("Ym", mktime(0,0,0, $this->current_month+1, 0, $this->current_year));
     $table_array['previous'] = date("Ym", mktime(0,0,0, $this->current_month-1, 0, $this->current_year));
+    $table_array['range'] = $this->date_range_array($table_array['start_date'], $table_array['end_date']);
+    $table_array['previous_info'] = array('month'=>date("m", mktime(0,0,0, $this->current_month-1, 1, $this->current_year)), 'year'=>date("Y", mktime(0,0,0, $this->current_month-1, 0, $this->current_year)) );
+    $table_array['next_info'] = array('month'=>date("m", mktime(0,0,0, $this->current_month+1, 1, $this->current_year)), 'year'=>date("Y", mktime(0,0,0, $this->current_month+1, 0, $this->current_year)) );
     return $table_array;
   }
 
@@ -72,7 +75,7 @@ class Calendar{
     while($d <= $end){
       $index = date($format, strtotime($d));
       $dates[$index] = 1;
-      $d = date("Ymd", strtotime($d+1));
+      $d = date("Ymd", mktime(0,0,0, substr($d,4,2), substr($d, 6)+1, substr($d,0,4)));
     }
     return $dates;
   }

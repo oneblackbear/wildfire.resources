@@ -33,19 +33,19 @@ class Work extends WaxModel{
     if(!$this->title) $this->title = "WORK";
     if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
     $this->date_modified = date("Y-m-d H:i:s");
-
+    //check for idiots
     if($this->date_end < $this->date_start) $this->add_error("date_end", "End date must be after the start date.");
+    //check old hours is less that current hours
+    if($this->primval && ($test = new Work($this->primval)) && ($this->hours_used < $test->hours_used)) $this->add_error("hours_used", "Hours used is accumlative.");
 
     if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
       $this->title = $job->title;
       $this->organisation_id = $job->organisation_id;
-
       //if this has been joined to a job, check to make sure the time is before the end date of the job
       if(($end = date("Ymd", strtotime($job->date_go_live)))){
         if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
         if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
       }
-
     }
     parent::before_save();
   }

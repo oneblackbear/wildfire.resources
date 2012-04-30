@@ -1,26 +1,9 @@
 <?
-$cal_month = $table['current_month'];
-$cal_year = $table['current_year'];
-$start = $table['first_date_on_calendar'];
-$omonth = $cal_month;
-if($cal_month == 1){
-  $cal_month = 12;
-  $cal_year--;
-}else $cal_month = $cal_month-1;
-
-if($cal_month == 12){
-  $next_month = 1;
-  $next_year = $table['current_year']+1;
-}else{
-  $next_month = $table['current_month']+1;
-  $next_year = $table['current_year'];
-}
-$class = "previous";
-$now = date("Ymd");
-$all_days = array();
+$previous = $table['previous_info'];
+$next = $table['next_info'];
 ?>
 <div class='pagination_block clearfix top_pagintion'>
-  <h1><a href="?month=<?=$cal_month?>&amp;year=<?=$cal_year?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next_month?>&amp;year=<?=$next_year?>">&raquo;</a></h1>
+  <h1><a href="?month=<?=$previous['month']?>&amp;year=<?=$previous['year']?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next['month']?>&amp;year=<?=$next['year']?>">&raquo;</a></h1>
 </div>
 <table class='calendar'>
   <thead>
@@ -36,43 +19,40 @@ $all_days = array();
   </thead>
   <tbody>
     <tr class="row">
-
-      <?for($count=0; $count<$table['days_on_calendar']; $count++):?>
-        <?
-
-        if($count == $table['first_day_number']){
-          $start=1;
-          $class="current";
-          $cal_month++;
-        }elseif(($start-1) == $table['last_day_of_month'] && $class!="previous"){
-          $start=1;
-          $class="next";
-          $cal_month++;
-        }
-        if($cal_month < 10) $cal_month = "0".(int)$cal_month;
-        if($start < 10) $start = "0".(int)$start;
-        $index = $cal_year."-".$cal_month."-".$start;
-        if($index == date("Y-m-d")){$extra_class =" today ";}
-        else{$extra_class="";}
-
-        $events = (array)$month_events[$index];
-        $all_days[] = $index;
-        ?>
+    <?
+    $count = 0;
+    $now = date("Ymd");
+    ?>
+    <?foreach($table['range'] as $index=>$bool):?>
+      <?
+      $month = date("m", strtotime($index));
+      if($month < $table['current_month']) $class="previous";
+      else if($month > $table['current_month']) $class="next";
+      else $class = "current";
+      if($index == date("Y-m-d")) $extra_class = " today ";
+      else $extra_class = "";
+      $events = (array)$month_events[$index];
+      $start = date("d", strtotime($index));
+      $cal_month = date("m", strtotime($index));
+      $cal_year = date("Y", strtotime($index));
+      ?>
 
       <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
+
         <?if(($active_staff->role == "admin" || $active_staff->role == "owner") && (str_replace("-", "", $index) >= $now) ):?>
         <a href="/<?=$controller?>/create/" data-col_start="pre_<?=$model->table?>[date_start]" data-col_end="pre_<?=$model->table?>[date_end]" data-col_value="<?=$index?>&amp;month=<?=$cal_month?>&amp;year=<?=$cal_year?>" class='calendar_date range-click'><?=$start?></a>
         <?else:?>
         <span class='calendar_date'><?=$start?></span>
         <?endif?>
+
         <?$used = 0;?>
         <?foreach($events as $primval=>$i):?>
           <?$work = $calendar_content[$primval];?>
           <?if($work && ($work instanceOf Work)):?>
-          <?$used += ($work->hours_used)? $work->hours_used : $work->hours;?>
-          <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
+            <?$used += ($work->hours_used)? $work->hours_used : $work->hours;?>
+            <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
           <?elseif($work && $work instanceOf Job):?>
-          <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>
+            <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>
           <?endif?>
         <?endforeach?>
         <?$available = Staff::hours_available(date("l", strtotime($index)), $active_staff->group_token );?>
@@ -81,15 +61,12 @@ $all_days = array();
 
       <?if(fmod($count+1,7)==0):?>
       </tr><tr class="row">
-        <?$empty = true?>
-      <?else:?>
-        <?$empty = false;?>
       <?endif?>
-      <?$start++?>
-      <?endfor?>
+      <?$count++?>
+    <?endforeach?>
 
     </tr>
   </tbody>
 </table>
 
-<?=partial("_breakdown", array('all_days'=>$all_days,'table'=>$table,'model'=>$model, 'calendar'=>$calendar, 'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'operations'=>$operations, 'permissions'=>$permissions, 'model_filters'=>$model_filters), "html");?>
+<?=partial("_breakdown", array('all_days'=>array_keys($table['range']), 'table'=>$table,'model'=>$model, 'calendar'=>$calendar, 'controller'=>$controller, 'action'=>$action, 'active_staff'=>$active_staff, 'operations'=>$operations, 'permissions'=>$permissions, 'model_filters'=>$model_filters), "html");?>
