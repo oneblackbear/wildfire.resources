@@ -61,6 +61,7 @@ class WorkController extends BaseController{
         $this->month_events[$index][$row->primval] = $row->primval;
       }
     }
+
     //find all jobs within this time period as well
     $job = new Job("live");
     foreach($job->all() as $row){
@@ -69,6 +70,7 @@ class WorkController extends BaseController{
       $this->month_events[$end]["j".$row->primval] = $row->primval;
     }
     ksort($this->month_events);
+
   }
 
   public function todo(){
@@ -80,6 +82,7 @@ class WorkController extends BaseController{
     }
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
+    $this->cms_content = $this->cms_content->order("date_start ASC")->all();
   }
 
 }

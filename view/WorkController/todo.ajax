@@ -1,0 +1,18 @@
+<?
+$person = ($model_filters['staff']) ? new Staff($model_filters['staff']) : $this->active_staff;
+
+if(($active = $model_filters['days']) && ($filters = $filter_fields['days']['choices'][$active])){
+  $date_start = $d = $filters['min'] = date("Ymd", strtotime($filters['min']));
+  $date_end = $filters['max'] = date("Ymd", strtotime($filters['max']));
+  while($d <= $filters['max']){
+    $all_days[] = date("Y-m-d", strtotime($d));
+    $d = date("Ymd", strtotime($d+1));
+  }
+}
+?>
+<div class='pagination_block clearfix top_pagintion'>
+  <h1 id="editheader"><span>Todos for <?=$person->title?></span></h1>
+</div>
+<div class='todos clearfix'>
+  <?=partial("_breakdown", array('person'=>$person, 'date_start'=>$date_start, 'date_end'=>$date_end, 'all_days'=>$all_days, 'no_name'=>true, 'chart_type'=>"BarChart"), "ajax");?>
+</div>

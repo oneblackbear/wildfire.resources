@@ -88,13 +88,16 @@ class Staff extends WildfireResource{
   public function work_by_date($start, $end){
     $work = array();
     if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
-    foreach($this->work as $row){
-      $work[$row->primval]['title'] = $row->title;
-      $_start = date("Ymd", strtotime($row->date_start));
-      $_end = date("Ymd", strtotime($row->date_end));
-      for($i=$_start; $i<=$_end; $i++){
-        $index = date("Y-m-d", strtotime($i));
-        $work[$row->primval]['hours'][$index] = ($row->hours_used) ? $row->hours_used : $row->hours;
+    elseif(($worked = $this->work) && ($worked = $worked->between($start,$end)->all())){
+      foreach($worked as $row){
+        $work[$row->primval]['title'] = $row->title;
+        $d = $_start = date("Ymd", strtotime($row->date_start));
+        $_end = date("Ymd", strtotime($row->date_end));
+        while($d <= $_end){
+          $index = date("Y-m-d", strtotime($d));
+          $work[$row->primval]['hours'][$index] = ($row->hours_used) ? $row->hours_used : $row->hours;
+          $d = date("Ymd", strtotime($d+1));
+        }
       }
     }
     Staff::$work_cache[$this->primval][$start.$end] = $work;

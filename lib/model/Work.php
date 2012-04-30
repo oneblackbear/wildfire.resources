@@ -137,5 +137,9 @@ class Work extends WaxModel{
     }
     return "unkown";
   }
+
+  public function between($start, $end){
+    return $this->filter("(`date_start` BETWEEN '".$start."' AND '".$end."') AND (`date_end` BETWEEN '".$start."' AND '".$end."')");
+  }
 }
 ?>

@@ -60,21 +60,13 @@ class Calendar{
   }
 
 
-  public function range_filter($model, $year=false, $month=false, $start_col="date_start", $end_col="date_end"){
+  public function range_filter($model, $year, $month, $start_col="date_start", $end_col="date_end"){
     if(!$year) $year = $this->current_year;
-    if($day && $day < 10) $day = "0".str_replace("0", "", $day);
     if($month && $month < 10) $month = "0".str_replace("0", "", $month);
     $sql = "(";
-    if($month){
-      //exact match for start month
-      $sql .= "(date_format($start_col, '%Y%m') = '".$year.$month."') OR ";
-      //started in previous month and ends in this or a future month
-      $sql .= "(date_format($start_col, '%Y%m%d') < '".$year.($month-1)."23' AND date_format($end_col, '%Y%m%d') >= '".$year.$month."07' )";
-    }else{
-      //exact match for the year
-      $sql .= "(date_format($start_col, '%Y') = '".$year."') OR ";
-      $sql .= "(date_format($start_col, '%Y') <= '".$year."' AND date_format($end_col, '%Y') >= '".$year."' )";
-    }
+    //exact match for start month
+    $sql .= "(`$start_col` BETWEEN '$year".($month-1)."23' AND '$year".($month)."07') AND ";
+    $sql .= "(`$end_col` BETWEEN '$year".($month-1)."23' AND '$year".($month)."07')";
     $sql .= ")";
     return $model->filter($sql);
   }
