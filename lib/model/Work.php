@@ -59,15 +59,15 @@ class Work extends WaxModel{
      */
     $emails = array();
     //make sure all the joins are set...
-    if($this->notified == 0 && $this->created_by){
+    if($this->notified == 0 && $this->created_by > 0 && ($job = $this->job) && ($staff = $this->staff) && ($client = $job->client) && ($dept = $this->department)){
       WaxLog::log("error", "saving work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       //person assigned on the job
-      if($staff = $this->staff) $emails[$staff->primval] = $staff;
+      if($staff) $emails[$staff->primval] = $staff;
       //the account handler for the client
-      if(($client = $job->client) && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
+      if($client && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
       //the person who created the job
-      if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
+      if($creator = new Staff($job->created_by)) $emails[$creator->primval] = $creator;
       $this->notified = 1;
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);

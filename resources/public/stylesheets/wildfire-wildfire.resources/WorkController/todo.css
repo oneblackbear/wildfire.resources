@@ -42,3 +42,24 @@
   padding:7px 8px;
   float:right;
 }
+
+.timer{
+  width:auto;
+  display:inline-block;
+  margin:0 0 0 10px;
+  padding:7px 8px;
+  float:right;
+}
+  .timer span{
+    display:none;
+  }
+  .timer.on span{
+    text-indent:-9999em;
+    display:inline-block;
+    padding:0 10px;
+    background:url('/images/wildfire-wildfire.resources/small-timer.gif') no-repeat center center;
+  }
+
+.todos form.no-border.no-margin label.dbl-click{
+  width:35%;
+}

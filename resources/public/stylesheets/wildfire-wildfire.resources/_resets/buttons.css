@@ -54,7 +54,8 @@
 
   .join,
   .continue,
-  .on{
+  .on,
+  .allow_notifications{
     color:#5d7731;
     background: rgb(215,233,164); /* Old browsers */
     background: -moz-linear-gradient(top, rgba(215,233,164,1) 0%, rgba(202,226,133,1) 4%, rgba(185,217,114,1) 52%, rgba(159,203,87,1) 100%); /* FF3.6+ */
@@ -79,5 +80,8 @@
   display:none;
 }
 .continue{
+  float:right;
+}
+.allow_notifications{
   float:right;
 }

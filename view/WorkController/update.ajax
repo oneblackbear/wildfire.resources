@@ -7,6 +7,17 @@ $due = $model->due_date(true);
   <?=$$form_name->errors()?>
   <input type="hidden" name="<?=$model->table?>[status]" value="scheduled">
   <span class='header no-margin <?=$model->tightness()?> padded'>(<?=$model->date_string()?>) <small><?=$model->hours?> hrs per day</small></span>
-  <span class='no-margin clearfix checkbox'><input type="submit" class="button submit_button" value="update" name="form_update"><input type="checkbox" name="<?=$model->table?>[status]" value="completed"<?if($model->status == "completed"):?> checked="checked"<?endif?> class='input_field checkbox'><label class='dbl-click' data-href="/<?=$controller?>/details/<?=$model->primval?>/" title="click for details"><?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></label> <input type="text" name="<?=$model->table?>[hours_used]" class='small inline' value="<?=$model->hours_used?>" placeholder="hours used"></span>
-
+  <span class='no-margin clearfix checkbox'>
+    <?if($active_staff->admin() || $active_staff->primval == $model->staff_id):?>
+    <a href="#"  class="button submit_button timer off">timer <span>running</span></a>
+    <input type="submit" class="button submit_button" value="update" name="form_update">
+    <input type="checkbox" name="<?=$model->table?>[status]" value="completed"<?if($model->status == "completed"):?> checked="checked"<?endif?> class='input_field checkbox'>
+    <?endif?>
+    <label class='dbl-click' data-href="/<?=$controller?>/details/<?=$model->primval?>/" title="click for details"><?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></label>
+    <?if($active_staff->admin() || $active_staff->primval == $model->staff_id):?>
+      <input type="text" name="<?=$model->table?>[hours_used]" class='small inline' value="<?=$model->hours_used?>" placeholder="hours used">
+    <?else:?>
+      <?=$model->hours_used?>
+    <?endif?>
+  </span>
 </form>

@@ -55,7 +55,7 @@ $next = $table['next_info'];
             <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>
           <?endif?>
         <?endforeach?>
-        <?$available = Staff::hours_available(date("l", strtotime($index)), $active_staff->group_token );?>
+        <?$available = Staff::hours_available(date("l", strtotime($index)), $active_staff->group_token, $model_filters);?>
         <span class='tiny day-data'><?=$used?> hrs of <?=$available?> (<strong><?=number_format(($used / ($available/100)))?>%</strong>)</span>
       </td>
 

@@ -33,12 +33,18 @@ class Staff extends WildfireResource{
     return $roles;
   }
 
-  public static function hours_available($day_of_week="monday", $token){
+  public static function hours_available($day_of_week="monday", $token, $filters=array()){
+    $model = new Staff;
+    if($id = $filters['staff']) $model = $model->filter("id", $id);
+    else if($filters['department'] && ($dep = new Department($filters['department'])) ){
+      $ids = array(0);
+      foreach($dep->staff as $s) $ids[] = $s->primval;
+      $model = $model->filter("id", $ids);
+    }
     $day_of_week = strtolower($day_of_week);
     $time = 0;
     if($time = Staff::$hours_per_day_cache[$day_of_week]) return $time;
     else{
-      $model = new Staff;
       foreach($model->filter("group_token", $token)->filter("`hours_on_".$day_of_week."` > 0.0")->all()as $r) $time += $r->row["hours_on_".$day_of_week];
       Staff::$hours_per_day_cache[$day_of_week] = $time;
     }
