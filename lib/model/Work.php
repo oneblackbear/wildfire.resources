@@ -43,8 +43,10 @@ class Work extends WaxModel{
       $this->organisation_id = $job->organisation_id;
       //if this has been joined to a job, check to make sure the time is before the end date of the job
       if(($end = date("Ymd", strtotime($job->date_go_live)))){
-        if($end < date("Ymd", strtotime($this->date_start))) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
-        if($end < date("Ymd", strtotime($this->date_end))) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
+        $work_start = date("Ymd", strtotime($this->date_start));
+        $work_end = date("Ymd", strtotime($this->date_end));
+        if($end < $work_start) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
+        if($end < $work_end) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
       }
     }
     parent::before_save();
@@ -114,8 +116,8 @@ class Work extends WaxModel{
    * - looks for the first listed date that is after the start date of this job
    * and returns that
    */
-  public function due_date($labels=false){
-    if($job = $this->job) return $job->next_milestone(date("Ymd", strtotime($this->date_start)), $labels);
+  public function due_date($labels=false, $cols=false){
+    if($job = $this->job) return $job->next_milestone(date("Ymd", strtotime($this->date_start)), $labels, $cols);
     return false;
   }
   /**
@@ -123,7 +125,7 @@ class Work extends WaxModel{
    */
   public function tightness(){
     if($tight = Work::$cached['tightness'][$this->primval]) return $tight;
-    else if($compare = $this->due_date()){
+    else if($compare = $this->due_date(false, array('date_go_live')) ){
       $start_date = date("Ymd", strtotime($this->date_end));
       $diff = date_diff(date_create($start_date), date_create($compare['day']));
       $val = $diff->format("%R%a");

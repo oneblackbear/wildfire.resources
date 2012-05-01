@@ -43,8 +43,7 @@ class Job extends WildfireResource{
   }
 
   public function completion_date($format = "jS F Y"){
-    if($this->date_client_testing) return date($format, strtotime($this->date_client_testing));
-    else return date($format, strtotime($this->date_go_live));
+    return date($format, strtotime($this->date_go_live));
   }
 
   public function css_selector(){
@@ -56,7 +55,8 @@ class Job extends WildfireResource{
     else return $base ." due_future ";
   }
 
-  public function times($format = "jS F Y", $use_label=true, $cols=array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live')){
+  public function times($format = "jS F Y", $use_label=true, $cols=false){
+    if(!$cols) $cols = array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live');
     $dates = array();
     foreach($cols as $col){
       if($this->$col){
@@ -67,8 +67,8 @@ class Job extends WildfireResource{
     return $dates;
   }
 
-  public function next_milestone($date=false, $labels=false){
-    $times = $this->times("Ymd", $labels);
+  public function next_milestone($date=false, $labels=false, $cols=false){
+    $times = $this->times("Ymd", $labels, $cols);
     if(!$date) $date = date("Ymd");
     $compare = false;
     foreach($times as $col=>$day){

@@ -1,0 +1,17 @@
+<div class='summary clearfix'>
+  <?if($active_staff->admin()):?>
+    <?$active = $all->scope("live")->order("date_created DESC")->all();?>
+    <p>Currently <?=$all->count()?> jobs; <?=$active->count()?> are active.</p>
+    <?foreach($active as $row):?>
+    <p><a href="/job/details/<?=$row->primval?>/" class='dbl-click'>&raquo; <?=$row->title?></a></p>
+    <?endforeach?>
+
+  <?else:?>
+    <p>Currently have <?=$all->count()?>. The lastest are:</p>
+    <?if($last = $all->order("date_created DESC")->limit(8)->all()):?>
+      <?foreach($last as $row):?>
+      <p>&raquo; <?=$row->title?></p>
+      <?endforeach?>
+    <?endif?>
+  <?endif?>
+</div>

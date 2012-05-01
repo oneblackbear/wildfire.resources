@@ -74,6 +74,7 @@ jQuery(document).ready(function(){
   });
 
   jQuery(window).bind("closed-help-tab", function(e){
+    e.preventDefault();
     jQuery(".highlight").removeClass("highlight");
     range_start = false;
     range_end = false;

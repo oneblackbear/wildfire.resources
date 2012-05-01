@@ -1,17 +1,19 @@
 <?
-$job = $model->job;
-$client = $model->client;
-$due = $model->due_date(true);
-$model->tightness();
+$job = $client = $due = false;
+if($model){
+  $job = $model->job;
+  $client = $model->client;
+  $due = $model->due_date(true);
+}
 $staff = new Staff;
 ?>
-<?if($active_staff->role == "admin" || $active_staff->role == "owner"):?>
+<?if($active_staff->admin()):?>
 <form action="#step" method="post" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax" data-trigger-element="#filters_department" data-trigger="change">
 <?endif?>
   <div class='clearfix split'>
     <h5><?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></h5>
     <h6 class='header <?=$model->tightness()?>'>(<strong><?=$model->date_string()?></strong>) <small><?=$model->hours?> hrs per day</small></h6>
-    <?if($active_staff->role == "admin" || $active_staff->role == "owner"):?>
+    <?if($active_staff->admin()):?>
     </div>
     <div class='split clearfix details'>
       <span class='clearfix split_field'><?=$$form_name->date_start->render(array('label'=>false))?> <?=$$form_name->date_end->render(array('label'=>false))?></span>
@@ -64,6 +66,6 @@ $staff = new Staff;
   </div>
   <?endif?>
 
-<?if($active_staff->role == "admin" || $active_staff->role == "owner"):?>
+<?if($active_staff->admin()):?>
 </form>
 <?endif?>

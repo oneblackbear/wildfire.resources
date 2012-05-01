@@ -1,6 +1,6 @@
 <?
 class Staff extends WildfireResource{
-
+  public $name = "Staff";
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public static $roles = array('standard'=>'client', 'privileged'=>'staff', 'admin'=>'admin', 'owner'=>'owner');
   public static $permission_cache = array();
@@ -112,5 +112,16 @@ class Staff extends WildfireResource{
     return $total_work;
   }
 
+  public function admin($exact=false){
+    return ($this->role == "admin" || $this->role == "owner");
+  }
+  public function privileged($exact=true){
+    if($exact) return ($this->role == "privileged");
+    else return ($this->admin() || $this->role == "privileged");
+  }
+  public function standard($exact=true){
+    if($exact) return ($this->role == "standard");
+    else return ($this->admin() || $this->privileged(true) || $this->role == "standard");
+  }
 }
 ?>

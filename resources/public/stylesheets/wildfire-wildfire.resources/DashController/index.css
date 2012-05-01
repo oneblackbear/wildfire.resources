@@ -1,6 +1,6 @@
 .link_block{
   float:left;
-  width:28%;
+  width:27%;
   margin:10px 0;
   text-decoration:none;
   text-transform:uppercase;
@@ -10,6 +10,10 @@
 .link_block:nth-child(3n){
   margin-right:0%;
 }
+.link_block:nth-child(4n){
+  clear:both;
+}
+
   .link_block a{
     text-decoration:none;
     font-family:"Open Sans", helvetica, arial;
@@ -29,3 +33,15 @@
     text-transform:none;
   }
   .summary p{margin-bottom:2px;}
+
+  .link_block.block-work .repeat{
+    margin:0;
+    padding:0;
+    border-width:0;
+  }
+  .link_block.block-work h3 small{
+    float:right;
+  }
+  .link_block.block-work h3 span{
+    display:none;
+  }

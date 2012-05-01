@@ -9,7 +9,7 @@ class JobController extends BaseController{
                         );
   public $navigation_links = array('index', 'create', 'listing');
   public $permissions = array(
-                          'create'=>array('owner', 'admin'),
+                          'create'=>array('owner', 'admin', 'privileged'),
                           'edit'=>array('owner', 'admin', 'privileged'),
                           'listing'=>array('owner', 'admin', 'privileged'),
                           'delete'=>array('owner')
@@ -20,7 +20,7 @@ class JobController extends BaseController{
     //filter the visible jobs to your organisation if you are a standard user
     WaxEvent::add("model.filters", function(){
       $controller = WaxEvent::data();
-      if($controller->active_staff->role == 'standard'){
+      if($controller->active_staff->standard()){
         $orgs = array(0);
         foreach($controller->active_staff->organisations as $o) $orgs[] = $o->primval;
         $controller->model = $controller->model->filter("organisation_id", $orgs);
@@ -31,7 +31,7 @@ class JobController extends BaseController{
   public function _summary(){
     $model = new $this->model_class;
     //standard staff (clients) can only see jobs attached to them
-    if($controller->active_staff->role == 'standard'){
+    if(($controller->active_staff) && $controller->active_staff->standard()){
       $orgs = array(0);
       foreach($controller->active_staff->organisations as $o) $orgs[] = $o->primval;
       $controller->model = $controller->model->filter("organisation_id", $orgs);

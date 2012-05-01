@@ -25,11 +25,6 @@ class WorkController extends BaseController{
     parent::index();
   }
 
-  //like the form, but non-editable
-  public function details(){
-    WaxEvent::run("model.setup", $this);
-    WaxEvent::run("form.save", $this);
-  }
 
   public function index(){
     //if no filters, default to active member of staffs department
@@ -84,7 +79,10 @@ class WorkController extends BaseController{
                                     'dates'=>true,
                                     'choices'=> array(
                                                 '-1 to +1'=>array('min'=>'yesterday', 'max'=>'tomorrow'),
-                                                '-3 to +3'=>array('min'=>'-3 days', 'max'=>'+3 days')
+                                                '-1 to +4'=>array('min'=>'yesterday', 'max'=>'+4 days'),
+                                                '-1 to +7'=>array('min'=>'yesterday', 'max'=>'+7 days'),
+                                                '-3 to +3'=>array('min'=>'-3 days', 'max'=>'+3 days'),
+                                                '-5 to +5'=>array('min'=>'-5 days', 'max'=>'+5 days')
                                                 )
                                     );
     if(!Request::param('filters')){

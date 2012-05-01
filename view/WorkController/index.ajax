@@ -39,7 +39,7 @@ $next = $table['next_info'];
 
       <td class="<?=$class?><?=$extra_class?> day_<?=$count?> events_<?=count($events)?>" data-day="<?=$index?>">
 
-        <?if(($active_staff->role == "admin" || $active_staff->role == "owner") && (str_replace("-", "", $index) >= $now) ):?>
+        <?if(($active_staff->admin()) && (str_replace("-", "", $index) >= $now) ):?>
         <a href="/<?=$controller?>/create/" data-col_start="pre_<?=$model->table?>[date_start]" data-col_end="pre_<?=$model->table?>[date_end]" data-col_value="<?=$index?>&amp;month=<?=$cal_month?>&amp;year=<?=$cal_year?>" class='calendar_date range-click'><?=$start?></a>
         <?else:?>
         <span class='calendar_date'><?=$start?></span>

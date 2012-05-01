@@ -20,6 +20,7 @@ class BaseController extends WaxController{
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
+                          'details'=>array('owner', 'admin'),
                           'delete'=>array('owner')
                         );
 
@@ -219,6 +220,11 @@ class BaseController extends WaxController{
       echo "failed";
       exit;
     }
+  }
+  //like the form, but non-editable
+  public function details(){
+    WaxEvent::run("model.setup", $this);
+    WaxEvent::run("form.save", $this);
   }
 
   public function _summary(){

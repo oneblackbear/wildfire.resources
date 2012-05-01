@@ -10,9 +10,11 @@ TODO:
   JOB:
   - on create / modify send email to admins about the new job (optional flag)
   WORK:
-  - todo list
   - on create / modify send email to staff member assigned (optional flag)
   REPORTS:
   - all of it!
+  COMMENTS:
+  - all of them
+
 
 

@@ -4,3 +4,8 @@
 .due_now{
   background: rgba(255,255,136,0.2);
 }
+
+.work .header{
+  display:block;
+  text-decoration:none;
+}

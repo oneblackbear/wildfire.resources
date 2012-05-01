@@ -32,7 +32,6 @@ jQuery(document).ready(function(){
         }else{
           form.replaceWith(res);
         }
-        console.log("jQuery("+trigger_ele+").trigger("+trigger+");");
         if(trigger && trigger_ele){
           jQuery(trigger_ele).trigger(trigger);
         }
