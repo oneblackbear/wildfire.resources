@@ -23,10 +23,13 @@ class Work extends WaxModel{
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
     $this->define("created_by", "IntegerField", array('widget'=>'HiddenInput'));
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
+    $this->define("notified", "IntegerField", array('editable'=>false));
   }
 
   public function before_insert(){
     $this->date_created = date("Y-m-d H:i:s");
+    $this->notified = 0;
+    parent::before_insert();
   }
   public function before_save(){
 
@@ -48,6 +51,29 @@ class Work extends WaxModel{
         if($end < $work_start) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
         if($end < $work_end) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
       }
+    }
+    /**
+     * send email alert to staff assigned to this job,
+     * the clients account handler & person who raised the job
+     */
+    if(!$this->notified && ($job = $this->job)){
+      $notify = new ResourceNotify;
+      //person assigned on the job
+      if($staff = $this->staff) $notify->send_work_scheduled($this, $job, $staff);
+      //the account handler for the client
+      if(($client = $job->client) && ($handler = $client->account_handler)) $notify->send_work_scheduled($this, $job, $handler);
+      //the person who created the job
+      if($creator = new Staff($job->created_by)) $notify->send_work_scheduled($this, $job, $creator);
+      $this->notified = 1;
+    }else if($this->notified == 1 && $this->status == "completed"){
+      $notify = new ResourceNotify;
+      //person assigned on the job
+      if($staff = $this->staff) $notify->send_work_completed($this, $job, $staff);
+      //the account handler for the client
+      if(($client = $job->client) && ($handler = $client->account_handler)) $notify->send_work_completed($this, $job, $handler);
+      //the person who created the job
+      if($creator = new Staff($job->created_by)) $notify->send_work_completed($this, $job, $creator);
+      $this->notified = 2;
     }
     parent::before_save();
   }

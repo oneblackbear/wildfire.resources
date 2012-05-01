@@ -4,7 +4,6 @@ class Organisation extends WildfireResource{
     parent::setup();
     $this->define("is_client", "BooleanField");
     $this->define("account_handler", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("main_contact", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'col_name'=>"main_contact"));
 
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships'));
     $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships'));
