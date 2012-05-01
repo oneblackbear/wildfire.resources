@@ -43,6 +43,19 @@ class JoinController extends BaseController{
     parent::_events();
   }
 
+
+  public function invited(){
+    $model = new $this->model_class;
+    if($this->model = $model->filter("password_token", Request::param("token"))->first()){
+      $this->model->columns['password'][1]['editable'] = true;
+      $this->{$this->form_name} = new WaxForm($this->model);
+      if($password = $_REQUEST['staff']['password']){
+        $saved = $this->model->update_attributes(array('password_token'=> $this->model->token(), 'password'=>$this->model->hash(false, Staff::$salt, $password) ) );
+        $this->active_staff = $this->_staff_login($saved->email, $saved->password, true);
+        $this->redirect_to("/dash/");
+      }
+    }
+  }
   public function create(){$this->redirect_to("/");}
   public function edit(){$this->redirect_to("/");}
 

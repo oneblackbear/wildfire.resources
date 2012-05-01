@@ -14,6 +14,20 @@ class Job extends WildfireResource{
     $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("notified", "BooleanField", array('editable'=>false));
+  }
+
+  public function before_insert(){
+    $this->notified = 0;
+    parent::before_insert();
+  }
+  public function before_save(){
+    if(!$this->notified && ($depts = $this->departments) && $depts && $depts->count()){
+      $notify = new ResourceNotify;
+      foreach($depts as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $notify->send_job_creation($this, $staff);
+      $this->notified = 1;
+    }
+    parent::before_save();
   }
   /**
    * from all data we now have find those that either have no work attached,
@@ -89,6 +103,8 @@ class Job extends WildfireResource{
   public function between($start, $end){
     return $this->filter("((`date_go_live` BETWEEN '".$start."' AND '".$end."') )");
   }
+
+
 
 }
 ?>

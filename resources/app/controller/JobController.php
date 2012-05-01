@@ -54,9 +54,5 @@ class JobController extends BaseController{
     $this->cms_content = $this->cms_content->scope("live")->order("date_go_live ASC")->all();
   }
 
-  /**
-   *
-   */
-
 }
 ?>

@@ -19,7 +19,7 @@ class Staff extends WildfireResource{
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password', 'editable'=>false));
     $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::get_roles()));
     $this->define("date_active", "DateTimeField", array('editable'=>false));
-
+    $this->define("invited", "BooleanField", array('editable'=>false));
     $this->define("password_token", "CharField", array('editable'=>false));
   }
 
@@ -48,15 +48,26 @@ class Staff extends WildfireResource{
   public function before_insert(){
     parent::before_insert();
     $this->original_email = $this->email;
-    if($this->password) $this->password = hash_hmac("sha1", $this->password, self::$salt);
+    $this->invited = 0;
+    if($this->password) $this->password = $this->hash("password", self::$salt);
   }
   public function before_save(){
-    $this->password_token = hash_hmac("sha1", $this->email, time());
-    if(!$this->password){
+    if(!$this->password && !$this->invited){
+      $this->password_token = $this->token();
       $notify = new ResourceNotify;
       $notify->send_staff_invite($this);
+      //set invite so dont get lots of these
+      $this->invited = 1;
     }
     parent::before_save();
+  }
+
+  public function token(){
+    return $this->hash("email", time());
+  }
+  public function hash($col=false, $salt, $value=false){
+    if($col) return hash_hmac("sha1", $this->$col, $salt);
+    else if($value) return hash_hmac("sha1", $value, $salt);
   }
 
   //find all chunks of the site that this user has access to

@@ -31,16 +31,19 @@
 <div id="wrapper" style="width:640px;font-family:tahoma, arial, sans-serif; color:#000000; font-size:13px;margin:10px auto;border:1px solid #f7f7f7;">
   <table width="640" bgcolor="#f7f7f7" style="background-color:#f7f7f7; background:#f7f7f7">
     <tr>
-      <td align="left"><img src="http://<?=$_SERVER['HTTP_HOST']?>/images/wildfire-wildfire.resources/logo.png" alt="<?=Config::get("site/name")?>" ></td>
+      <td align="left"><img src="http://<?=$_SERVER['HTTP_HOST']?>/images/wildfire-wildfire.resources/logo.png" alt="<?=Config::get("site/name")?>"></td>
       <td style="padding:10px;" align="left">
         <h1><font size="5" color="#424242"><?=$subject?></font></h1>
       </td>
     </tr>
     <tr>
+      <?
+      $client = $job->client;
+      ?>
       <td colspan="2">
         <p>Hello <?=$staff->title?>,</p>
-        <p>You have been invited to join resource management tool, click the link below to set your password and login.</p>
-        <p><a href="http://<?=$_SERVER['HTTP_HOST']?>/join/invite/?token=<?=$staff->password_token?>">Click here to join</a></p>
+        <p>A new job has been created for your department. Use the link below to view it.</p>
+        <p><a href="http://<?=$_SERVER['HTTP_HOST']?>/job/edit/<?=$job->primval?>/"><?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></a></p>
       </td>
     </tr>
   </table>

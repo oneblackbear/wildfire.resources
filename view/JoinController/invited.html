@@ -1,0 +1,14 @@
+<a name="step"></a>
+<div class='form restricted_form user_form clearfix'>
+  <h1>Joining <?=Config::get("site/name")?></h1>
+  <p>Hi <?=$model->title?>, please fill in a password below to join.</p>
+  <div class='repeat'>
+    <?=$$form_name->errors()?>
+    <form action="#step" id="join_form" method="post">
+      <fieldset class='clearfix inline_fields'>
+      <?=$$form_name->password->render(array('label'=>'Your password', 'placeholder'=>'Please enter a password'));?>
+      <input type="submit" name="join_submit" value="Join" class="submit_button">
+      </fieldset>
+    </form>
+  </div>
+</div>

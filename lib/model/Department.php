@@ -16,5 +16,13 @@ class Department extends WildfireResource{
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
   }
 
+  public function admins(){
+    $staff = $this->staff;
+    $model = new Staff;
+    $admins= array(0);
+    foreach($staff->filter("role", array("owner", "admin"))->all() as $admin) $admins[] = $admin;
+    return $model->filter("id", $admins)->all();
+  }
+
 }
 ?>

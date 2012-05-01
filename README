@@ -4,7 +4,6 @@ RESOURCES REQUIRES:
 
 TODO:
   USERS:
-  - on creating user, send invite email
   - password reset page
   - user profile page
   JOB:
