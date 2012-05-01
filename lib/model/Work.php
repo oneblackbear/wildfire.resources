@@ -52,30 +52,40 @@ class Work extends WaxModel{
         if($end < $work_end) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
       }
     }
+    parent::before_save();
     /**
      * send email alert to staff assigned to this job,
      * the clients account handler & person who raised the job
      */
-    if(!$this->notified && ($job = $this->job)){
+    $emails = array();
+    //make sure all the joins are set...
+    if($this->notified == 0 && $this->created_by){
+      WaxLog::log("error", "saving work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       //person assigned on the job
-      if($staff = $this->staff) $notify->send_work_scheduled($this, $job, $staff);
+      if($staff = $this->staff) $emails[$staff->primval] = $staff;
       //the account handler for the client
-      if(($client = $job->client) && ($handler = $client->account_handler)) $notify->send_work_scheduled($this, $job, $handler);
+      if(($client = $job->client) && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
       //the person who created the job
-      if($creator = new Staff($job->created_by)) $notify->send_work_scheduled($this, $job, $creator);
+      if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
       $this->notified = 1;
-    }else if($this->notified == 1 && $this->status == "completed"){
+      //send them out
+      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
+    }else if($this->notified == 1 && $this->status == "completed" && ($job = $this->job)){
+      WaxLog::log("error", "complete work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
+      $emails = array();
       //person assigned on the job
-      if($staff = $this->staff) $notify->send_work_completed($this, $job, $staff);
+      if($staff = $this->staff) $emails[$staff->primval] = $staff;
       //the account handler for the client
-      if(($client = $job->client) && ($handler = $client->account_handler)) $notify->send_work_completed($this, $job, $handler);
+      if(($client = $job->client) && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
       //the person who created the job
-      if($creator = new Staff($job->created_by)) $notify->send_work_completed($this, $job, $creator);
+      if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
+      //send them out
+      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
       $this->notified = 2;
     }
-    parent::before_save();
+
   }
 
   public function who(){

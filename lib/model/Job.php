@@ -22,7 +22,7 @@ class Job extends WildfireResource{
     parent::before_insert();
   }
   public function before_save(){
-    if(!$this->notified && ($depts = $this->departments) && $depts && $depts->count()){
+    if(!$this->notified && $this->created_by){
       $notify = new ResourceNotify;
       foreach($depts as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $notify->send_job_creation($this, $staff);
       $this->notified = 1;
@@ -37,10 +37,12 @@ class Job extends WildfireResource{
     $cms_content = new Job;
     foreach($cms_content as $row){
       //as soon as find an item thats not complete, remove the job from the list & break out
-      foreach($row->work as $item){
-        if($item->primval && $item->status == "completed"){
-          $this->filter("id", $row->primval, "!=");
-          break;
+      if(($work = $row->work) && $work->count()){
+        foreach($work as $item){
+          if($item->primval && $item->status == "completed"){
+            $this->filter("id", $row->primval, "!=");
+            break;
+          }
         }
       }
     }

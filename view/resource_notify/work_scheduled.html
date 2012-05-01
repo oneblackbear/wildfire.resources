@@ -37,12 +37,11 @@
       </td>
     </tr>
     <tr>
-      <?
-      $client = $job->client;
-      ?>
+
       <td colspan="2">
         <p>Hello <?=$staff->title?>,</p>
-        <p>A new work item has been created. <?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></p>
+        <p>A new work item has been created for <?=$assigned->title?> @ <?=$work->date_string()?> for <?=$work->hours?>hrs per day.</p>
+        <p><?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></p>
       </td>
     </tr>
   </table>
