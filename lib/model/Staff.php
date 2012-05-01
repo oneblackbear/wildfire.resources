@@ -19,6 +19,8 @@ class Staff extends WildfireResource{
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password', 'editable'=>false));
     $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::get_roles()));
     $this->define("date_active", "DateTimeField", array('editable'=>false));
+
+    $this->define("password_token", "CharField", array('editable'=>false));
   }
 
   public static function get_roles(){
@@ -47,6 +49,14 @@ class Staff extends WildfireResource{
     parent::before_insert();
     $this->original_email = $this->email;
     if($this->password) $this->password = hash_hmac("sha1", $this->password, self::$salt);
+  }
+  public function before_save(){
+    $this->password_token = hash_hmac("sha1", $this->email, time());
+    if(!$this->password){
+      $notify = new ResourceNotify;
+      $notify->send_staff_invite($this);
+    }
+    parent::before_save();
   }
 
   //find all chunks of the site that this user has access to
@@ -111,7 +121,9 @@ class Staff extends WildfireResource{
     foreach($work as $day) foreach($day['hours'] as $t) $total_work+= $t;
     return $total_work;
   }
-
+  public function owner($exact=false){
+    return ($this->role == "owner");
+  }
   public function admin($exact=false){
     return ($this->role == "admin" || $this->role == "owner");
   }

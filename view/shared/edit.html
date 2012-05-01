@@ -1,10 +1,7 @@
 <?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'filter_fields'=>array()));?>
 <div class='full padded clearfix'>
-  <?if($active_staff->admin()):?>
-    <?=partial("$controller/_dynamic_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
-  <?else:?>
-    <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
-  <?endif?>
+  <?=partial("$controller/_help_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
+
 
   <div class='content clearfix'>
     <?=partial("edit", array('model'=>$model,'model_saved'=>$model_saved,'active_staff'=>$active_staff, $$form_name=>$$form_name, 'controller'=>$controller, 'action'=>$action, 'active'=>false), "ajax");?>
