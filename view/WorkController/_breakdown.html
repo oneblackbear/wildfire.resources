@@ -16,11 +16,17 @@ if($cal_month == 1){
   <?
   $staff = new Staff;
   if($id = $model_filters['staff']) $staff->filter("id", $id);
-  else if($model_filters['department'] && ($dep = new Department($model_filters['department']) )){
+  if($model_filters['department'] && ($dep = new Department($model_filters['department']) )){
     $ids = array(0);
     foreach($dep->staff as $st) $ids[] = $st->primval;
     $staff->filter("id", $ids);
   }
+  if(($j = $model_filters['job'] ) && ($job = new Job($j))){
+    $ids=array(0);
+    foreach($job->work as $w) $ids[] = $w->staff_id;
+    $staff->filter("id", $ids);
+  }
+
   ?>
   <?foreach($staff->filter("group_token", $active_staff->group_token)->all() as $person):?>
     <?=partial("_breakdown", array('person'=>$person, 'date_start'=>$table['start_date'], 'date_end'=>$table['end_date'], 'all_days'=>$all_days), "ajax");?>

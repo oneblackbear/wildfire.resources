@@ -5,7 +5,8 @@ class WorkController extends BaseController{
   public $name = "Work";
   public $filter_fields=array(
                           'department' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
-                          'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
+                          'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
+                          'job' => array('columns'=>array('job'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
   public $navigation_links = array('index', 'create', 'listing', 'todo');
   public $permissions = array(
@@ -71,7 +72,7 @@ class WorkController extends BaseController{
   }
 
   public function todo(){
-    unset($this->filter_fields['department']);
+    unset($this->filter_fields['department'], $this->filter_fields['job']);
     //add in the days filter
     $this->filter_fields['days'] = array(
                                     'columns'=>array('date_start', 'date_end'),

@@ -10,6 +10,8 @@ TODO:
   WORK:
   REPORTS:
   - all of it!
+  FEE:
+  - tidy up where its being used to only fetch active fee items
   COMMENTS:
   - all of them
   MISC:
