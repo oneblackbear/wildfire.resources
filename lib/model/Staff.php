@@ -7,7 +7,7 @@ class Staff extends WildfireResource{
   public static $work_cache = array();
 
   public function setup(){
-
+    parent::setup();
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
@@ -21,7 +21,7 @@ class Staff extends WildfireResource{
     $this->define("date_active", "DateTimeField", array('editable'=>false));
     $this->define("invited", "BooleanField", array('editable'=>false));
     $this->define("password_token", "CharField", array('editable'=>false));
-    parent::setup();
+
   }
 
   public static function get_roles(){
