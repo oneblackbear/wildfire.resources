@@ -9,7 +9,9 @@ $due = $model->due_date(true);
   <span class='header no-margin <?=$model->tightness()?> padded'>(<?=$model->date_string()?>) <small><?=$model->hours?> hrs per day</small></span>
   <span class='no-margin clearfix checkbox'>
     <?if($active_staff->admin() || $active_staff->primval == $model->staff_id):?>
-    <a href="#"  class="button submit_button timer off">timer <span>running</span></a>
+      <?if($model->status != "completed"):?>
+      <a href="#"  class="button submit_button timer off">timer <span>running</span></a>
+      <?endif?>
     <input type="submit" class="button submit_button" value="update" name="form_update">
     <input type="checkbox" name="<?=$model->table?>[status]" value="completed"<?if($model->status == "completed"):?> checked="checked"<?endif?> class='input_field checkbox'>
     <?endif?>
