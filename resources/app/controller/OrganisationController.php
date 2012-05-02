@@ -17,7 +17,7 @@ class OrganisationController extends BaseController{
     //after save of the form, join to the user and redirect to department
     WaxEvent::add("form.save.after", function(){
       $controller = WaxEvent::data();
-      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to($controller->_url()."department/");
+      if(!$controller->use_format || in_array($controller->use_format, $controller->redirect_formats)) $controller->redirect_to("/department/setup/");
     });
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
