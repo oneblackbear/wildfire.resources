@@ -15,6 +15,7 @@ class Job extends WildfireResource{
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("notified", "BooleanField", array('editable'=>false));
+    $this->define("signed_off", "BooleanField", array('required'=>true));
   }
 
   public function before_insert(){
