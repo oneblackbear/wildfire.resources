@@ -2,6 +2,7 @@
 class Work extends WaxModel{
 
   public static $status_options = array('scheduled'=>'scheduled', 'completed'=>'completed');
+  public static $work_types = array(''=>'-- Select --','admin'=>'Admin', 'meeting'=>'Meeting', 'testing'=>'Testing', 'amendmant'=>'Amends to existing', 'project'=>'Project');
   public static $cached = array();
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
@@ -13,7 +14,7 @@ class Work extends WaxModel{
     $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true, 'required'=>true));
     $this->define("hours_used", "FloatField", array('maxlength'=>'12,2', 'label'=>'Actual hours used so far'));
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
-
+    $this->define("type", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$work_types));
 
     $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships'));

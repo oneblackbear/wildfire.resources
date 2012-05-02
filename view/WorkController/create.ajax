@@ -59,6 +59,7 @@
     <input type='hidden' name="<?=$model->table?>[date_end]" value="<?=date("Y-m-d")?>">
     <?endif?>
     <span class='clearfix'><?=$$form_name->hours_used->render();?></span>
+    <span class='clearfix'><?=$$form_name->type->render();?></span>
 
   </div>
   <input type="submit" name="form_submit" value="Save" class='button submit_button'>
