@@ -8,7 +8,7 @@ class StaffController extends BaseController{
                           'departments' => array('columns'=>array('departments'), 'partial'=>'_filters_select', 'opposite_join_column'=>'staff')
                         );
   public $permissions = array(
-                          'index' => array('owner', 'admin', 'privileged'),
+                          'index' => array('owner', 'admin', 'staff'),
                           'create'=>array('owner', 'admin'),
                           'edit'=>array('owner', 'admin'),
                           'delete'=>array('owner')

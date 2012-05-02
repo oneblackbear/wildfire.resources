@@ -16,7 +16,7 @@
         $dept = $work->department;
         $staff = $work->staff;
         ?>
-        <?if($active_staff->privileged(false)):?>
+        <?if($active_staff->staff(false)):?>
           <a href="/work/details/<?=$work->primval?>/" id="w<?=$work->primval?>" class='dbl-click <?=$work->tightness()?> header no-margin <?if($work->status == "completed"):?> completed<?endif?>'><?=$staff->title?> (<?=$dept->title?> @ <?=$work->date_string()?>)</a>
         <?else:?>
           <span class='header no-margin <?=$work->tightness()?> <?if($work->status == "completed"):?> completed<?endif?>'><?=$staff->title?> (<?=$dept->title?> @ <?=$work->date_string()?>)</span>

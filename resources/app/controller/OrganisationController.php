@@ -6,7 +6,7 @@ class OrganisationController extends BaseController{
                           'create'=>array('owner'),
                           'edit'=>array('owner', 'admin'),
                           'delete'=>array('owner'),
-                          'index'=>array('owner', 'admin', 'privileged')
+                          'index'=>array('owner', 'admin', 'staff')
                         );
 
   /**

@@ -18,6 +18,7 @@ if(($active = $model_filters['days']) && ($filters = $filter_fields['days']['cho
     <?=partial("update", array('model'=>$todo,'controller'=>$controller, 'action'=>"update", 'active_staff'=>$active_staff, $$form_name=>$$form_name, 'form_name'=>$form_name, 'model_saved'=>$model_saved), "ajax");?>
 
     <?endforeach?>
+
   </div>
 
 </div>

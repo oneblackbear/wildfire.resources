@@ -8,16 +8,16 @@ class WorkController extends BaseController{
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'job' => array('columns'=>array('job'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
-  public $navigation_links = array('index', 'create', 'listing', 'todo');
+  public $navigation_links = array('index', 'listing', 'todo');
   public $permissions = array(
-                          'create'=>array('owner', 'admin'),
+                          'create'=>array('owner', 'admin', 'staff'),
                           'edit'=>array('owner', 'admin'),
                           'delete'=>array('owner', 'admin'),
                           'listing'=>array('owner'),
-                          'index'=>array('owner', 'admin', 'privileged'),
-                          'details'=>array('owner', 'admin', 'privileged'),
-                          'todo'=>array('owner', 'admin', 'privileged'),
-                          'update'=>array('owner', 'admin', 'privileged')
+                          'index'=>array('owner', 'admin', 'staff'),
+                          'details'=>array('owner', 'admin', 'staff'),
+                          'todo'=>array('owner', 'admin', 'staff'),
+                          'update'=>array('owner', 'admin', 'staff')
                         );
 
 

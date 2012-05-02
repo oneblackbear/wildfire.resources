@@ -9,9 +9,9 @@ class JobController extends BaseController{
                         );
   public $navigation_links = array('index', 'create', 'listing');
   public $permissions = array(
-                          'create'=>array('owner', 'admin', 'privileged'),
-                          'edit'=>array('owner', 'admin', 'privileged'),
-                          'listing'=>array('owner', 'admin', 'privileged'),
+                          'create'=>array('owner', 'admin', 'staff'),
+                          'edit'=>array('owner', 'admin', 'staff'),
+                          'listing'=>array('owner', 'admin', 'staff'),
                           'delete'=>array('owner')
                         );
 
