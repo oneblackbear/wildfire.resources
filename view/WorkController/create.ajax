@@ -7,10 +7,15 @@
   $jobs = new Job("live");
   $staff = new Staff;
   $dept = new Department;
+  if(!$active_staff->admin()){
+    $staff->filter("id", $active_staff->primval);
+    $dept->filter("id", $active_staff->department_id);
+  }
   ?>
   <div class='split clearfix'>
     <span class='clearfix no-label'>
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
+      <option value="">-- Select --</option>
       <?foreach($jobs->filter("group_token", $active_staff->group_token)->all() as $job):?>
       <option value="<?=$job->primval?>"><?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
       <?endforeach?>
@@ -21,6 +26,7 @@
   <div class='split clearfix'>
     <span class='clearfix no-label'>
       <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
+        <option value="">-- Select --</option>
       <?foreach($dept->filter("group_token", $active_staff->group_token)->all() as $dep):?>
       <option value="<?=$dep->primval?>"><?=$dep->title?></option>
       <?endforeach?>
@@ -31,6 +37,7 @@
   <div class='split clearfix'>
     <span class='clearfix no-label'>
       <select name="<?=$model->table?>[staff_id]" id="<?=$model->table?>_staff">
+        <option value="">-- Select --</option>
       <?foreach($staff->filter("group_token", $active_staff->group_token)->all() as $staff):?>
       <option value="<?=$staff->primval?>"><?=$staff->title?></option>
       <?endforeach?>

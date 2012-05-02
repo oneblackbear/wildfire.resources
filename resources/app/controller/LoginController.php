@@ -12,7 +12,6 @@ class LoginController extends BaseController{
     //if the user is logged in, redirect to the dash board
     if($this->active_staff) $this->redirect_to("/dash/");
     $this->model = new $this->model_class;
-    print_r(new Staff);exit;
     $this->model->columns['password'][1]['editable']=true;
 
     WaxEvent::run("form.setup", $this);

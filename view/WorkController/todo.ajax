@@ -18,9 +18,8 @@ if(($active = $model_filters['days']) && ($filters = $filter_fields['days']['cho
     <?=partial("update", array('model'=>$todo,'controller'=>$controller, 'action'=>"update", 'active_staff'=>$active_staff, $$form_name=>$$form_name, 'form_name'=>$form_name, 'model_saved'=>$model_saved), "ajax");?>
 
     <?endforeach?>
-    <div class='adhoc_create clearfix'>
-      <?=partial("create", array('model'=>$model,'model_saved'=>$model_saved,'active_staff'=>$active_staff, $$form_name=>$$form_name, 'controller'=>$controller, 'action'=>$action, 'active'=>false), "ajax");?>
-    </div>
+    <a href="/work/create/" class='adhoc_create clearfix dbl-click button on'>CREATE NEW WORK</a>
+
   </div>
 
 </div>

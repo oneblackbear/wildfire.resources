@@ -254,7 +254,7 @@ class BaseController extends WaxController{
     $this->redirect_to("/?lo");
   }
 
-  public function _help_tab(){
+  public function _dynamic_tab(){
     $content = new WildfireContent("live");
     if($page = $content->filter("permalink", "/help/".$this->controller."/".$this->action."/")->first()) $this->cms_content = $page;
   }
