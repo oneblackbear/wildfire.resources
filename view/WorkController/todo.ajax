@@ -8,7 +8,7 @@ if(($active = $model_filters['days']) && ($filters = $filter_fields['days']['cho
 }
 ?>
 <div class='pagination_block clearfix top_pagintion'>
-  <h1 id="editheader"><span>Todos for <?=$person->title?></span></h1>
+  <h1 id="editheader"><span>To do's for <?=$person->title?></span></h1>
 </div>
 <div class='todos clearfix'>
   <?=partial("_breakdown", array('person'=>$person, 'date_start'=>$date_start, 'date_end'=>$date_end, 'all_days'=>$all_days, 'no_name'=>true, 'chart_type'=>"BarChart"), "ajax");?>
