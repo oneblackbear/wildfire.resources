@@ -24,12 +24,12 @@ class Work extends WaxModel{
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
     $this->define("created_by", "IntegerField", array('widget'=>'HiddenInput'));
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
+    $this->define("send_notification", "BooleanField");
     $this->define("notified", "IntegerField", array('editable'=>false));
   }
 
   public function before_insert(){
     $this->date_created = date("Y-m-d H:i:s");
-    $this->notified = 0;
     parent::before_insert();
   }
   public function before_save(){
@@ -54,13 +54,17 @@ class Work extends WaxModel{
       }
     }
     parent::before_save();
+    $this->send_notification = 1;
+  }
+
+  public function notifications(){
     /**
      * send email alert to staff assigned to this job,
      * the clients account handler & person who raised the job
      */
     $emails = array();
     //make sure all the joins are set...
-    if($this->notified == 0 && $this->created_by > 0 && ($job = $this->job) && ($staff = $this->staff) && ($client = $job->client) && ($dept = $this->department)){
+    if($this->notified == 0 && $this->send_notification){
       WaxLog::log("error", "saving work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       //person assigned on the job
@@ -69,10 +73,10 @@ class Work extends WaxModel{
       if($client && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
       //the person who created the job
       if($creator = new Staff($job->created_by)) $emails[$creator->primval] = $creator;
-      $this->notified = 1;
+      $this->update_attributes(array('notified'=>1));
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
-    }else if($this->notified == 1 && $this->status == "completed" && ($job = $this->job)){
+    }else if($this->notified == 1 && $this->status == "completed" && $this->send_notification){
       WaxLog::log("error", "complete work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       $emails = array();
@@ -84,9 +88,8 @@ class Work extends WaxModel{
       if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
-      $this->notified = 2;
+      $this->update_attributes(array('notified'=>2));
     }
-
   }
 
   public function who(){

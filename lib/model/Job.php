@@ -21,13 +21,12 @@ class Job extends WildfireResource{
     $this->notified = 0;
     parent::before_insert();
   }
-  public function before_save(){
-    if(!$this->notified && $this->created_by){
+  public function notifications(){
+    if(!$this->notified && $this->created_by && $this->send_notification){
       $notify = new ResourceNotify;
       foreach($depts as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $notify->send_job_creation($this, $staff);
-      $this->notified = 1;
+      $this->update_attributes(array('notified'=>1));
     }
-    parent::before_save();
   }
   /**
    * from all data we now have find those that either have no work attached,
