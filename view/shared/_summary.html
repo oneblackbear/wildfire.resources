@@ -1,5 +1,5 @@
 <div class='summary clearfix'>
-  <p>Currently have <?=$all->count()?>. The lastest are:</p>
+  <p>Currently have <?=$all->count()?>. The latest are:</p>
   <?if($last = $all->order("date_created DESC")->limit(8)->all()):?>
     <?foreach($last as $row):?>
       <?if($active_staff->admin()):?>
