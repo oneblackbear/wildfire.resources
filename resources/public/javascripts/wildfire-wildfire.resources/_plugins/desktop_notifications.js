@@ -8,4 +8,6 @@ jQuery(document).ready(function(){
     if(window.webkitNotifications && window.webkitNotifications.checkPermission() == 0) window.webkitNotifications.createNotification(favicon, title , copy).show();
   });
 
+  if(!window.webkitNotifications) jQuery(".allow_notifications").hide();
+
 });
