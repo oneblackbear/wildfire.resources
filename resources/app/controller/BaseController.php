@@ -31,11 +31,11 @@ class BaseController extends WaxController{
     $this->cms_stacks();
   }
 
-  protected function base_url(){
+  public function _base_url(){
     return "/home/";
   }
   //the url of the controller
-  protected function url(){
+  public function _url(){
     return "/".str_replace("controller", "", strtolower(get_class($this))) ."/";
   }
   protected function cms_stacks(){
@@ -215,7 +215,7 @@ class BaseController extends WaxController{
     WaxEvent::run("model.setup", $this);
     if(($this->model_class == "Staff" && $this->model->primval != $this->active_staff->primval) || ($this->model_class != "Staff")){
       $this->model->delete();
-      $this->redirect_to($this->url());
+      $this->redirect_to($this->_url());
     }else{
       echo "failed";
       exit;
