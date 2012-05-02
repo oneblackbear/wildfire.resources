@@ -58,7 +58,7 @@ class Staff extends WildfireResource{
     if($this->password) $this->password = $this->hash("password", self::$salt);
   }
   public function before_save(){
-    if(!$this->password && !$this->invited){
+    if(!$this->password && !$this->invited && ($depts = $this->departments) && ($orgs = $this->organisations)){
       $this->password_token = $this->token();
       $notify = new ResourceNotify;
       $notify->send_staff_invite($this);
