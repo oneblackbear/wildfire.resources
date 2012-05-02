@@ -1,13 +1,13 @@
 <?
 class Staff extends WildfireResource{
-  public $name = "Staff";
   public static $days_of_week = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
   public static $roles = array('standard'=>'client', 'staff'=>'staff', 'admin'=>'admin', 'owner'=>'owner');
   public static $permission_cache = array();
   public static $hours_per_day_cache = array();
   public static $work_cache = array();
+
   public function setup(){
-    parent::setup();
+
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
@@ -21,6 +21,7 @@ class Staff extends WildfireResource{
     $this->define("date_active", "DateTimeField", array('editable'=>false));
     $this->define("invited", "BooleanField", array('editable'=>false));
     $this->define("password_token", "CharField", array('editable'=>false));
+    parent::setup();
   }
 
   public static function get_roles(){
@@ -144,13 +145,13 @@ class Staff extends WildfireResource{
   public function admin($exact=false){
     return ($this->role == "admin" || $this->role == "owner");
   }
-  public function staff($exact=true){
+  public function privileged($exact=true){
     if($exact) return ($this->role == "staff");
     else return ($this->admin() || $this->role == "staff");
   }
   public function standard($exact=true){
     if($exact) return ($this->role == "standard");
-    else return ($this->admin() || $this->staff(true) || $this->role == "standard");
+    else return ($this->admin() || $this->privileged(true) || $this->role == "standard");
   }
 }
 ?>

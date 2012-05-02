@@ -5,8 +5,8 @@
   <div class='repeat no_border'>
     <form action="#step" id="login_form" method="post">
       <fieldset class='clearfix inline_fields'>
-      <?=$login_form->email->render(array('label'=>'Your email address', 'placeholder'=>'Your email'));?>
-      <?=$login_form->password->render(array('label'=>'Your password', 'placeholder'=>'Your password'));?>
+      <?=$$form_name->email->render(array('label'=>'Your email address', 'placeholder'=>'Your email'));?>
+      <?=$$form_name->password->render(array('label'=>'Your password', 'placeholder'=>'Your password'));?>
       <input type="submit" name="login_submit" value="Login" class="submit_button">
       </fieldset>
     </form>
