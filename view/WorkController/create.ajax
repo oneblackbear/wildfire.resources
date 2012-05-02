@@ -13,7 +13,7 @@
   }
   ?>
   <div class='split clearfix'>
-    <span class='clearfix no-label'>
+    <span class='clearfix'>
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
       <option value="">-- Select --</option>
       <?foreach($jobs->filter("group_token", $active_staff->group_token)->all() as $job):?>
@@ -24,7 +24,7 @@
   </div>
   <?if($active_staff->admin()):?>
   <div class='split clearfix'>
-    <span class='clearfix no-label'>
+    <span class='clearfix'>
       <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
         <option value="">-- Select --</option>
       <?foreach($dept->filter("group_token", $active_staff->group_token)->all() as $dep):?>
@@ -35,7 +35,7 @@
   </div>
 
   <div class='split clearfix'>
-    <span class='clearfix no-label'>
+    <span class='clearfix'>
       <select name="<?=$model->table?>[staff_id]" id="<?=$model->table?>_staff">
         <option value="">-- Select --</option>
       <?foreach($staff->filter("group_token", $active_staff->group_token)->all() as $staff):?>
