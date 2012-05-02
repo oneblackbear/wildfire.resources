@@ -8,12 +8,8 @@ TODO:
   - user profile page
   JOB:
   WORK:
-    - admin
-    - meeting
-    - testing
-    - amendmant
-    - project
-    -
+    - creation isnt adding the created_by value?
+    - email sendouts being buggy
   REPORTS:
   - all of it!
   FEE:

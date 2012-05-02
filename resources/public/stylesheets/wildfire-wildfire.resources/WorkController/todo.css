@@ -23,6 +23,7 @@
 }
 .todos form.no-border.no-margin label small{
   font-size:55%;
+  display:block;
 }
 .todos form.no-border.no-margin input[type="checkbox"]{
   margin-top:5px;

@@ -54,7 +54,6 @@ class Work extends WaxModel{
       }
     }
     parent::before_save();
-    $this->send_notification = 1;
   }
 
   public function notifications(){
@@ -65,7 +64,6 @@ class Work extends WaxModel{
     $emails = array();
     //make sure all the joins are set...
     if($this->notified == 0 && $this->send_notification){
-      WaxLog::log("error", "saving work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       //person assigned on the job
       if($staff) $emails[$staff->primval] = $staff;
@@ -77,7 +75,6 @@ class Work extends WaxModel{
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
     }else if($this->notified == 1 && $this->status == "completed" && $this->send_notification){
-      WaxLog::log("error", "complete work - ".print_r($this->row,1));
       $notify = new ResourceNotify;
       $emails = array();
       //person assigned on the job
