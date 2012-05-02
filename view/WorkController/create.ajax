@@ -9,7 +9,7 @@
   $dept = new Department;
   if(!$active_staff->admin()){
     $staff->filter("id", $active_staff->primval);
-    $dept->filter("id", $active_staff->department_id);
+    $dept->filter("id", $active_staff->department_id());
   }
   ?>
   <div class='split clearfix'>
@@ -22,7 +22,7 @@
       </select>
     </span>
   </div>
-
+  <?if($active_staff->admin()):?>
   <div class='split clearfix'>
     <span class='clearfix no-label'>
       <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
@@ -44,11 +44,22 @@
       </select>
     </span>
   </div>
-
+  <?else:?>
+  <input type='hidden' name="<?=$model->table?>[department_id]" value="<?=$active_staff->department_id()?>">
+  <input type='hidden' name="<?=$model->table?>[staff_id]" value="<?=$active_staff->primval?>">
+  <input type='hidden' name="<?=$model->table?>[status]" value="completed">
+  <?endif?>
   <div class='split clearfix'>
+    <?if($active_staff->admin()):?>
     <span class='clearfix'><?=$$form_name->date_start->render();?></span>
     <span class='clearfix'><?=$$form_name->date_end->render();?></span>
     <span class='clearfix'><?=$$form_name->hours->render();?></span>
+    <?else:?>
+    <input type='hidden' name="<?=$model->table?>[date_start]" value="<?=date("Y-m-d")?>">
+    <input type='hidden' name="<?=$model->table?>[date_end]" value="<?=date("Y-m-d")?>">
+    <?endif?>
+    <span class='clearfix'><?=$$form_name->hours_used->render();?></span>
+
   </div>
   <input type="submit" name="form_submit" value="Save" class='button submit_button'>
 </form>

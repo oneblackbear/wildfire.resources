@@ -153,5 +153,13 @@ class Staff extends WildfireResource{
     if($exact) return ($this->role == "standard");
     else return ($this->admin() || $this->privileged(true) || $this->role == "standard");
   }
+  public function department(){
+    if(($depts = $this->departments) && ($first = $depts->first()) ) return $first;
+    else return false;
+  }
+  public function department_id(){
+    if($dept= $this->department()) return $dept->primval;
+    else return false;
+  }
 }
 ?>
