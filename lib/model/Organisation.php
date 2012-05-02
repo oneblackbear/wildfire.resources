@@ -2,6 +2,7 @@
 class Organisation extends WildfireResource{
   public function setup(){
     parent::setup();
+    $this->columns['content'][1]['editable'] = true;
     $this->define("is_client", "BooleanField");
     $this->define("account_handler", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
 
