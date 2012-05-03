@@ -1,4 +1,4 @@
-<form action="#step" method="post" class='async' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>/.ajax">
+<form action="#step" method="post" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>/.ajax">
   <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span><?=$model->title?></span></h5>
   <?=$$form_name->errors();?>
   <?
