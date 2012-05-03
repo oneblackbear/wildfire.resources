@@ -48,7 +48,7 @@
   <?else:?>
   <input type='hidden' name="<?=$model->table?>[department_id]" value="<?=$active_staff->department_id()?>">
   <input type='hidden' name="<?=$model->table?>[staff_id]" value="<?=$active_staff->primval?>">
-  <input type='hidden' name="<?=$model->table?>[status]" value="completed">
+  <input type='hidden' name="<?=$model->table?>[status]" value="scheduled">
   <?endif?>
   <div class='split clearfix'>
     <?if($active_staff->admin()):?>
