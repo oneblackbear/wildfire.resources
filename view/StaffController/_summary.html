@@ -1,0 +1,12 @@
+<div class='summary clearfix'>
+  <p>Currently have <?=$all->count()?>. The latest are:</p>
+  <?if($last = $all->order("date_created DESC")->limit(8)->all()):?>
+    <?foreach($last as $row):?>
+      <?if($active_staff->admin()):?>
+      <p><a href="/<?=$controller?>/details/<?=$row->primval?>/" class='dbl-click stylize' data-css-color="#<?=$staff->saved_colour?>">&raquo; <?=$row->title?></a></p>
+      <?else:?>
+      <p>&raquo; <?=$row->title?></p>
+      <?endif?>
+    <?endforeach?>
+  <?endif?>
+</div>
