@@ -176,7 +176,7 @@ class BaseController extends WaxController{
         if($save = $controller->model_saved->update_attributes($update)) $controller->model_saved = $controler->model = $save;
       }else $controller->model = $controller->model_saved;
       WaxEvent::run("form.save.joins", $controller);
-      if($controller->model->columns['send_notification']) $controller->model_saved->notifications();
+      if($controller->model_saved && $controller->model_saved->columns['send_notification']) $controller->model_saved->notifications();
     });
     WaxEvent::add("form.save.joins", function(){
       $controller = WaxEvent::data();

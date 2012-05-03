@@ -44,6 +44,7 @@
       </select>
     </span>
   </div>
+  <span class='clearfix'><?=$$form_name->send_notification->render();?></span>
   <?else:?>
   <input type='hidden' name="<?=$model->table?>[department_id]" value="<?=$active_staff->department_id()?>">
   <input type='hidden' name="<?=$model->table?>[staff_id]" value="<?=$active_staff->primval?>">

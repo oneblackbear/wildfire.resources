@@ -67,7 +67,7 @@ class Work extends WaxModel{
      */
     $emails = array();
     //make sure all the joins are set...
-    if($this->notified == 0 && $this->send_notification){
+    if($this->notified == 0 && $this->send_notification && ($job = $this->job) && ($client = $this->client) && ($staff = $this->staff)){
       $notify = new ResourceNotify;
       //person assigned on the job
       if($staff) $emails[$staff->primval] = $staff;
