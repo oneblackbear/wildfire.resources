@@ -3,7 +3,7 @@
   <?if($last = $all->order("date_created DESC")->limit(8)->all()):?>
     <?foreach($last as $row):?>
       <?if($active_staff->admin()):?>
-      <p><a href="/<?=$controller?>/details/<?=$row->primval?>/" class='dbl-click stylize' data-css-color="#<?=$staff->saved_colour?>">&raquo; <?=$row->title?></a></p>
+      <p><a href="/<?=$controller?>/details/<?=$row->primval?>/" class='dbl-click stylize' data-css-color="#<?=$row->saved_colour?>">&raquo; <?=$row->title?></a></p>
       <?else:?>
       <p>&raquo; <?=$row->title?></p>
       <?endif?>
