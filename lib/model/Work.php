@@ -11,7 +11,7 @@ class Work extends WaxModel{
     $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships'));
     $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true, 'required'=>true));
     $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true, 'required'=>true));
-    $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true, 'required'=>true));
+    $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true));
     $this->define("hours_used", "FloatField", array('maxlength'=>'12,2', 'label'=>'Actual hours used so far'));
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("type", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$work_types));
