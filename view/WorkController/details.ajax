@@ -16,6 +16,7 @@ $allstaff = new Staff;
     <?if($active_staff->admin()):?>
     </div>
     <div class='split clearfix details'>
+      <span class='clearfix'><?=$$form_name->title->render()?></span>
       <span class='clearfix'><?=$$form_name->date_start->render()?></span>
       <span class='clearfix'><?=$$form_name->date_end->render()?></span>
       <span class='clearfix no-label'>

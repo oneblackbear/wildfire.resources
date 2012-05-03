@@ -5,7 +5,7 @@ class JobController extends BaseController{
   public $name = "Jobs";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
-                          'departments' => array('columns'=>array('department'),'target_model'=>'Department', 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs')
+                          'departments' => array('columns'=>array('departments'),'target_model'=>'Department', 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs')
                         );
   public $navigation_links = array('index', 'create', 'listing');
   public $permissions = array(

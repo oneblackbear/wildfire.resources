@@ -87,7 +87,11 @@ class BaseController extends WaxController{
           if($filter['columns']){
             foreach($filter['columns'] as $col){
               if($opp = $filter['opposite_join_column']){
+                // echo "$opp - $col<br>";
+                // var_dump( $obj->model->columns);
+                // exit;
                 $target = $obj->model->columns[$col][1]['target_model'];
+
                 $join = new $target($value);
                 $ids = array(0);
                 foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
