@@ -53,7 +53,7 @@ form span label{
 }
   #dynamic-tab-content span label{
     float:none;
-    width:99%;
+    width:25%;
     display:block;
   }
 
@@ -80,12 +80,9 @@ form textarea{
   form input.error_field{
     border-color:#a91c12;
   }
-  #dynamic-tab-content input,
-  #dynamic-tab-content textarea,
-  #dynamic-tab-content select{
-    float:none;
-    width:90%;
-    display:block;
+  #dynamic-tab-content span input,
+  #dynamic-tab-content span textarea{
+    width:65%;
   }
 
 form input[type="text"][disabled="disabled"]{
