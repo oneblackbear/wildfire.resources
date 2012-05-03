@@ -51,11 +51,6 @@ class Job extends WildfireResource{
   public function scope_filters_select(){
     return $this->scope_live();
   }
-  public function is_editable(){
-    $allowed = false;
-    if(Session::get("LOGGED_IN_ROLE") == "owner" || Session::get("LOGGED_IN_ROLE") == "admin") return true;
-    return $allowed;
-  }
 
   public function completion_date($format = "jS F Y"){
     return date($format, strtotime($this->date_go_live));

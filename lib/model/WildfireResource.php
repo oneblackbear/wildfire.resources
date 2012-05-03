@@ -19,6 +19,11 @@ class WildfireResource extends WaxModel{
     parent::before_insert();
     if(!$this->group_token) $this->group_token = hash_hmac("sha1", time(), self::$salt);
   }
+  public function is_editable(){
+    $allowed = false;
+    if(Session::get("LOGGED_IN_ROLE") == "owner" || Session::get("LOGGED_IN_ROLE") == "admin") return true;
+    return $allowed;
+  }
 
   //this will need updating when the framework can handle manipulating join columns
   public function file_meta_set($fileid, $tag, $order=0, $title=''){

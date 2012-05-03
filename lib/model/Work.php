@@ -32,6 +32,12 @@ class Work extends WaxModel{
     $this->date_created = date("Y-m-d H:i:s");
     parent::before_insert();
   }
+  public function is_editable(){
+    $allowed = false;
+    if(Session::get("LOGGED_IN_ROLE") == "owner" || Session::get("LOGGED_IN_ROLE") == "admin") return true;
+    return $allowed;
+  }
+
   public function before_save(){
 
     if(!$this->title) $this->title = "WORK";
@@ -39,8 +45,6 @@ class Work extends WaxModel{
     $this->date_modified = date("Y-m-d H:i:s");
     //check for idiots
     if($this->date_end < $this->date_start) $this->add_error("date_end", "End date must be after the start date.");
-    //check old hours is less that current hours
-    if($this->primval && ($test = new Work($this->primval)) && ($this->hours_used < $test->hours_used)) $this->add_error("hours_used", "Hours used is accumlative.");
 
     if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
       $this->title = $job->title;
