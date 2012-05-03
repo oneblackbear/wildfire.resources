@@ -8,6 +8,7 @@ class Staff extends WildfireResource{
 
   public function setup(){
     parent::setup();
+    $this->columns['saved_colour'][1]['editable'] = true;
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
