@@ -54,7 +54,7 @@
   .timer span{
     display:none;
   }
-  button.timer.on span{
+  .button.timer.on span{
     text-indent:-9999em;
     display:inline-block;
     padding:0 10px;
