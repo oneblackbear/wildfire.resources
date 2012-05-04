@@ -99,5 +99,12 @@ class WorkController extends BaseController{
     $this->edit();
   }
 
+  /**
+   * all for filtering of data by department but all work merged together
+   */
+  public function graphs(){
+
+  }
+
 }
 ?>

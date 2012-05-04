@@ -10,15 +10,16 @@ TODO:
   WORK:
   REPORTS:
   - all of it!
+  INVOICING:
   FEE:
-  - tidy up where its being used to only fetch active fee items
+  - only fetch active fee items
   COMMENTS:
   - all of them
   MISC:
   - File uploads
-
-  - job listing filters being buggy
   - consistent edit / details forms in the dynamic tabs
+  - a sites listing to attach to clients (domains, servers, analytics logins)
+  - an analytics module based on the sites for clients to see overview figures
 
 
 
