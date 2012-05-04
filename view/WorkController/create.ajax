@@ -17,7 +17,7 @@
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
       <option value="">-- Select --</option>
       <?$org = false;?>
-      <?foreach($jobs->scope("live")->order("organisation_id ASC")->all() as $job):?>
+      <?foreach($jobs->scope("live")->order("organisation_id ASC, date_go_live ASC")->all() as $job):?>
         <?if($org != $job->organisation_id):?>
           <?if($org):?></optgroup><?endif?>
           <optgroup label="<?=(($o = $job->client)? $o->title : "No Client")?>">
