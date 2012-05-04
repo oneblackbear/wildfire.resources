@@ -36,20 +36,13 @@ class Job extends WildfireResource{
    * or who have work items that aren't set as complete
    */
   public function scope_live(){
-    $cms_content = new Job;
-    foreach($cms_content->all() as $row){
-      //as soon as find an item thats not complete, remove the job from the list & break out
-      if(($work = $row->work) && $work->count()){
-        foreach($work as $item){
-          if($item->primval && $item->status == "completed"){
-            $this->filter("id", $row->primval, "!=");
-            break;
-          }
-        }
-      }
+    $jobs = new Job;
+    $ids = array(0);
+    foreach($jobs->all() as $job){
+      $work = $job->work;
+      if(!$work || !$work->count() || ($work && ($all=$work->count()) && ($complete = $work->filter("status", "completed")->count()) && $complete < $all) ) $ids[] = $job->primval;
     }
-    $this->order("date_go_live ASC");
-    return $this;
+    return $this->filter("id", $ids)->order("date_go_live ASC");
   }
   //find work that has nothing attached to it
   public function scope_unscheduled(){

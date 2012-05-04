@@ -4,7 +4,7 @@
   <?=$$form_name->errors();?>
 
   <?
-  $jobs = new Job("live");
+  $jobs = new Job();
   $staff = new Staff;
   $dept = new Department;
   if(!$active_staff->admin()){
@@ -17,7 +17,7 @@
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
       <option value="">-- Select --</option>
       <?$org = false;?>
-      <?foreach($jobs->for_department($active_staff->department_id())->filter("group_token", $active_staff->group_token)->order("organisation_id ASC")->all() as $job):?>
+      <?foreach($jobs->for_department($active_staff->department_id())->scope("live")->filter("group_token", $active_staff->group_token)->order("organisation_id ASC")->all() as $job):?>
         <?if($org != $job->organisation_id):?>
           <?if($org):?></optgroup><?endif?>
           <optgroup label="<?=(($o = $job->client)? $o->title : "No Client")?>">
