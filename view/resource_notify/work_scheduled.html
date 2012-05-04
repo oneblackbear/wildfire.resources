@@ -44,6 +44,11 @@
         <p><?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></p>
       </td>
     </tr>
+    <tr>
+      <td colspan="2">
+        <p><small>This was sent to: <?foreach($emails as $row):?><?=$row->email?><?endforeach?></small></p>
+      </td>
+    </tr>
   </table>
 
 </div>

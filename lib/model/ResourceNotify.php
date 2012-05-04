@@ -19,7 +19,7 @@ class ResourceNotify extends WaxEmail{
     $this->from_name = Config::get("site/email_name");
   }
 
-  public function work_scheduled($work, $job, $staff){
+  public function work_scheduled($work, $job, $staff, $emails){
     $this->to = $staff->email;
     $this->staff = $staff;
     $this->job = $job;
@@ -29,9 +29,10 @@ class ResourceNotify extends WaxEmail{
     $this->subject = "Work item has been created [".$this->work->title." - ".$this->client->title." @ ".$this->work->date_string()."]";;
     $this->from = Config::get("site/email");
     $this->from_name = Config::get("site/email_name");
+    $this->emails = $emails;
   }
 
-  public function work_completed($work, $job, $staff){
+  public function work_completed($work, $job, $staff, $emails){
     $this->to = $staff->email;
     $this->staff = $staff;
     $this->job = $job;
@@ -41,6 +42,7 @@ class ResourceNotify extends WaxEmail{
     $this->subject = "Work has been completed [".$this->work->title." - ".$this->client->title." @ ".$this->work->date_string()."]";;;
     $this->from = Config::get("site/email");
     $this->from_name = Config::get("site/email_name");
+    $this->emails = $emails;
   }
 
 }

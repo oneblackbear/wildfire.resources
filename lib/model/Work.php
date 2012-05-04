@@ -77,7 +77,7 @@ class Work extends WaxModel{
       if($creator = new Staff($job->created_by)) $emails[$creator->primval] = $creator;
       $this->update_attributes(array('notified'=>1));
       //send them out
-      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
+      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
     }else if($this->notified == 1 && $this->status == "completed" && $this->send_notification){
       $notify = new ResourceNotify;
       $emails = array();
@@ -88,7 +88,7 @@ class Work extends WaxModel{
       //the person who created the job
       if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
       //send them out
-      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person);
+      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
       $this->update_attributes(array('notified'=>2));
     }
   }
