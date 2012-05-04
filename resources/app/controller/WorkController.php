@@ -8,7 +8,7 @@ class WorkController extends BaseController{
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'job' => array('columns'=>array('job'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
-  public $navigation_links = array('index', 'listing', 'todo');
+  public $navigation_links = array('index', 'listing', 'to_do');
   public $permissions = array(
                           'create'=>array('owner', 'admin', 'staff'),
                           'edit'=>array('owner', 'admin'),
@@ -16,10 +16,9 @@ class WorkController extends BaseController{
                           'listing'=>array('owner'),
                           'index'=>array('owner', 'admin', 'staff'),
                           'details'=>array('owner', 'admin', 'staff'),
-                          'todo'=>array('owner', 'admin', 'staff'),
+                          'to_do'=>array('owner', 'admin', 'staff'),
                           'update'=>array('owner', 'admin', 'staff')
                         );
-
 
 
   public function listing(){
@@ -71,7 +70,7 @@ class WorkController extends BaseController{
     WaxEvent::run("form.save", $this);
   }
 
-  public function todo(){
+  public function to_do(){
     unset($this->filter_fields['department'], $this->filter_fields['job']);
     //add in the days filter
     $this->filter_fields['days'] = array(
@@ -102,8 +101,9 @@ class WorkController extends BaseController{
   /**
    * all for filtering of data by department but all work merged together
    */
-  public function graphs(){
-
+  public function this_month(){
+    //set the filters to just by departmental
+    $this->filter_fields = array('department'=>$this->filter_fields['department']);
   }
 
 }
