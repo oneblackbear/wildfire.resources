@@ -35,7 +35,7 @@ class Job extends WildfireResource{
    */
   public function scope_live(){
     $cms_content = new Job;
-    foreach($cms_content as $row){
+    foreach($cms_content->all() as $row){
       //as soon as find an item thats not complete, remove the job from the list & break out
       if(($work = $row->work) && $work->count()){
         foreach($work as $item){
