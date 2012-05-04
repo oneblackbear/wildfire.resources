@@ -8,6 +8,8 @@ TODO:
   - user profile page
   JOB:
   WORK:
+  - on the overview page add a border on any jobs that have not been scheduled
+  - graph view - total time, department split over month
   REPORTS:
   - all of it!
   INVOICING:
@@ -20,6 +22,7 @@ TODO:
   - consistent edit / details forms in the dynamic tabs
   - a sites listing to attach to clients (domains, servers, analytics logins)
   - an analytics module based on the sites for clients to see overview figures
+  - ordering of things
 
 
 

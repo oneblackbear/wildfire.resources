@@ -1,9 +1,17 @@
 <?
 $previous = $table['previous_info'];
 $next = $table['next_info'];
+$staff = new Staff;
+$allstaff = $staff->for_department($active_staff->department_id(), "staff")->all();
+if($staff_id = $model_filters['staff']) $allstaff->filter("id", $staff_id);
 ?>
 <div class='pagination_block clearfix top_pagintion'>
   <h1><a href="?month=<?=$previous['month']?>&amp;year=<?=$previous['year']?>">&laquo;</a> Viewing <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next['month']?>&amp;year=<?=$next['year']?>">&raquo;</a></h1>
+</div>
+<div class='pagination_block clearfix top_pagintion'>
+<?foreach($allstaff->filter("group_token", $active_staff->group_token)->all() as $person):?>
+<a href="<?if($active_staff->admin()):?>/staff/details/<?=$person->primval?>/<?else:?>#<?endif?>" class='work stylize dbl-click legend' data-css-border="1px solid  #<?=$person->saved_colour?>" data-css-border_width="0 0 0 5px"><?=$person->title?></a>&nbsp;
+<?endforeach?>
 </div>
 <table class='calendar'>
   <thead>
@@ -53,7 +61,7 @@ $next = $table['next_info'];
           ?>
           <?if($work && ($work instanceOf Work)):?>
             <?$used += $work->hours;?>
-            <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" title="<?=$staff->title?>: <?=$work->title?> (<?=$work->hours_spent()?>hrs)" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="5px solid <?=$work->colour("staff")?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
+            <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" title="<?=$staff->title?>: <?=$work->title?> (<?=$work->hours_spent()?>hrs)" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="1px solid <?=$work->colour("staff")?>"  data-css-border_width="0 0 0 5px"  data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span><?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
           <?elseif($work && $work instanceOf Job && $active_staff->admin()):?>
             <a href="/job/details/<?=$work->primval?>/" class="job_end stylize tiny dbl-click" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for '<?=$work->title?>'</span></a>
           <?else:?>

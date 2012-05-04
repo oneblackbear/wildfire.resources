@@ -1,3 +1,11 @@
+a.legend,
+a.legend.db-click{
+  text-decoration:none;
+  display:inline-block;
+  padding:4px;
+  margin-right:8px;
+  float:left;
+}
 .button,
 .submit_button{
   line-height:1em;

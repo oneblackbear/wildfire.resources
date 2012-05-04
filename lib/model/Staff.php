@@ -162,5 +162,6 @@ class Staff extends WildfireResource{
     if($dept= $this->department()) return $dept->primval;
     else return 0;
   }
+
 }
 ?>

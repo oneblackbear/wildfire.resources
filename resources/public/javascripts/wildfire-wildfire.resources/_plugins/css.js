@@ -8,8 +8,9 @@ jQuery(document).ready(function(){
       for(var i in data){
         if(i.substring(0,3) == "css"){
           var prop = i.replace("css", "").toLowerCase();
-          if(prop == "border") prop = "border-left";
-          obj.css(prop, data[i]);
+          console.log(prop);
+          console.log(data[i]);
+          obj.css(prop.replace(/_/gi, "-"), data[i]);
         }
       }
     });

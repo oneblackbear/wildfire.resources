@@ -59,12 +59,6 @@ class Job extends WildfireResource{
     foreach($model->filter("job_id > 0")->group("job_id")->all() as $w) $this->filter("id", $w->job_id, "!=");
     return $this;
   }
-  public function for_department($department_id){
-    $dept = new Department($department_id);
-    $ids = array(0);
-    foreach($dept->jobs as $j) $ids[] = $j->primval;
-    return $this->filter("id", $ids);
-  }
 
   public function scope_filters_select(){
     return $this->scope_live();

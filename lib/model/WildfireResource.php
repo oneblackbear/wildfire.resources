@@ -122,5 +122,13 @@ class WildfireResource extends WaxModel{
     return $this->filter("((`date_start` BETWEEN '".$start."' AND '".$end."') OR (`date_end` BETWEEN '".$start."' AND '".$end."'))");
   }
 
+  public function for_department($department_id, $join="jobs"){
+    $dept = new Department($department_id);
+    $ids = array(0);
+    if(!$dept->columns[$join]) $join = strtolower(get_class($this))."s";
+    foreach($dept->$join as $j) $ids[] = $j->primval;
+    return $this->filter("id", $ids);
+  }
+
 }
 ?>
