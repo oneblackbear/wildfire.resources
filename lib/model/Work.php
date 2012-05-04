@@ -24,7 +24,7 @@ class Work extends WaxModel{
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
     $this->define("created_by", "IntegerField", array('widget'=>'HiddenInput'));
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
-    $this->define("send_notification", "BooleanField");
+    $this->define("send_notification", "BooleanField", array('default'=>1));
     $this->define("notified", "IntegerField", array('editable'=>false));
   }
 
