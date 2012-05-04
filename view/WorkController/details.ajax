@@ -19,6 +19,7 @@ $allstaff = new Staff;
       <span class='clearfix'><?=$$form_name->title->render()?></span>
       <span class='clearfix'><?=$$form_name->date_start->render()?></span>
       <span class='clearfix'><?=$$form_name->date_end->render()?></span>
+      <span class='clearfix'><?=$$form_name->status->render()?></span>
       <span class='clearfix no-label'>
         <select name="<?=$model->table?>[staff_id]" id="<?=$model->table?>_staff">
         <?foreach($allstaff->filter("group_token", $active_staff->group_token)->all() as $staff):?>
