@@ -176,7 +176,8 @@ class BaseController extends WaxController{
     WaxEvent::add("form.save.after", function(){
       $controller = WaxEvent::data();
       if($controller->active_staff){
-        $update = array('created_by'=>$controller->active_staff->primval, 'group_token'=>$controller->active_staff->group_token);
+        $update = array('group_token'=>$controller->active_staff->group_token);
+        if(!$controller->model_saved->created_by) $update['created_by'] = $controller->active_staff->primval;
         if($save = $controller->model_saved->update_attributes($update)) $controller->model_saved = $controler->model = $save;
       }else $controller->model = $controller->model_saved;
       WaxEvent::run("form.save.joins", $controller);
