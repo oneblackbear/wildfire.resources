@@ -11,7 +11,7 @@ class WildfireResource extends WaxModel{
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
     parent::setup();
     $this->define("saved_colour", "CharField", array('editable'=>false));
-    $this->define("send_notification", "BooleanField", array('editable'=>false));
+    $this->define("send_notification", "BooleanField", array('editable'=>false, 'default'=>1));
   }
 
   public function notifications(){}

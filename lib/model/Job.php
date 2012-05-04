@@ -1,5 +1,7 @@
 <?
 class Job extends WildfireResource{
+
+  public static $scope_cache = array();
   public function setup(){
     parent::setup();
     $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true));
@@ -36,13 +38,19 @@ class Job extends WildfireResource{
    * or who have work items that aren't set as complete
    */
   public function scope_live(){
+    if($cached = Job::$scope_cache["live"]) return $cached;
     $jobs = new Job;
     $ids = array(0);
     foreach($jobs->all() as $job){
       $work = $job->work;
-      if(!$work || !$work->count() || ($work && ($all=$work->count()) && ($complete = $work->filter("status", "completed")->count()) && $complete < $all) ) $ids[] = $job->primval;
+      if($work){
+        $all = $work->count();
+        $complete = $work->filter("status", "completed")->all()->count();
+        if($all > $complete) $ids[] = $job->primval;
+      }else $ids[] = $job->primval;
     }
-    return $this->filter("id", $ids)->order("date_go_live ASC");
+    Job::$scope_cache["live"] = $this->filter("id", $ids)->order("date_go_live ASC");
+    return Job::$scope_cache["live"];
   }
   //find work that has nothing attached to it
   public function scope_unscheduled(){
