@@ -55,6 +55,7 @@ td.highlight{
   }
 
 .day-data{
+  width:100%;
   float:left;
   display:block;
   padding:4px 6px;
