@@ -46,10 +46,10 @@ class Job extends WildfireResource{
       if($work){
         $all = $work->count();
         $complete = $work->filter("status", "completed")->all()->count();
-        if($all > $complete) $ids[] = $job->primval;
-      }else $ids[] = $job->primval;
+        if($complete >= $all) $jobs->filter("id", $job->primval, "!=");
+      }
     }
-    Job::$scope_cache["live"] = $this->filter("id", $ids)->order("date_go_live ASC");
+    Job::$scope_cache["live"] = $jobs->order("date_go_live ASC")->all();
     return Job::$scope_cache["live"];
   }
   //find work that has nothing attached to it

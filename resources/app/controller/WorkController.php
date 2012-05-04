@@ -101,9 +101,16 @@ class WorkController extends BaseController{
   /**
    * all for filtering of data by department but all work merged together
    */
-  public function this_month(){
+  public function graphs(){
     //set the filters to just by departmental
     $this->filter_fields = array('department'=>$this->filter_fields['department']);
+    //default to current date
+    if((!$month = Request::param("month")) && (!$year = Request::param("year"))){
+      $month = date("m");
+      $year = date("Y");
+    }
+    $this->calendar = new Calendar($year, $month);
+    $this->table = $this->calendar->generate();
   }
 
 }
