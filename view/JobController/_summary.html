@@ -1,7 +1,7 @@
 <div class='summary clearfix'>
-  <?if($active_staff->admin()):?>
-    <?$active = $all->scope("live")->order("date_created DESC")->all();?>
-    <p>Currently <?=$all->count()?> jobs; <?=$active->count()?> are active.</p>
+  <?if($active_staff->admin() && ($depts = $active_staff->departments) && ($dept = $depts->first())):?>
+    <?$active = $all->scope("unscheduled")->for_department($dept->primval)->order("date_created DESC")->all();?>
+    <p>Currently <?=$all->count()?> jobs; <?=$active->count()?> need scheduling.</p>
     <?foreach($active as $row):?>
     <p><a href="/job/details/<?=$row->primval?>/" class='dbl-click'>&raquo; <?=$row->title?></a></p>
     <?endforeach?>
