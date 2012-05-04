@@ -9,7 +9,7 @@ class ResourceNotify extends WaxEmail{
     $this->from_name = Config::get("site/email_name");
   }
 
-  public function job_creation($job, $staff){
+  public function job_creation($job, $staff, $emails){
     $this->to = $staff->email;
     $this->staff = $staff;
     $this->job = $job;
@@ -17,6 +17,7 @@ class ResourceNotify extends WaxEmail{
     $this->subject = "A new job has been created [".$this->job->title." - ".$this->client->title." @ ".$this->job->deadline()."]";
     $this->from = Config::get("site/email");
     $this->from_name = Config::get("site/email_name");
+    $this->emails = $emails;
   }
 
   public function work_scheduled($work, $job, $staff, $emails){

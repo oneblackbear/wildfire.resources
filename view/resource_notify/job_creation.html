@@ -37,11 +37,15 @@
       </td>
     </tr>
     <tr>
-
       <td colspan="2">
         <p>Hello <?=$staff->title?>,</p>
         <p>A new job has been created for your department. Use the link below to view it.</p>
         <p><a href="http://<?=$_SERVER['HTTP_HOST']?>/job/edit/<?=$job->primval?>/"><?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></a></p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p><small>This was sent to: <?foreach($emails as $row):?><a href="mailto:<?=$row->email?>"><?=$row->title?></a><?endforeach?></small></p>
       </td>
     </tr>
   </table>

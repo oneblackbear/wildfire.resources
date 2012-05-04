@@ -25,7 +25,9 @@ class Job extends WildfireResource{
   public function notifications(){
     if(!$this->notified && $this->created_by && $this->send_notification){
       $notify = new ResourceNotify;
-      foreach($depts as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $notify->send_job_creation($this, $staff);
+      $emails = array();
+      foreach($depts as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+      foreach($emails as $staff) $notify->send_job_creation($this, $staff, $emails);
       $this->update_attributes(array('notified'=>1));
     }
   }
