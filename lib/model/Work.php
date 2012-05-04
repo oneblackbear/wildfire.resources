@@ -108,7 +108,7 @@ class Work extends WaxModel{
   public function colour($join="job", $weight=false, $func="lighten"){
     if($this->columns[$join][0] == "ForeignKey" && ($item = $this->$join) && ($item)) return $item->colour(false, $weight, $func);
     else if($items = $this->$join && ($item = $items->first())) return $item->colour(false, $weight, $func);
-    else return "#ff0000";
+    else return false;
   }
 
   public function hours_spent(){
