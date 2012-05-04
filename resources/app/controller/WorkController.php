@@ -58,7 +58,7 @@ class WorkController extends BaseController{
 
     //find all jobs within this time period as well
     $job = new Job("live");
-    foreach($job->for_department($active_staff->department_id())->all() as $row){
+    foreach($job->for_department($this->active_staff->department_id())->all() as $row){
       $this->calendar_content["j".$row->primval] = $row;
       $end = date("Y-m-d", strtotime($row->date_go_live));
       $this->month_events[$end]["j".$row->primval] = $row->primval;
