@@ -34,8 +34,9 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #editheader span{
-  display:inline;
+  display:inline-block;
   padding-right:45px;
+  margin-bottom:0;
 }
 #editheader.updated span{
 

@@ -92,3 +92,6 @@ body div .no-border{
 .dbl-click{
   cursor:pointer;
 }
+small{
+  font-size:65%;
+}

@@ -11,7 +11,7 @@ $allstaff = new Staff;
 <form action="#step" method="post" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax" data-trigger-element="#filters_department" data-trigger="change">
 <?endif?>
   <div class='clearfix split'>
-    <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span><?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></span></h5>
+    <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span><?=$model->title?> <small><?if($client):?><?=$client->title?><?endif?><?if($job):?> @ <?=$job->deadline()?><?endif?></small></span></h5>
     <h6 class='header <?=$model->tightness()?>'>(<strong><?=$model->date_string()?></strong>) <small><?=$model->hours?> hrs per day</small></h6>
     <?if($active_staff->admin()):?>
     </div>

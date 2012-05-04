@@ -69,3 +69,7 @@
 #dynamic-tab-content input.submit_button{
   margin-bottom:10px;
 }
+
+.help_tab h5 small{
+  display:block;
+}

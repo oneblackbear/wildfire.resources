@@ -7,6 +7,7 @@ class Work extends WaxModel{
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
     $this->define("staff", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput", 'label'=>'Description'));
 
     $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships'));
     $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true, 'required'=>true));
@@ -18,7 +19,8 @@ class Work extends WaxModel{
 
     $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships'));
-    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true,'required'=>true));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
 
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
@@ -42,6 +44,7 @@ class Work extends WaxModel{
 
     if(!$this->title) $this->title = "WORK";
     if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
+    if(!$this->hours && $this->hours_used) $this->hours = $this->hours_used;
     $this->date_modified = date("Y-m-d H:i:s");
     //check for idiots
     if($this->date_end < $this->date_start) $this->add_error("date_end", "End date must be after the start date.");
@@ -49,6 +52,7 @@ class Work extends WaxModel{
     if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
       if($this->title == "WORK") $this->title = $job->title;
       if(!$this->organisation_id) $this->organisation_id = $job->organisation_id;
+      if(!$this->fee_id) $this->fee_id = $job->fee_id;
       //if this has been joined to a job, check to make sure the time is before the end date of the job
       if(($end = date("Ymd", strtotime($job->date_go_live)))){
         $work_start = date("Ymd", strtotime($this->date_start));

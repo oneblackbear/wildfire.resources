@@ -95,5 +95,9 @@ class WorkController extends BaseController{
     if($this->cms_content) $this->cms_content = $this->cms_content->order("date_start ASC")->all();
   }
 
+  public function adhoc(){
+    $this->edit();
+  }
+
 }
 ?>
