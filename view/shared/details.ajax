@@ -14,6 +14,9 @@
       <?endforeach?>
     <?$count++;?>
     <?endforeach?>
+    <?if($active_staff->admin() && ($staff = new Staff($model->created_by))):?>
+    <p>Created by <?=$staff->title?></p>
+    <?endif?>
     <input type="submit" name="form_submit" value="Save" class='button submit_button'>
   </div>
 </form>
