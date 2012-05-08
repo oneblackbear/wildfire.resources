@@ -82,7 +82,8 @@ class WorkController extends BaseController{
                                                 '-1 to +4'=>array('min'=>'yesterday', 'max'=>'+4 days'),
                                                 '-1 to +7'=>array('min'=>'yesterday', 'max'=>'+7 days'),
                                                 '-3 to +3'=>array('min'=>'-3 days', 'max'=>'+3 days'),
-                                                '-5 to +5'=>array('min'=>'-5 days', 'max'=>'+5 days')
+                                                '-5 to +5'=>array('min'=>'-5 days', 'max'=>'+5 days'),
+                                                '-15 to +15'=>array('min'=>'-15 days', 'max'=>'+15 days')
                                                 )
                                     );
     if(!Request::param('filters')){
