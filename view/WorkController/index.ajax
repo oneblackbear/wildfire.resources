@@ -58,14 +58,13 @@ if($staff_id = $model_filters['staff']) $allstaff->filter("id", $staff_id);
           <?
           $work = $calendar_content[$primval];
           $staff = $work->staff;
-          echo ">".get_class($work)."<br>";
           ?>
           <?if($work && ($work instanceOf Work)):?>
             <?$used += $work->hours;?>
             <?$job = $work->job;?>
             <a href="/<?=$controller?>/details/<?=$primval?>/" id="w<?=$primval?>" title="<?=$staff->title?>: <?=$work->title?> (<?=$work->hours_spent()?>hrs)" class='work stylize tiny dbl-click cal-<?=$work->tightness()?>' data-css-border="1px solid <?=$work->colour("staff")?>"  data-css-border_width="0 0 0 5px"  data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>"><span>#<?=$job->primval?> <?=$work->title?> (<?=$work->hours_spent()?>hrs)</span></a>
           <?elseif($work && $work instanceOf Job && $active_staff->admin()):?>
-            <a href="/job/details/<?=$work->primval?>/" class="job_end stylize tiny dbl-click" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for #<?=$work->primval?> '<?=$work->title?>'</span></a>
+            <a href="/job/details/<?=$work->primval?>/" class="job_end stylize tiny dbl-click<?if(!$work->scheduled()):?> not-scheduled<?endif?>" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for #<?=$work->primval?> '<?=$work->title?>'</span></a>
           <?else:?>
             <a href="#" class="job_end stylize tiny" data-css-background="<?=$work->colour()?>" data-css-color="<?=$work->colour("job", 0.1)?>" title="Go live for '<?=$work->title?>'"><span>Go live for #<?=$work->primval?> '<?=$work->title?>'</span></a>
           <?endif?>

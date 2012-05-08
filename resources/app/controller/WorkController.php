@@ -40,12 +40,11 @@ class WorkController extends BaseController{
       $month = date("m");
       $year = date("Y");
     }
-    if(!$this->month_events){
-      $this->use_view = "index";
-      $this->calendar = new Calendar($year, $month);
-      $this->table = $this->calendar->generate();
+    $this->calendar = new Calendar($year, $month);
+    $this->table = $this->calendar->generate();
+    $this->use_view = "index";
+    if(!count($this->month_events)){
       $this->months_events = array();
-
       //generate month_events list
       $this->calendar_content = array();
       $model = $this->calendar->range_filter($this->model, $year, $month);
