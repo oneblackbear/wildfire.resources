@@ -19,10 +19,10 @@
     <?$count++;?>
     <?endforeach?>
     <?if($active_staff->admin()):?>
-    <div class='clearfix split details'>
+    <fieldset<?if($model_saved):?> class='updated'<?endif?>>
       <?$staff = new Staff($model->created_by);?>
       <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
-    </div>
+    </fieldset>
     <?endif?>
   </div>
 </form>
