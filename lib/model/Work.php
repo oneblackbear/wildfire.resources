@@ -43,7 +43,7 @@ class Work extends WaxModel{
   public function total(){
     $diff = date_diff(date_create($this->date_end), date_create($this->date_start));
     $val = $diff->format("%d");
-    return $val*$this->hours;
+    return ($val*$this->hours)+$this->hours;
   }
 
   public function before_save(){
