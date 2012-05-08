@@ -154,13 +154,17 @@ class Staff extends WildfireResource{
     if($exact) return ($this->role == "standard");
     else return ($this->admin() || $this->privileged(true) || $this->role == "standard");
   }
-  public function department(){
-    if(($depts = $this->departments) && ($first = $depts->first()) ) return $first;
+  public function department($func="all"){
+    if(($depts = $this->departments) && ($res = $depts->$func()) ) return $res;
     else return false;
   }
-  public function department_id(){
-    if($dept= $this->department()) return $dept->primval;
-    else return 0;
+  public function department_id($func="all"){
+    $ids = array(0;)
+    if($dept= $this->department($func)){
+      if($dept instanceOf WaxRecordset) foreach($dept as $d) $ids[] = $d->primval;
+      else $ids[] = $dept->primval;
+    }
+    else return $ids;
   }
 
 }
