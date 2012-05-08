@@ -105,14 +105,17 @@ class WorkController extends BaseController{
    * all for filtering of data by department but all work merged together
    */
   public function graphs(){
-    WaxEvent::run("model.setup", $this);
-    //set the filters to just by departmental
-    $this->filter_fields = array('department'=>$this->filter_fields['department']);
+    $this->model_class = "Department";
+    //set the filters to just be departmental
+    $this->filter_fields = array();
+    //if no filters, default to active member of staffs department
+    if(!Request::param('filters') && ($id = $this->active_staff->department_id("first")) ) $this->model_filters['department'] = $id;
     //default to current date
     if((!$month = Request::param("month")) && (!$year = Request::param("year"))){
       $month = date("m");
       $year = date("Y");
     }
+    WaxEvent::run("model.setup", $this);
     $this->calendar = new Calendar($year, $month);
     $this->table = $this->calendar->generate();
   }

@@ -1,0 +1,45 @@
+<?
+$totals = array();
+if(!$chart_type) $chart_type = "ColumnChart";
+$date_start = $table['start_date'];
+$date_end = $table['end_date'];
+$all_days = $calendar->date_range_array($date_start, $date_end);
+$previous = $table['previous_info'];
+$next = $table['next_info'];
+?>
+<div class='pagination_block clearfix top_pagintion'>
+  <h1><a href="?month=<?=$previous['month']?>&amp;year=<?=$previous['year']?>">&laquo;</a> Viewing Departments <?=(($name) ? $name : ucwords($controller))?> for <?=$table['current_month_name']?> <?=$table['current_year']?> <a href="?month=<?=$next['month']?>&amp;year=<?=$next['year']?>">&raquo;</a></h1>
+</div>
+<?foreach($model->all() as $dept):?>
+<div class='clearfix row repeat clearfix graph_summary'>
+  <div class='profile'>
+    <h3 class='no-margin clearfix stylize'><?if(!$no_name):?><?=$dept->title?><?endif?> <small>(<?=date("d M", strtotime($date_start))?> - <?=date("d M", strtotime($date_end))?>)</small></h3>
+  </div>
+  <table class='staff_data data tiny job_graph graph' data-type="<?=$chart_type?>">
+    <thead>
+    <tr>
+      <td>Staff</td>
+      <?foreach($all_days as $day=>$bool):?>
+        <th data-i="<?=date("d-m", strtotime($day))?>"><?=date("m-d", strtotime($day))?></th>
+      <?endforeach?>
+    </tr>
+    </thead>
+    <tbody>
+    <?foreach($dept->work_by_staff($date_start, $date_end) as $staff_id=>$hours):?>
+    <?$staff = new Staff($staff_id);?>
+    <tr>
+      <th data-p="<?=$staff_id?>"><?=$staff->title?></th>
+      <?foreach($all_days as $day=>$bool):?>
+        <?$v = ($hours[$day]) ? $hours[$day] : 0;
+          $totals[$day] += $v;
+        ?>
+        <td data-i="<?=date("d-m", strtotime($day))?>"><?=$v?></td>
+      <?endforeach?>
+    </tr>
+    <?endforeach?>
+    </tbody>
+  </table>
+  <div class='chart' id="chart-<?=$dept->primval?>-<?=time()?>"></div>
+</div>
+<?endforeach?>
+

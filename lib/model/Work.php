@@ -195,5 +195,15 @@ class Work extends WaxModel{
   public function between($start, $end){
     return $this->filter("((`date_start` BETWEEN '".$start."' AND '".$end."') OR (`date_end` BETWEEN '".$start."' AND '".$end."'))");
   }
+
+  public function by_staff($start, $end){
+    $times = array();
+    $cal = new Calendar;
+    //filter dates
+    foreach($this->between($start, $end)->all() as $row){
+      foreach($cal->date_range_array($row->date_start, $row->date_end) as $date=>$bool) $times[$row->staff_id][$date] += $row->hours;
+    }
+    return $times;
+  }
 }
 ?>

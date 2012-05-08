@@ -25,5 +25,19 @@ class Department extends WildfireResource{
     return $model->filter("id", $admins)->all();
   }
 
+  public function work_by_staff($start, $end){
+    $times = array();
+    $cal = new Calendar;
+    //filter dates
+    foreach($this->staff->all() as $staff){
+      $times[$staff->primval] = array();
+
+      foreach($staff->work->between($start,$end)->all() as $row){
+        foreach($cal->date_range_array($row->date_start, $row->date_end) as $date=>$bool) $times[$staff->primval][$date] += $row->hours;
+      }
+    }
+    return $times;
+  }
+
 }
 ?>
