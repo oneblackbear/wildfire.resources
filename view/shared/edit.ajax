@@ -18,5 +18,9 @@
     </fieldset>
     <?$count++;?>
     <?endforeach?>
+    <?if($active_staff->admin()):?>
+      <?$staff = new Staff($model->created_by);?>
+      <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
+    <?endif?>
   </div>
 </form>
