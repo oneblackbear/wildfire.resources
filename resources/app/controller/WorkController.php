@@ -65,7 +65,6 @@ class WorkController extends BaseController{
         $this->month_events[$end]["j".$row->primval] = $row->primval;
       }
     }
-    print_r($this->month_events);
     ksort($this->month_events);
   }
 
