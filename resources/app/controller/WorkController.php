@@ -8,7 +8,7 @@ class WorkController extends BaseController{
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'job' => array('columns'=>array('job'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
-  public $navigation_links = array('index', 'listing', 'to_do');
+  public $navigation_links = array('index', 'listing', 'to_do', 'graphs');
   public $permissions = array(
                           'create'=>array('owner', 'admin', 'staff'),
                           'edit'=>array('owner', 'admin'),
@@ -17,7 +17,8 @@ class WorkController extends BaseController{
                           'index'=>array('owner', 'admin', 'staff'),
                           'details'=>array('owner', 'admin', 'staff'),
                           'to_do'=>array('owner', 'admin', 'staff'),
-                          'update'=>array('owner', 'admin', 'staff')
+                          'update'=>array('owner', 'admin', 'staff'),
+                          'graphs'=>array('owner', 'admin', 'staff')
                         );
 
 
@@ -103,6 +104,7 @@ class WorkController extends BaseController{
    * all for filtering of data by department but all work merged together
    */
   public function graphs(){
+    WaxEvent::run("model.setup", $this);
     //set the filters to just by departmental
     $this->filter_fields = array('department'=>$this->filter_fields['department']);
     //default to current date

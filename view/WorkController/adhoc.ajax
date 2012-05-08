@@ -3,7 +3,6 @@
   <h5 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span>Create ad hoc <?=$controller?></span></h5>
   <?=$$form_name->errors();?>
 
-  <input type='hidden' name="<?=$model->table?>[department_id]" value="<?=$active_staff->department_id()?>">
   <input type='hidden' name="<?=$model->table?>[staff_id]" value="<?=$active_staff->primval?>">
   <input type='hidden' name="<?=$model->table?>[status]" value="scheduled">
   <input type='hidden' name="<?=$model->table?>[date_start]" value="<?=date("Y-m-d")?>">
@@ -14,6 +13,7 @@
     <span class='clearfix'><?=$$form_name->client->render();?></span>
     <span class='clearfix'><?=$$form_name->fee->render();?></span>
     <span class='clearfix'><?=$$form_name->hours_used->render();?></span>
+    <span class='clearfix'><?=$$form_name->department->render();?></span>
     <span class='clearfix'><?=$$form_name->type->render();?></span>
   </div>
   <input type="submit" name="form_submit" value="Save" class='button submit_button'>

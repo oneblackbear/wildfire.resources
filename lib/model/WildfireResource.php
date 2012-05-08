@@ -123,11 +123,18 @@ class WildfireResource extends WaxModel{
   }
 
   public function for_department($department_id, $join="jobs"){
-    $dept = new Department($department_id);
-    $ids = array(0);
-    if(!$dept->columns[$join]) $join = strtolower(get_class($this))."s";
-    foreach($dept->$join as $j) $ids[] = $j->primval;
-    return $this->filter("id", $ids);
+    if($join == false){
+      $dept = new Department;
+      return $dept->filter("id", $department_id);
+    }else{
+      $dept = new Department;
+      //this will allow for multiple department ids
+      $departments = $dept->filter("id", $department_id)->all();
+      $ids = array(0);
+      if(!$dept->columns[$join]) $join = strtolower(get_class($this))."s";
+      foreach($departments as $dept) foreach($dept->$join as $j) $ids[] = $j->primval;
+      return $this->filter("id", $ids);
+    }
   }
 
 }
