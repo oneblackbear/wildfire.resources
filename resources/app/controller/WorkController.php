@@ -94,7 +94,7 @@ class WorkController extends BaseController{
     }
     WaxEvent::run("model.setup", $this);
     WaxEvent::run("form.save", $this);
-    if($this->cms_content) $this->cms_content = $this->cms_content->order("date_start ASC")->all();
+    if($this->cms_content) $this->cms_content = $this->cms_content->order("date_end ASC")->all();
   }
 
   public function adhoc(){
