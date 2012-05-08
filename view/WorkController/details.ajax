@@ -30,6 +30,7 @@ $allstaff = new Staff;
       <span class='clearfix form_field'><?=$$form_name->hours->render(array('label'=>'Hours est.'))?></span>
       <span class='clearfix form_field'><?=$$form_name->hours_used->render(array('label'=>'Hours used'))?></span>
       <input type="submit" name="form_submit" value="Save" class='button submit_button'>
+      <a href="/work/delete/<?=$model->primval?>/" class='button delete'>Delete</a>
     </div>
     <div class='clearfix split'>
     <?endif?>
