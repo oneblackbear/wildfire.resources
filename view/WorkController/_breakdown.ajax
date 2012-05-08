@@ -16,9 +16,9 @@ if(!$chart_type) $chart_type = "ColumnChart";
     </tr>
     </thead>
     <tbody>
-  <?foreach($person->work_by_date($date_start, $date_end) as $work):?>
+  <?foreach($person->work_by_date($date_start, $date_end) as $id=>$work):?>
     <tr>
-      <th><?=$work['title']?></th>
+      <th data-p="<?=$id?>"><?=$work['title']?></th>
     <?foreach($all_days as $day):?>
       <?$v = ($work['hours'][$day]) ? $work['hours'][$day] : 0;
         $totals[$day] += $v;
