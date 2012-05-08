@@ -83,6 +83,9 @@ a.legend.db-click{
     background: -ms-linear-gradient(top, rgba(192,235,250,1) 0%,rgba(171,228,248,1) 4%,rgba(149,220,246,1) 48%,rgba(111,206,243,1) 100%); /* IE10+ */
     background: linear-gradient(top, rgba(192,235,250,1) 0%,rgba(171,228,248,1) 4%,rgba(149,220,246,1) 48%,rgba(111,206,243,1) 100%); /* W3C */
   }
+  .not-scheduled{
+    border:3px solid red !important;
+  }
 
 .hidden{
   display:none;

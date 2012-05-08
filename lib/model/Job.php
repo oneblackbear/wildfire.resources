@@ -73,6 +73,10 @@ class Job extends WildfireResource{
     return $this;
   }
 
+  public function scheduled(){
+    $model = new Work;
+    return ($model->filter("job_id", $this->primval)->all()->count());
+  }
   public function scope_filters_select(){
     return $this->scope_live();
   }

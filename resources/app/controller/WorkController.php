@@ -40,29 +40,32 @@ class WorkController extends BaseController{
       $month = date("m");
       $year = date("Y");
     }
-    $this->use_view = "index";
-    $this->calendar = new Calendar($year, $month);
-    $this->table = $this->calendar->generate();
-    $this->months_events = array();
+    if(!$this->month_events){
+      $this->use_view = "index";
+      $this->calendar = new Calendar($year, $month);
+      $this->table = $this->calendar->generate();
+      $this->months_events = array();
 
-    //generate month_events list
-    $this->calendar_content = array();
-    $model = $this->calendar->range_filter($this->model, $year, $month);
+      //generate month_events list
+      $this->calendar_content = array();
+      $model = $this->calendar->range_filter($this->model, $year, $month);
 
-    $this->month_events = array();
-    foreach($model->all() as $row){
-      $this->calendar_content[$row->primval] = $row;
-      $range = $this->calendar->date_range_array($row->date_start, $row->date_end);
-      foreach($range as $index=>$bool) $this->month_events[$index][$row->primval] = $row->primval;
+      $this->month_events = array();
+      foreach($model->all() as $row){
+        $this->calendar_content[$row->primval] = $row;
+        $range = $this->calendar->date_range_array($row->date_start, $row->date_end);
+        foreach($range as $index=>$bool) $this->month_events[$index][$row->primval] = $row->primval;
+      }
+
+      //find all jobs within this time period as well
+      $job = new Job("live");
+      foreach($job->for_department($this->active_staff->department_id())->all() as $row){
+        $this->calendar_content["j".$row->primval] = $row;
+        $end = date("Y-m-d", strtotime($row->date_go_live));
+        $this->month_events[$end]["j".$row->primval] = $row->primval;
+      }
     }
-
-    //find all jobs within this time period as well
-    $job = new Job("live");
-    foreach($job->for_department($this->active_staff->department_id())->all() as $row){
-      $this->calendar_content["j".$row->primval] = $row;
-      $end = date("Y-m-d", strtotime($row->date_go_live));
-      $this->month_events[$end]["j".$row->primval] = $row->primval;
-    }
+    print_r($this->month_events);
     ksort($this->month_events);
   }
 

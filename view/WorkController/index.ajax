@@ -58,6 +58,7 @@ if($staff_id = $model_filters['staff']) $allstaff->filter("id", $staff_id);
           <?
           $work = $calendar_content[$primval];
           $staff = $work->staff;
+          echo ">".get_class($work)."<br>";
           ?>
           <?if($work && ($work instanceOf Work)):?>
             <?$used += $work->hours;?>
