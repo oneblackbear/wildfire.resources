@@ -30,7 +30,7 @@ class Job extends WildfireResource{
     //check the amount of go lives for the department on this day, if its more than the number of staff in the department, flag an error
     if(($depts = $this->departments) && ($dept = $depts->filter("is_production", 1)->first()) && ($staff = $dept->staff)){
 
-      if(($golive = date("Ymd", strtotime($this->date_go_live))) && ($found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all()) && $found->count()+1 > $staff->count() ){
+      if(($golive = date("Ymd", strtotime($this->date_go_live))) && ($found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all()) && $found->count()+1 > $dept->deadlines_allowed){
         $this->add_error("date_go_live", $dept->title." has too many deadlines for that day.");
       }
     }
