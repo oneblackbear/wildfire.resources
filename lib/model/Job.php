@@ -24,6 +24,20 @@ class Job extends WildfireResource{
     $this->notified = 0;
     parent::before_insert();
   }
+
+  public function before_save(){
+    parent::before_save();
+    $model = new Job;
+    //check the amount of go lives for the department on this day
+    if(($depts = $this->departments) && ($dept = $depts->filter("is_production", 1)->first()) && ($staff = $dept->staff)){
+
+      if(($golive = date("Ymd", strtotime($this->date_go_live))) && ($found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all()) && $found->count()+1 > $staff->count() ){
+        $this->add_error("date_go_live", $dept->title." has too many deadlines for that day.");
+      }
+    }
+
+  }
+
   public function notifications(){
     if(!$this->notified && $this->created_by && $this->send_notification){
       $notify = new ResourceNotify;

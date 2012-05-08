@@ -13,6 +13,7 @@ class Department extends WildfireResource{
     $this->define("address", "TextField");
     $this->define("telephone", "CharField");
     $this->define("email", "CharField");
+    $this->define("is_production", "BooleanField");
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
   }
 
