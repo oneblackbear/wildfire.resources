@@ -159,12 +159,12 @@ class Staff extends WildfireResource{
     else return false;
   }
   public function department_id($func="all"){
-    $ids = array(0;)
+    $ids = array(0);
     if($dept= $this->department($func)){
       if($dept instanceOf WaxRecordset) foreach($dept as $d) $ids[] = $d->primval;
-      else $ids[] = $dept->primval;
+      else $ids = $dept->primval;
     }
-    else return $ids;
+    return $ids;
   }
 
 }

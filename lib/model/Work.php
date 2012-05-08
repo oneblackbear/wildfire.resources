@@ -29,7 +29,9 @@ class Work extends WaxModel{
     $this->define("send_notification", "BooleanField", array('default'=>1));
     $this->define("notified", "IntegerField", array('editable'=>false));
   }
-
+  public function scope_live(){
+    return $this->order("date_start ASC");
+  }
   public function before_insert(){
     $this->date_created = date("Y-m-d H:i:s");
     parent::before_insert();

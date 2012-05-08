@@ -123,10 +123,8 @@ class WildfireResource extends WaxModel{
   }
 
   public function for_department($department_id, $join="jobs"){
-    if($join == false){
-      $dept = new Department;
-      return $dept->filter("id", $department_id);
-    }else{
+    if($join == false) return $this->filter("id", $department_id);
+    else{
       $dept = new Department;
       //this will allow for multiple department ids
       $departments = $dept->filter("id", $department_id)->all();

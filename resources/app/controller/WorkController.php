@@ -29,8 +29,8 @@ class WorkController extends BaseController{
 
   public function index(){
     //if no filters, default to active member of staffs department
-    if(!Request::param('filters') && ($depts = $this->active_staff->departments) && ($dept = $depts->first()) ){
-      $this->model_filters['department'] = $dept->primval;
+    if(!Request::param('filters') && ($id = $this->active_staff->department_id("first")) ){
+      $this->model_filters['department'] = $id;
     }
     //no pagination
     $this->per_page = false;
