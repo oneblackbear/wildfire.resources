@@ -11,7 +11,7 @@ if(!$chart_type) $chart_type = "ColumnChart";
     <tr>
       <td>Job</td>
       <?foreach($all_days as $day):?>
-        <th data-i="<?=$day?>"><?=date("m-d", strtotime($day))?></th>
+        <th data-i="<?=date("d-m", strtotime($day))?>"><?=date("m-d", strtotime($day))?></th>
       <?endforeach?>
     </tr>
     </thead>
@@ -23,7 +23,7 @@ if(!$chart_type) $chart_type = "ColumnChart";
       <?$v = ($work['hours'][$day]) ? $work['hours'][$day] : 0;
         $totals[$day] += $v;
       ?>
-      <td data-i="<?=$day?>"><?=$v?></td>
+      <td data-i="<?=date("d-m", strtotime($day))?>"><?=$v?></td>
     <?endforeach?>
     </tr>
   <?endforeach?>
