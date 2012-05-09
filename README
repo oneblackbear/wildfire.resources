@@ -7,21 +7,22 @@ TODO:
   - password reset page
   - user profile page
   JOB:
+
   WORK:
   - graph view - total time, department split over month
   REPORTS:
   - all of it!
   INVOICING:
   FEE:
-  - only fetch active fee items in dropdowns etc
   COMMENTS:
   - all of them
   MISC:
-  - File uploads
+  - comments
+  - header search
   - consistent edit / details forms in the dynamic tabs
   - a sites listing to attach to clients (domains, servers, analytics logins)
   - an analytics module based on the sites for clients to see overview figures
-  - ordering of things
+  - ordering of things to be A-Z
 
 
 
