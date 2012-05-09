@@ -28,7 +28,12 @@ class Job extends WildfireResource{
     parent::before_save();
     $model = new Job;
     //check the amount of go lives for the department on this day, if its more than the number of staff in the department, flag an error
-    if(($depts = $this->departments) && ($dept = $depts->filter("is_production", 1)->first()) && ($staff = $dept->staff)){
+    $depts = false;
+    if(($posted = Request::param($this->table)) && ($posted = $posted['departments'])){
+      $model = new Department;
+      $depts = $model->filter("id", $posted)->all();
+    }
+    if(($depts) && ($dept = $depts->filter("is_production", 1)->first()) && ($staff = $dept->staff)){
 
       if(($golive = date("Ymd", strtotime($this->date_go_live))) && ($found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all()) && $found->count()+1 > $dept->deadlines_allowed){
         $this->add_error("date_go_live", $dept->title." has too many deadlines for that day.");
@@ -51,17 +56,23 @@ class Job extends WildfireResource{
    * or who have work items that aren't set as complete
    */
   public function scope_live(){
-    if($cached = Job::$scope_cache["live"]) return $this->filter("id", $cached);
-    $jobs = new Job;
     $ids = array(0);
-    foreach($jobs->all() as $job){
-      $work = $job->work;
-      if($work && ($all = $work->count())){
-        $complete = $work->filter("status", "completed")->all()->count();
-        if($complete >= $all) $this->filter("id", $job->primval, "!=");
+    if(!$ids = Job::$scope_cache["live"]){
+      $ids = array(0);
+      $jobs = new Job;
+      foreach($jobs->filter("group_token", $this->group_token)->all() as $job){
+        $work = $job->work;
+        if($work && ($all = $work->count())){
+          $complete = $work->filter("status", "completed")->all()->count();
+          if($complete >= $all) $ids[] = $job->primval;
+        }
       }
     }
-    Job::$scope_cache["live"] = $ids;
+
+    if(count($ids)){
+      if(count($ids) > 1) Job::$scope_cache["live"] = $ids;
+      foreach($ids as $id) $this->filter("id", $id, "!=");
+    }
     return $this->order("date_go_live ASC");
   }
   //find work that has nothing attached to it
