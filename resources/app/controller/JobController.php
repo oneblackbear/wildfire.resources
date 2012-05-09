@@ -2,7 +2,6 @@
 class JobController extends BaseController{
   public $model_class = "Job";
   public $form_name = "job_form";
-  public $model_scope = "ordered";
   public $name = "Jobs";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
@@ -42,6 +41,7 @@ class JobController extends BaseController{
   }
 
   public function listing(){
+    $this->model_scope = "ordered";
     parent::index();
   }
   /**
@@ -53,7 +53,7 @@ class JobController extends BaseController{
     parent::index();
     $this->use_view = "index";
     //restrict the data to the ongoing versions
-    $this->cms_content = $this->cms_content->scope("live")->order("date_go_live ASC")->all();
+    $this->cms_content = $this->cms_content->scope($this->model_scope)->order("date_go_live ASC")->all();
   }
 
 }
