@@ -59,7 +59,7 @@ class Job extends WildfireResource{
 
   public function contact_emails(){
     $emails = array();
-    foreach($this->departments as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+    foreach($this->departments as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[$staff->primval] = $staff;
     return $emails;
   }
   /**

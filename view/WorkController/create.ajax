@@ -28,17 +28,15 @@
     </span>
   </div>
   <?if($active_staff->admin()):?>
-  <div class='split clearfix'>
-    <span class='clearfix'>
-      <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
-        <option value="">-- Select --</option>
-      <?foreach($dept->filter("group_token", $active_staff->group_token)->all() as $dep):?>
-      <option value="<?=$dep->primval?>"><?=$dep->title?></option>
-      <?endforeach?>
-      </select>
-    </span>
-  </div>
-
+  <span class='clearfix'>
+    <label>Department</label>
+    <select name="<?=$model->table?>[department_id]" id="<?=$model->table?>_departments">
+      <option value="">-- Select --</option>
+    <?foreach($dept->filter("group_token", $active_staff->group_token)->all() as $dep):?>
+    <option value="<?=$dep->primval?>"><?=$dep->title?></option>
+    <?endforeach?>
+    </select>
+  </span>
   <div class='split clearfix'>
     <span class='clearfix'>
       <select name="<?=$model->table?>[staff_id]" id="<?=$model->table?>_staff">
@@ -64,7 +62,7 @@
     <input type='hidden' name="<?=$model->table?>[date_end]" value="<?=date("Y-m-d")?>">
     <?endif?>
     <span class='clearfix'><?=$$form_name->hours_used->render();?></span>
-    <span class='clearfix'><?=$$form_name->department->render();?></span>
+
     <span class='clearfix'><?=$$form_name->type->render();?></span>
 
   </div>
