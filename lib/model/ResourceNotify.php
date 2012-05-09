@@ -19,6 +19,17 @@ class ResourceNotify extends WaxEmail{
     $this->from_name = Config::get("site/email_name");
     $this->emails = $emails;
   }
+  public function job_updated($job, $staff, $emails){
+    $this->to = $staff->email;
+    $this->staff = $staff;
+    $this->job = $job;
+    $this->client = $job->client;
+    $this->subject = "A job has been updated [".$this->job->title." - ".$this->client->title." @ ".$this->job->deadline()."]";
+    $this->from = Config::get("site/email");
+    $this->from_name = Config::get("site/email_name");
+    $this->emails = $emails;
+  }
+
 
   public function work_scheduled($work, $job, $staff, $emails){
     $this->to = $staff->email;
