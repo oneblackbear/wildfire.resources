@@ -2,6 +2,7 @@
 class JobController extends BaseController{
   public $model_class = "Job";
   public $form_name = "job_form";
+  public $model_scope = "ordered";
   public $name = "Jobs";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),

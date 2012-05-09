@@ -88,6 +88,10 @@ class Job extends WildfireResource{
     }
     return $this->order("date_go_live ASC");
   }
+
+  public function scope_ordered(){
+    return $this->order("date_created DESC");
+  }
   //find work that has nothing attached to it
   public function scope_unscheduled(){
     $ids = array(0);
