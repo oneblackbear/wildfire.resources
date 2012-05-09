@@ -27,8 +27,8 @@ $allstaff = new Staff;
         <?endforeach?>
         </select>
       </span>
-      <span class='clearfix form_field'><?=$$form_name->hours->render(array('label'=>'Hours est.'))?></span>
-      <span class='clearfix form_field'><?=$$form_name->hours_used->render(array('label'=>'Hours used'))?></span>
+      <span class='clearfix form_field'><?=$$form_name->hours->render(array('label'=>'Hours est. (per day)'))?></span>
+      <span class='clearfix form_field'><?=$$form_name->hours_used->render(array('label'=>'Hours used (total)'))?></span>
       <input type="submit" name="form_submit" value="Save" class='button submit_button'>
       <a href="/work/delete/<?=$model->primval?>/" class='button delete'>Delete</a>
     </div>
