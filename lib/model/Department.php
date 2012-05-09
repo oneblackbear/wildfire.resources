@@ -31,7 +31,6 @@ class Department extends WildfireResource{
     //filter dates
     foreach($this->staff->all() as $staff){
       $times[$staff->primval] = array();
-
       foreach($staff->work->between($start,$end)->all() as $row){
         foreach($cal->date_range_array($row->date_start, $row->date_end) as $date=>$bool) $times[$staff->primval][$date] += $row->hours;
       }
