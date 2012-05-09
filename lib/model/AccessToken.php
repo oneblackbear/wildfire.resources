@@ -11,6 +11,7 @@ class AccessToken extends WildfireResource{
     $model = new AccessToken;
     $model->title = hash_hmac("sha1", $obj->primval.rand(0,9999).time(), AccessToken::$salt.date("zy"));
     $model->group_token = $obj->group_token;
+    $model->created_by = $obj->primval;
     return $model->save();
   }
 }
