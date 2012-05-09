@@ -1,6 +1,6 @@
 <div class='summary clearfix'>
   <?if($active_staff->admin() && ($depts = $active_staff->departments) && ($dept = $depts->first())):?>
-    <?$active = $all->scope("unscheduled")->for_department($dept->primval)->order("date_created DESC")->all();?>
+    <?$active = $all->for_department($dept->primval)->scope("unscheduled")->order("date_created DESC")->all();?>
     <p>Currently <?=$all->count()?> jobs; <?=$active->count()?> need scheduling.</p>
     <?foreach($active as $row):?>
     <p><a href="/job/details/<?=$row->primval?>/" class='dbl-click stylize' data-css-color="#<?=$row->saved_colour?>">&raquo; #<?=$row->primval?> <?=$row->title?></a></p>
