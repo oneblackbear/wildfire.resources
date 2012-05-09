@@ -50,7 +50,7 @@ class BaseController extends WaxController{
     }
   }
   protected function _access(){
-    $this->active_staff = $this->_staff_login();
+    $this->active_staff = $this->_staff_login(false,false,false,Request::param("token"));
     if($this->active_staff) $this->active_staff->update_attributes(array('date_active'=>date("Y-m-d H:i:s")));
     WaxEvent::run("user.access", $this);
   }
@@ -241,8 +241,9 @@ class BaseController extends WaxController{
     $this->all = $model->filter("group_token", $this->active_staff->group_token)->all();
   }
 
-  public function _staff_login($email=false, $password=false, $hashed = false){
+  public function _staff_login($email=false, $password=false, $hashed = false, $token=false){
     $user_model = new Staff;
+    $api = new AccessToken;
     if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
       Session::set($this->user_session_name, md5($email));
       Session::set("LOGGED_IN_ROLE", $found->role);
@@ -252,6 +253,9 @@ class BaseController extends WaxController{
       Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }elseif(($sess = Session::get($this->user_session_name)) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
+      Session::set("LOGGED_IN_ROLE", $found->role);
+      return $found;
+    }elseif($token && ($api_access = $api->filter("token", $token)->first()) && ($found = $api_access->staff)){
       Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }
