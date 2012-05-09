@@ -1,5 +1,5 @@
 <?
 $active = json_decode(partial("_model_structure_and_data", array('model'=>$active_staff), "json"),1);
-$results = array('active_staff'=>$active, 'structure'=>$structure);
+$results = array('filter_fields'=>$filter_fields, 'model_filters'=>$model_filters, 'active_staff'=>$active, 'structure'=>$structure);
 echo json_encode($results);
 ?>
