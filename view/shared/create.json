@@ -1,0 +1,22 @@
+<?
+$result = new stdClass;
+$result->status = "ok";
+$result->errors = array();
+$result->post_prefix = $model->table;
+$result->structure = array();
+$result->data = array();
+foreach($model->columns as $col=>$details){
+  $result->structure[$col] = array('type'=>$details[0], 'info'=>$details[1]);
+  $val = $set = $model->$col;
+  if($val instanceOf WaxRecordset) $result->data[$col] = $val->rowset;
+  else if($val instanceOf WaxModel) $result->data[$col] = $val->row;
+  else $result->data[$col] = $val;
+}
+if($model_saved) $result->status = "saved";
+if($$form_name->handler->errors){
+  $result->status = "error";
+  foreach($$form_name->handler->errors as $message) $result->errors[] = $message;
+}
+$results = array($result);
+echo json_encode($results);
+?>
