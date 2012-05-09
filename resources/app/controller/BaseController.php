@@ -15,6 +15,7 @@ class BaseController extends WaxController{
   public $navigation_links = array('index', 'create');
   public $operations = array('edit', 'delete');
   public $scaffold_columns = array();
+  public $model_filters = array();
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
                         );
