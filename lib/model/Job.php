@@ -32,7 +32,8 @@ class Job extends WildfireResource{
     if(($posted = Request::param($this->table)) && ($posted = $posted['departments'])){
       $d = new Department;
       $depts = $d->filter("id", $posted)->all();
-    }
+    }elseif(($departmentjoin = $this->departments) && $departmentjoin->count()) $depts = $departmentjoin;
+
     if(($depts) && ($dept = $depts->first()) ){
       $golive = date("Ymd", strtotime($this->date_go_live));
       $found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
