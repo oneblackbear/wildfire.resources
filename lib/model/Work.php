@@ -80,29 +80,36 @@ class Work extends WaxModel{
     $emails = array();
     //make sure all the joins are set...
     if($this->notified == 0 && $this->send_notification && ($job = $this->job) && ($client = $this->client) && ($staff = $this->staff)){
-      $notify = new ResourceNotify;
-      //person assigned on the job
-      if($staff) $emails[$staff->primval] = $staff;
-      //the account handler for the client
-      if($client && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
-      //the person who created the job
-      if($creator = new Staff($job->created_by)) $emails[$creator->primval] = $creator;
+      $emails = $this->contact_emails();
       $this->update_attributes(array('notified'=>1));
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
+    //a completed job
     }else if($this->notified == 1 && $this->status == "completed" && $this->send_notification){
-      $notify = new ResourceNotify;
-      $emails = array();
-      //person assigned on the job
-      if($staff = $this->staff) $emails[$staff->primval] = $staff;
-      //the account handler for the client
-      if(($client = $job->client) && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
-      //the person who created the job
-      if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
+      $emails = $this->contact_emails();
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
       $this->update_attributes(array('notified'=>2));
+    //an updated job
+    }else if($this->notified == 1 && $this->send_notification){
+      $emails = $this->contact_emails();
+      //send them out
+      foreach($emails as $person) $notify->send_work_updated($this, $job, $person, $emails);
     }
+  }
+
+  public function contact_emails(){
+    $notify = new ResourceNotify;
+    $emails = array();
+    //person assigned on the job
+    if($staff = $this->staff) $emails[$staff->primval] = $staff;
+    //the account handler for the client
+    if(($client = $job->client) && ($handler = $client->account_handler)) $emails[$handler->primval] = $handler;
+    //the person who created the job
+    if($creator = new Staff($job->created_by)) $emails[$creator] = $creator;
+    //the head of the department
+    if($dept = new Department($this->department_id)) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+    return $emails;
   }
 
   public function who(){

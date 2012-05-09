@@ -47,16 +47,20 @@ class Job extends WildfireResource{
   public function notifications(){
     if(!$this->notified && $this->created_by && $this->send_notification){
       $notify = new ResourceNotify;
-      $emails = array();
-      foreach($this->departments as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+      $emails = $this->contact_emails();
       foreach($emails as $staff) $notify->send_job_creation($this, $staff, $emails);
       $this->update_attributes(array('notified'=>1));
     }else if($this->created_by && $this->send_notification){
       $notify = new ResourceNotify;
-      $emails = array();
-      foreach($this->departments as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+      $emails = $this->contact_emails();
       foreach($emails as $staff) $notify->send_job_updated($this, $staff, $emails);
     }
+  }
+
+  public function contact_emails(){
+    $emails = array();
+    foreach($this->departments as $dept) if(($admins = $dept->admins()) && $admins && $admins->count()) foreach($admins as $staff) $emails[] = $staff;
+    return $emails;
   }
   /**
    * from all data we now have find those that either have no work attached,

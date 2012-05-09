@@ -15,7 +15,9 @@ class WildfireResource extends WaxModel{
   }
 
   public function notifications(){}
-
+  public function contact_emails(){
+    return array();
+  }
   public function before_insert(){
     parent::before_insert();
     if(!$this->group_token) $this->group_token = hash_hmac("sha1", time(), self::$salt);
