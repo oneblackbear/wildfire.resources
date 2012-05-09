@@ -6,8 +6,8 @@ $result->post_prefix = $model->table;
 $result->structure = array('email'=>array('type'=>$model->columns['email'][0], 'info'=>$model->columns['email'][1]),
                            'password'=>array('type'=>$model->columns['password'][0], 'info'=>$model->columns['password'][1]),
                           );
-$result->data = array();
+$result->row = array();
 if($active_staff) $result->data = $active_staff->row;
-print_r($result);
+echo json_encode(array('model'=>$result));
 
 ?>

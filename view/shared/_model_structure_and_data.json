@@ -1,12 +1,12 @@
 <?
-$result = array('structure'=>array(), 'data'=>array());
+$result = array('structure'=>array(), 'row'=>array());
 foreach($model->columns as $col=>$details){
   if($col != "password"){
     $result['structure'][$col] = array('type'=>$details[0], 'info'=>$details[1]);
     $val = $set = $model->$col;
-    if($val instanceOf WaxRecordset) $result['data'][$col] = $val->rowset;
-    else if($val instanceOf WaxModel) $result['data'][$col] = $val->row;
-    else $result['data'][$col] = $val;
+    if($val instanceOf WaxRecordset) $result['row'][$col] = $val->rowset;
+    else if($val instanceOf WaxModel) $result['row'][$col] = $val->row;
+    else $result['row'][$col] = $val;
   }
 }
 echo json_encode($result);

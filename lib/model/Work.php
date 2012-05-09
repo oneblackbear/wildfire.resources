@@ -9,7 +9,7 @@ class Work extends WaxModel{
     $this->define("staff", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput", 'label'=>'Description'));
 
-    $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships'));
+    $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
     $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true, 'required'=>true));
     $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true, 'required'=>true));
     $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true));
@@ -17,10 +17,10 @@ class Work extends WaxModel{
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("type", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$work_types));
 
-    $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships'));
-    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
+    $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
+    $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>true));
 
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
