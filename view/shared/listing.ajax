@@ -1,5 +1,5 @@
 <div class='pagination_block clearfix top_pagintion'>
-  <?if($cms_content->total_pages > 1):?>
+  <?if($cms_content->total_without_limits() > 1):?>
   <?=paginate_links($cms_content, 2, "&laquo;", "&raquo;")?>
   <?endif?>
   <h1>List of <?=(($name) ? $name : ucwords($controller))?></h1>

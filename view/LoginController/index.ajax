@@ -1,0 +1,14 @@
+<a name="step"></a>
+<div class='form restricted_form user_form clearfix'>
+  <h1>Login to <?=Config::get("site/name")?></h1>
+  <p>Use the form below to access your account</p>
+  <div class='repeat no_border'>
+    <form action="#step" id="login_form" method="post">
+      <fieldset class='clearfix inline_fields'>
+      <?=$$form_name->email->render(array('label'=>'Your email address', 'placeholder'=>'Your email'));?>
+      <?=$$form_name->password->render(array('label'=>'Your password', 'placeholder'=>'Your password'));?>
+      <input type="submit" name="login_submit" value="Login" class="submit_button">
+      </fieldset>
+    </form>
+  </div>
+</div>

@@ -22,7 +22,7 @@ class Staff extends WildfireResource{
     $this->define("date_active", "DateTimeField", array('editable'=>false));
     $this->define("invited", "BooleanField", array('editable'=>false));
     $this->define("password_token", "CharField", array('editable'=>false));
-    $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken'));
+    $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
   }
 
   public static function get_roles(){
@@ -68,8 +68,12 @@ class Staff extends WildfireResource{
       $this->invited = 1;
     }
     parent::before_save();
+    if($this->primval) $this->api_access();
   }
 
+  public function api_access(){
+    if(($api = $this->api_tokens) && !$api->count()) $this->api_tokens = AccessToken::generate($this);
+  }
   public function token(){
     return $this->hash("email", time());
   }

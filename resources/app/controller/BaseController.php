@@ -70,7 +70,7 @@ class BaseController extends WaxController{
      */
     WaxEvent::add("user.access", function(){
       $controller = WaxEvent::data();
-      if($roles = $controller->permissions[$controller->action]){
+      if($controller->permissions && ($roles = $controller->permissions[$controller->action])){
         if(!$controller->active_staff || !in_array($controller->active_staff->role, $roles)) $controller->redirect_to("/login/?no-access");
       }
       if($controller->active_staff) $controller->structure = $controller->active_staff->permissions();
@@ -255,7 +255,7 @@ class BaseController extends WaxController{
     }elseif(($sess = Session::get($this->user_session_name)) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
       Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
-    }elseif($token && ($api_access = $api->filter("token", $token)->first()) && ($found = $api_access->staff)){
+    }elseif($token && ($api_access = $api->filter("title", $token)->first()) && ($found = $api_access->staff)){
       Session::set("LOGGED_IN_ROLE", $found->role);
       return $found;
     }
