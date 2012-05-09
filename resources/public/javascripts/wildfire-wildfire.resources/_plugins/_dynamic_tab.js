@@ -72,6 +72,18 @@ jQuery(document).ready(function(){
 
 
   });
+  jQuery(window).on("keyup", function(e){
+    //escape
+    if(e.which == 27){
+      range_start = false;
+      range_end = false;
+    }
+  });
+
+  jQuery(document).ajaxComplete(function(){
+    range_start = false;
+    range_end = false;
+  });
 
   jQuery(window).bind("closed-help-tab", function(e){
     e.preventDefault();
