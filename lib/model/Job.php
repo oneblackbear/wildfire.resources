@@ -86,7 +86,7 @@ class Job extends WildfireResource{
       if(count($ids) > 1) Job::$scope_cache["live"] = $ids;
       foreach($ids as $id) $this->filter("id", $id, "!=");
     }
-    return $this->order("date_go_live ASC");
+    return $this->order("title ASC");
   }
 
   public function scope_ordered(){
