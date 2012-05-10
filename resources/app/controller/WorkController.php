@@ -21,7 +21,7 @@ class WorkController extends BaseController{
                           'update'=>array('owner', 'admin', 'staff'),
                           'graphs'=>array('owner', 'admin', 'staff')
                         );
-
+  public static $searchable = false;
 
   public function listing(){
     parent::index();

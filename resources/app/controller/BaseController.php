@@ -25,6 +25,8 @@ class BaseController extends WaxController{
                           'details'=>array('owner', 'admin'),
                           'delete'=>array('owner')
                         );
+  public static $searchable = true;
+  public static $global_search_columns = array('id','title');
 
   public function controller_global(){
     parent::controller_global();
@@ -34,7 +36,7 @@ class BaseController extends WaxController{
   }
 
   public function _base_url(){
-    return "/home/";
+    return "/dash/";
   }
   //the url of the controller
   public function _url(){

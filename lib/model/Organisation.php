@@ -20,6 +20,9 @@ class Organisation extends WildfireResource{
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
   }
 
+  public function search_details(){
+    return $this->title . " <span>$this->telephone</span><span>$this->email</span>";
+  }
 
 }
 ?>

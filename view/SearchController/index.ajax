@@ -1,0 +1,14 @@
+<div class='search_results'>
+  <?if($search_results):?>
+    <?foreach($search_results as $con=>$results):?>
+    <div class='result clearfix'>
+      <a href="/<?=strtolower($con)?>/" class='sect'><?=ucwords($con)?></a>
+      <?foreach($results as $row):?>
+      <a href="/<?=strtolower($con)?>/details/<?=$row->primval?>/" class='res'><?=$row->search_details()?></a>
+      <?endforeach?>
+    </div>
+    <?endforeach?>
+  <?else:?>
+  <p><em>No results</em></p>
+  <?endif?>
+</div>

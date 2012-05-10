@@ -7,8 +7,9 @@
     <a href="/login/" class='button login'>Login</a>
     <a href="/join/" class='button join'>Join</a>
     <?endif?>
-
+    <?=partial("search/_inline");?>
     <h1 id="logo"><a href="/<?if($active_staff):?>dash/<?endif?>"><span><?=Config::get("site/name")?><span></a></h1>
     <h2><a href="/<?=$controller?>/">&raquo; <?=(($name)? $name : Inflections::humanize($controller))?></a></h2>
+
   </div>
 </div>

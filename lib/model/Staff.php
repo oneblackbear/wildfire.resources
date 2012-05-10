@@ -172,5 +172,8 @@ class Staff extends WildfireResource{
     return $ids;
   }
 
+  public function search_details(){
+    return $this->title . " <span>$this->telephone</span><span>$this->email</span>";
+  }
 }
 ?>

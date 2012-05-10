@@ -141,5 +141,9 @@ class WildfireResource extends WaxModel{
     }
   }
 
+  public function search_details(){
+    return $this->title;
+  }
+
 }
 ?>
