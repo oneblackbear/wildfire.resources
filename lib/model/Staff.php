@@ -9,8 +9,8 @@ class Staff extends WildfireResource{
   public function setup(){
     parent::setup();
     $this->columns['saved_colour'][1]['editable'] = true;
-    $this->define("organisations", "GroupManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
-    $this->define("departments", "GroupManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
+    $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("rate", "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
