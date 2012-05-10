@@ -42,7 +42,7 @@ $allstaff = new Staff;
     <?if($staff = $model->staff):?>
     <p class='no-margin'><strong><?=$staff->title?></strong></p>
     <?endif?>
-    <div class='scrolling medium'><p class='small'><?=$job->content?></p></div>
+    <div class='scrolling medium'><p class='small'><?=nl2br($job->content)?></p></div>
     <?endif?>
 
   </div>
