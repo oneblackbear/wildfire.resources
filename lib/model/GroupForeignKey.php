@@ -4,9 +4,9 @@ class GroupForeignKey extends ForeignKey{
 
   public $default_scope = "live";
   public function get() {
-    $class = $this->target_model->scope($this->default_scope);
-    if($cache = WaxModel::get_cache($class, $this->field, $this->model->primval)) return $cache;
-    $model = new $this->target_model($this->model->{$this->col_name});
+    if($cache = WaxModel::get_cache($this->target_model, $this->field, $this->model->primval)) return $cache;
+    $class = new $this->target_model($this->default_scope);
+    $model = $class->filter($this->col_name, $this->model->{$this->col_name})->first();
     if($model->primval) {
       WaxModel::set_cache($class, $this->field, $this->model->primval, $model);
       return $model;
