@@ -1,6 +1,6 @@
 <?
 class BaseController extends WaxController{
-  public $join_fields = array('ForeignKey', 'ManyToManyField', 'HasManyField');
+  public $join_fields = array('ForeignKey', 'GroupManyToManyField', 'HasManyField');
   public $name = false;
   public $user_session_name = "staff";
   public $model_class = false;
@@ -248,19 +248,23 @@ class BaseController extends WaxController{
     if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
       Session::set($this->user_session_name, md5($email));
       Session::set("LOGGED_IN_ROLE", $found->role);
+      Session::set("GROUP", $found->group_token);
       $this->cookie_set($remember, $email, false);
       return $found;
     }elseif($email && $password && ($found = $user_model->clear()->filter("email", $email)->filter("password", hash_hmac("sha1", $password, Staff::$salt))->first()) ){
       Session::set($this->user_session_name, md5($email));
       Session::set("LOGGED_IN_ROLE", $found->role);
+      Session::set("GROUP", $found->group_token);
       $this->cookie_set($remember, $email, false);
       return $found;
     }elseif( (($sess = Session::get($this->user_session_name)) || ($sess = $this->cookie_get()) ) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
       Session::set("LOGGED_IN_ROLE", $found->role);
+      Session::set("GROUP", $found->group_token);
       $this->cookie_set($remember, $sess, true);
       return $found;
     }elseif($token && ($api_access = $api->filter("title", $token)->first()) && ($found = $api_access->staff)){
       Session::set("LOGGED_IN_ROLE", $found->role);
+      Session::set("GROUP", $found->group_token);
       return $found;
     }
     return false;

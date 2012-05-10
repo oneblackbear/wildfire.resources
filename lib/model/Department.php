@@ -3,9 +3,9 @@ class Department extends WildfireResource{
 
   public function setup(){
     parent::setup();
-    $this->define("organisations", "ManyToManyField", array('scaffold'=>true,'target_model'=>"Organisation", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("jobs", "ManyToManyField", array('target_model'=>"Job", 'group'=>'relationships', 'editable'=>false));
+    $this->define("organisations", "GroupManyToManyField", array('scaffold'=>true,'target_model'=>"Organisation", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("staff", "GroupManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("jobs", "GroupManyToManyField", array('target_model'=>"Job", 'group'=>'relationships', 'editable'=>false));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
     $this->define("main_contact", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'col_name'=>"main_contact", 'eager_load'=>true));
     $this->define("postcode", "CharField");
@@ -14,7 +14,7 @@ class Department extends WildfireResource{
     $this->define("email", "CharField");
     $this->define("is_production", "BooleanField");
     $this->define("deadlines_allowed", "IntegerField");
-    $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
+    $this->define("comments", "GroupManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
   }
 
   public function admins(){
