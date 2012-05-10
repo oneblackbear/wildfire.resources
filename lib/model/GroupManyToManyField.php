@@ -1,6 +1,6 @@
 <?php
 
-class GroupManyToManyField extends ManyToManyField {
+class GroupManyToManyField extends ManyToManyField{
 
 
 }

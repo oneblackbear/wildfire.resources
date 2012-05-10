@@ -12,9 +12,9 @@ class Job extends WildfireResource{
     $this->define("date_go_live", "DateTimeField", array('label'=>'Go live date', 'required'=>true, 'scaffold'=>true));
     $this->define("flagged", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable()));
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships','editable'=>false));
-    $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("fee", "GroupForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>false));
-    $this->define("client", "GroupForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
+    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>false));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
   }

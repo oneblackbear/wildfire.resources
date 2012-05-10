@@ -6,10 +6,10 @@ class Work extends WaxModel{
   public static $cached = array();
   public function setup(){
     $this->define("title", "CharField", array('scaffold'=>true));
-    $this->define("staff", "GroupForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
+    $this->define("staff", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("content", "TextField", array('widget'=>"TinymceTextareaInput", 'label'=>'Description'));
 
-    $this->define("depends_on", "GroupForeignKey", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("depends_on", "ForeignKey", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
     $this->define("date_start", "DateTimeField", array('label'=>'Start', 'scaffold'=>true, 'required'=>true));
     $this->define("date_end", "DateTimeField", array('label'=>'End', 'scaffold'=>true, 'required'=>true));
     $this->define("hours", "FloatField", array('maxlength'=>'12,2', 'scaffold'=>true));
@@ -17,10 +17,10 @@ class Work extends WaxModel{
     $this->define("status", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$status_options));
     $this->define("type", "CharField", array('widget'=>'SelectInput', 'choices'=>self::$work_types));
 
-    $this->define("job", "GroupForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
-    $this->define("department", "GroupForeignKey", array('target_model'=>"Department", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("client", "GroupForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
-    $this->define("fee", "GroupForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("job", "ForeignKey", array('target_model'=>"Job", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
+    $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'relationships', 'eager_load'=>true));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>true));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>true));
 
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
@@ -124,7 +124,7 @@ class Work extends WaxModel{
     else return "?";
   }
   public function colour($join="job", $weight=false, $func="lighten"){
-    if($this->columns[$join][0] == "GroupForeignKey" && ($item = $this->$join) && ($item)) return $item->colour(false, $weight, $func);
+    if($this->columns[$join][0] == "ForeignKey" && ($item = $this->$join) && ($item)) return $item->colour(false, $weight, $func);
     else if($items = $this->$join && ($item = $items->first())) return $item->colour(false, $weight, $func);
     else return false;
   }
