@@ -1,4 +1,27 @@
 <div class='full clearfix navbar content'>
+  <ul class='skiplinks'>
+    <?$keys = array();?>
+    <?foreach($structure as $controller_name=>$data):?>
+    <li><?=$data['name']?>
+    <ul>
+      <?foreach($data['options'] as $action_name=>$name):?>
+        <?
+        $str = str_replace(" ", "", $name);
+        if(is_numeric($action_name)) $letter = strtoupper($data['name'][0]);
+        else $letter = strtoupper($name[0]);
+        $i=0;
+        while($keys[$letter] && $i<strlen($str)){
+          $letter = strtoupper($str[$i]);
+          $i++;
+        }
+        $keys[$letter] = $letter;
+        ?>
+      <li><a accesskey="<?=$letter?>" href="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"><?=$data['name']?> <?=$name?></a></li>
+      <?endforeach?>
+    </ul>
+    <?endforeach?>
+  </ul>
+
   <a href="#" class='allow_notifications button'>Alerts</a>
   <form class='goto' action="#top">
     <h4>Go to</h4>
