@@ -21,7 +21,7 @@ class LoginController extends BaseController{
     $this->model->columns['password'][1]['editable']=true;
 
     WaxEvent::run("form.setup", $this);
-    if(($sent = Request::param('staff')) && ($password = $sent['password']) && ($email = $sent['email']) && $this->_staff_login($email, $password, false) ) $this->redirect_to("/dash/");
+    if(($sent = Request::param('staff')) && ($password = $sent['password']) && ($email = $sent['email']) && $this->_staff_login($email, $password, false, false, Request::param("remember")) ) $this->redirect_to("/dash/");
 
   }
 

@@ -242,19 +242,22 @@ class BaseController extends WaxController{
     $this->all = $model->filter("group_token", $this->active_staff->group_token)->all();
   }
 
-  public function _staff_login($email=false, $password=false, $hashed = false, $token=false){
+  public function _staff_login($email=false, $password=false, $hashed = false, $token=false, $remember=false){
     $user_model = new Staff;
     $api = new AccessToken;
     if($email && $password && $hashed && ($found = $user_model->clear()->filter("email", $email)->filter("password", $password)->first()) ){
       Session::set($this->user_session_name, md5($email));
       Session::set("LOGGED_IN_ROLE", $found->role);
+      $this->cookie_set($remember, $email, false);
       return $found;
     }elseif($email && $password && ($found = $user_model->clear()->filter("email", $email)->filter("password", hash_hmac("sha1", $password, Staff::$salt))->first()) ){
       Session::set($this->user_session_name, md5($email));
       Session::set("LOGGED_IN_ROLE", $found->role);
+      $this->cookie_set($remember, $email, false);
       return $found;
-    }elseif(($sess = Session::get($this->user_session_name)) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
+    }elseif( (($sess = Session::get($this->user_session_name)) || ($sess = $this->cookie_get()) ) && ($found = $user_model->clear()->filter("md5(`email`)", $sess)->first())){
       Session::set("LOGGED_IN_ROLE", $found->role);
+      $this->cookie_set($remember, $sess, true);
       return $found;
     }elseif($token && ($api_access = $api->filter("title", $token)->first()) && ($found = $api_access->staff)){
       Session::set("LOGGED_IN_ROLE", $found->role);
@@ -263,8 +266,18 @@ class BaseController extends WaxController{
     return false;
   }
 
+  public function cookie_set($remember, $email, $hashed=false){
+    if(!$remember) return false;
+    if(!$hashed) $email = md5($email);
+    return Cookie::set($this->user_session_name, $email);
+  }
+  public function cookie_get(){
+    return Cookie::get($this->user_session_name);
+  }
+
   public function _staff_logout(){
     Session::unset_session();
+    Cookie::unset_var($this->user_session_name);
     $this->redirect_to("/?lo");
   }
 
