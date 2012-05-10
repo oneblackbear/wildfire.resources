@@ -53,7 +53,6 @@ class Work extends WaxModel{
 
   public function before_save(){
 
-    if(!$this->title) $this->title = "WORK";
     if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
     if(!$this->hours && $this->hours_used) $this->hours = $this->hours_used;
     $this->date_modified = date("Y-m-d H:i:s");
@@ -61,7 +60,7 @@ class Work extends WaxModel{
     if($this->date_end < $this->date_start) $this->add_error("date_end", "End date must be after the start date.");
 
     if(($j = $this->row['job_id']) && ($job = new Job($j)) ){
-      if($this->title == "WORK") $this->title = $job->title;
+      if(!$this->title) $this->title = $job->title;
       if(!$this->organisation_id) $this->organisation_id = $job->organisation_id;
       if(!$this->fee_id) $this->fee_id = $job->fee_id;
       //if this has been joined to a job, check to make sure the time is before the end date of the job
