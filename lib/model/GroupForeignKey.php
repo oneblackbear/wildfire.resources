@@ -2,13 +2,13 @@
 
 class GroupForeignKey extends ForeignKey{
 
-  public $default_scope = "live";
-  public function get() {
+  public $default_scope = "";
+  public function get(){
     if($cache = WaxModel::get_cache($this->target_model, $this->field, $this->model->primval)) return $cache;
     $class = new $this->target_model($this->default_scope);
-    $model = $class->filter($this->col_name, $this->model->{$this->col_name})->first();
-    if($model->primval) {
-      WaxModel::set_cache($class, $this->field, $this->model->primval, $model);
+    $model = $class->filter($class->primary_key, $this->model->{$this->col_name})->first();
+    if($model && $model->primval){
+      WaxModel::set_cache($this->target_model, $this->field, $this->model->primval, $model);
       return $model;
     } else return false;
   }
