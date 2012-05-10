@@ -37,10 +37,12 @@ class GroupManyToManyField extends ManyToManyField {
 	 * get the choices for the field
 	 * @return array
 	 */
-  public function get_choices() {
+  public function get_choices(){
     $j = new $this->target_model($this->default_scope);
     if($this->identifier) $j->identifier = $this->identifier;
-    foreach($j->filter("group_token", Session::get("GROUP"))->all() as $row) $this->choices[$row->{$row->primary_key}]=$row->{$row->identifier};
+    foreach($j->filter("group_token", Session::get("GROUP"))->all() as $row){
+      $this->choices[$row->{$row->primary_key}]=$row->{$row->identifier};
+    }
     return $this->choices;
   }
 
