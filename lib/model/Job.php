@@ -13,8 +13,8 @@ class Job extends WildfireResource{
     $this->define("flagged", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable()));
     $this->define("comments", "GroupManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships','editable'=>false));
     $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>false));
-    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
+    $this->define("fee", "GroupForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>false));
+    $this->define("client", "GroupForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("departments", "GroupManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
   }

@@ -4,7 +4,7 @@ class AccessToken extends WildfireResource{
   public function setup(){
     parent::setup();
     $this->define("send_notification", "BooleanField", array('editable'=>false, 'default'=>0));
-    $this->define("staff", "ForeignKey", array('target_model'=>'Staff'));
+    $this->define("staff", "GroupForeignKey", array('target_model'=>'Staff'));
   }
 
   public static function generate($obj){

@@ -7,7 +7,7 @@ class Department extends WildfireResource{
     $this->define("staff", "GroupManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'eager_load'=>true));
     $this->define("jobs", "GroupManyToManyField", array('target_model'=>"Job", 'group'=>'relationships', 'editable'=>false));
     $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
-    $this->define("main_contact", "ForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'col_name'=>"main_contact", 'eager_load'=>true));
+    $this->define("main_contact", "GroupForeignKey", array('target_model'=>"Staff", 'group'=>'relationships', 'col_name'=>"main_contact", 'eager_load'=>true));
     $this->define("postcode", "CharField");
     $this->define("address", "TextField");
     $this->define("telephone", "CharField");
