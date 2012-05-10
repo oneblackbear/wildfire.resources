@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
 
   jQuery(window).on("keyup", function(e){
     //escape
-    if(e.which == 27) jQuery(".help_tab .button").trigger("click");
+    if(e.which == 27 && jQuery(".help_tab").hasClass("show")) jQuery(".help_tab .button").trigger("click");
   });
   jQuery(window).on("resize", function(){
     jQuery(".help_tab .inside").css({"height":jQuery(window).height()-(start_pos), "overflow":"auto"});

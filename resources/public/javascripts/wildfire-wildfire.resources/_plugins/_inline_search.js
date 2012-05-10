@@ -4,10 +4,6 @@ jQuery(document).ready(function(){
 
 
   jQuery(window).bind("autocomplete", function(e, field, val, form, replace){
-    console.log(field);
-    console.log(val);
-    console.log(form);
-    console.log(replace);
     var dest = form.attr("action")+".ajax";
     jQuery.ajax({
       url:dest,
@@ -27,9 +23,19 @@ jQuery(document).ready(function(){
         replace = form.find(field.attr("data-replace"))
         ;
     clearTimeout(timed_search);
-    timed_search = setTimeout(function(){
-      jQuery(window).trigger("autocomplete", [field, val, form, replace]);
-    }, 800);
+    if(e.which != 27){
+      timed_search = setTimeout(function(){
+        jQuery(window).trigger("autocomplete", [field, val, form, replace]);
+      }, 800);
+    }
+  });
+
+  jQuery(window).on("keyup", function(e){
+    //escape
+    if(e.which == 27 && jQuery(".inline_search_results .search_results").length){
+      jQuery(".inline_search_results .search_results").remove();
+      clearTimeout(timed_search);
+    }
   });
 
 });
