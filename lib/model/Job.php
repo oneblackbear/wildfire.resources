@@ -41,8 +41,14 @@ class Job extends WildfireResource{
         $this->add_error("date_go_live", $dept->title." has too many deadlines for that day.");
       }
     }
-    $this->send_notification = 1;
+    //check the content/description of this job
+    $words = explode(" ", trim($this->content));
+    $words = array_unique($words);
+    //disgard any <=3 letter words
+    foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
+    if(count($words) < 10) $this->add_error("content", "Please provide a better description of the job");
 
+    $this->send_notification = 1;
   }
 
   public function notifications(){
