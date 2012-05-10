@@ -15,7 +15,7 @@ class LoginController extends BaseController{
       $format = "";
       if($this->use_format != "html") $format = ".".$this->use_format;
       if($token = Request::param('token')) $this->redirect_to("/dash/index$format?token=".$token);
-      $this->redirect_to("/dash/");
+      $this->redirect_to("/dash/index$format");
     }
     $this->model = new $this->model_class;
     $this->model->columns['password'][1]['editable']=true;
