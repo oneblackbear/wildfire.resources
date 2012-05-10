@@ -20,9 +20,10 @@ class Staff extends WildfireResource{
     $this->define("password", "PasswordField", array('label'=>'Enter your password', 'group'=>'password', 'editable'=>false));
     $this->define("role", "CharField", array('widget'=>'SelectInput', 'choices'=>self::get_roles()));
     $this->define("date_active", "DateTimeField", array('editable'=>false));
-    $this->define("invited", "BooleanField", array('editable'=>false));
+    $this->define("invited", "BooleanField", array('editable'=>false, 'default'=>0));
     $this->define("password_token", "CharField", array('editable'=>false));
     $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
+    $this->columns['send_notification'][1]['editable'] = false;
   }
 
   public static function get_roles(){
@@ -56,21 +57,21 @@ class Staff extends WildfireResource{
   public function before_insert(){
     parent::before_insert();
     $this->original_email = $this->email;
-    $this->invited = 0;
     if($this->password) $this->password = $this->hash("password", self::$salt);
   }
   public function before_save(){
-    if(!$this->password && !$this->invited && ($depts = $this->departments) && ($orgs = $this->organisations)){
+    parent::before_save();
+    if($this->primval) $this->api_access();
+  }
+  public function notifications(){
+    if($this->send_notification && !$this->password && !$this->invited && ($depts = $this->departments) && ($orgs = $this->organisations)){
       $this->password_token = $this->token();
       $notify = new ResourceNotify;
       $notify->send_staff_invite($this);
       //set invite so dont get lots of these
-      $this->invited = 1;
+      $this->update_attributes(array('invited'=>1));
     }
-    parent::before_save();
-    if($this->primval) $this->api_access();
   }
-
   public function api_access(){
     if(($api = $this->api_tokens) && !$api->count()) $this->api_tokens = AccessToken::generate($this);
   }

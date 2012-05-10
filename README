@@ -10,7 +10,7 @@ TODO:
   INVOICING:
   COMMENTS:
   MISC:
-  - replace the many to many join class with one that filters on the logged in group
+  - replace the many to many join class with one that filters on the logged in group - these are partly done but seem to break many things, big debug job!
   - header search
   - a sites listing to attach to clients (domains, servers, analytics logins)
   - an analytics module based on the sites for clients to see overview figures
