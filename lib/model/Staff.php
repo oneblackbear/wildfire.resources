@@ -11,7 +11,7 @@ class Staff extends WildfireResource{
     $this->columns['saved_colour'][1]['editable'] = true;
     $this->define("organisations", "GroupManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "GroupManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
-    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
+    $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
     foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("rate", "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("telephone", "CharField", array('scaffold'=>true, 'export'=>true));
@@ -22,7 +22,7 @@ class Staff extends WildfireResource{
     $this->define("date_active", "DateTimeField", array('editable'=>false));
     $this->define("invited", "BooleanField", array('editable'=>false));
     $this->define("password_token", "CharField", array('editable'=>false));
-    $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
+    $this->define("api_tokens", "GroupHasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
   }
 
   public static function get_roles(){

@@ -1,6 +1,6 @@
 <?
 class BaseController extends WaxController{
-  public $join_fields = array('ForeignKey', 'GroupManyToManyField', 'HasManyField');
+  public $join_fields = array('ForeignKey', 'GroupManyToManyField', 'GroupHasManyField');
   public $name = false;
   public $user_session_name = "staff";
   public $model_class = false;

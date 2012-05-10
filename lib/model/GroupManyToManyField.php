@@ -30,7 +30,7 @@ class GroupManyToManyField extends ManyToManyField {
     if($cache = WaxModel::get_cache(get_class($this->model), $this->field, $this->model->primval.":".md5(serialize($target_model->filters)), false )) return new WaxModelAssociation($this->model, $target_model, $cache, $this->field);
     if($this->join_model) foreach($this->join_model->rows() as $row) $ids[]=$row[$right_field];
     WaxModel::set_cache(get_class($this->model), $this->field, $this->model->primval.":".md5(serialize($target_model->filters)), $ids);
-    return new WaxModelAssociation($this->model->scope($this->default_scope)->filter("group_token", $this->model->group_token), $target_model, $ids, $this->field);
+    return new WaxModelAssociation($this->model->scope($this->default_scope)->filter("group_token", Session::get("GROUP")), $target_model, $ids, $this->field);
   }
 
 	/**

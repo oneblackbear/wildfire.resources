@@ -8,9 +8,9 @@ class Organisation extends WildfireResource{
 
     $this->define("departments", "GroupManyToManyField", array('target_model'=>"Department", 'group'=>'relationships'));
     $this->define("staff", "GroupManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships'));
-    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
+    $this->define("work", "GroupHasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
     $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships'));
-    $this->define("jobs", "HasManyField", array('target_model'=>"Job", 'group'=>'relationships', 'editable'=>false));
+    $this->define("jobs", "GroupHasManyField", array('target_model'=>"Job", 'group'=>'relationships', 'editable'=>false));
 
     //advanced fields
     $this->define("postcode", "CharField");
