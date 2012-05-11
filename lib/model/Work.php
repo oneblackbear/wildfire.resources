@@ -24,6 +24,7 @@ class Work extends WaxModel{
 
     $this->define("date_modified", "DateTimeField", array('export'=>true, 'scaffold'=>true, "editable"=>false));
     $this->define("date_created", "DateTimeField", array('export'=>true, "editable"=>false));
+    $this->define("date_completed", "DateTimeField", array('export'=>true, "editable"=>false));
     $this->define("created_by", "IntegerField", array('widget'=>'HiddenInput'));
     $this->define("group_token", "CharField", array('widget'=>'HiddenInput', 'info_preview'=>1));
     $this->define("send_notification", "BooleanField", array('default'=>1));
@@ -31,6 +32,7 @@ class Work extends WaxModel{
     $this->define("notified_of_invite", "IntegerField", array('editable'=>false));
     //an invite mechanism, so you can add meetings etc to multiple people
     //$this->define("invite", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
+
   }
   public function scope_live(){
     return $this->order("date_start ASC");
@@ -92,7 +94,7 @@ class Work extends WaxModel{
       $emails = $this->contact_emails();
       //send them out
       foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
-      $this->update_attributes(array('notified'=>2));
+      $this->update_attributes(array('notified'=>2, 'date_completed'=>date("Y-m-d H:i:s")));
     //an updated job
     }else if($this->notified == 1 && $this->send_notification){
       $emails = $this->contact_emails();
