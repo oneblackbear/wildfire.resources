@@ -52,7 +52,7 @@ class Job extends WildfireResource{
     $go_live = date("Ymd", $this->date_go_live);
     foreach($this->columns as $name=>$details){
       if($details[1]['date_col'] && ($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
-      if($details[1]['date_col'] && $name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "Cannot be after the go live date");
+      if($details[1]['date_col'] && $name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name Cannot be after the go live date");
     }
 
     $this->send_notification = 1;
