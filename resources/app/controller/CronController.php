@@ -38,7 +38,7 @@ class CronController extends WaxController{
       $notify = new ResourceNotify;
       $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end);
     }
-
+    $this->use_view = $this->use_layout = false;
   }
 
   //find all the top level groups for use elsewhere
