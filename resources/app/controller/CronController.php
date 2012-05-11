@@ -16,7 +16,7 @@ class CronController extends WaxController{
     $date_start = date("Y-m-d", strtotime(1-$dow-7 ." day"));
     $date_end = date("Y-m-d", strtotime(5-$dow-7 ." day"));
     foreach($tokens as $token){
-      $percentages = $emails = $depts = array();
+      $percentages = $emails = $depts = $emails = array();
       echo "Work for $date_start - $date_end ($token)<br>\r\n";
       $departments = $model->filter("group_token", $token)->all();
       foreach($departments as $dept){
@@ -25,6 +25,7 @@ class CronController extends WaxController{
         $available = 0;
         echo "Department: $dept->title<br>\r\n";
         foreach($dept->staff as $staff){
+          $emails[$staff->email] = $staff->email;
           $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, array($dept->primval));
           $allowed = $staff->weekly_hours();
           //now find the time logged
@@ -36,7 +37,7 @@ class CronController extends WaxController{
         echo "&nbsp;".$percentage[$dept->primval]."<br>\r\n";
       }
       $notify = new ResourceNotify;
-      $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end);
+      $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);
     }
     $this->use_view = $this->use_layout = false;
   }

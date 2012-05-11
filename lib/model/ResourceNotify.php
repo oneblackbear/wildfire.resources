@@ -69,8 +69,8 @@ class ResourceNotify extends WaxEmail{
     $this->emails = $emails;
   }
 
-  public function weekly_departmental_hours($departments, $hours, $start, $end){
-    foreach($departments as $d) $this->add_to_address($d->email);
+  public function weekly_departmental_hours($departments, $hours, $start, $end, $emails){
+    foreach($emails as $em) $this->add_to_address($em);
     $this->departments = $departments;
     $this->hours = $hours;
     $this->subject = "Last Weeks Logged time [$start - $end]";
