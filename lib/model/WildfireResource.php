@@ -27,9 +27,8 @@ class WildfireResource extends WaxModel{
     if(!$this->group_token) $this->group_token = hash_hmac("sha1", time(), self::$salt);
   }
   public function is_editable(){
-    $allowed = false;
-    if(Session::get("LOGGED_IN_ROLE") == "owner" || Session::get("LOGGED_IN_ROLE") == "admin") return true;
-    return $allowed;
+    if(Session::get("LOGGED_IN_ROLE") == "owner") return true;
+    else return false;
   }
 
   //this will need updating when the framework can handle manipulating join columns
