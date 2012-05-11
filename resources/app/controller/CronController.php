@@ -2,7 +2,7 @@
 class CronController extends WaxController{
 
   public function controller_global(){
-    if(ENV == "production" && Request::param("knock_knock") != "who is there") $this->redirect_to("/?naughty=1");
+    if(ENV == "production" && Request::param("knock_knock") != "who_is_there") $this->redirect_to("/?naughty=1");
   }
 
   public function department_weekly_summary(){
