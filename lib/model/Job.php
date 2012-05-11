@@ -8,7 +8,7 @@ class Job extends WildfireResource{
     $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true));
     $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true));
     $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date', 'date_col'=>true));
-    $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date, 'date_col'=>true'));
+    $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date', 'date_col'=>true));
     $this->define("date_go_live", "DateTimeField", array('label'=>'Go live date', 'required'=>true, 'scaffold'=>true, 'date_col'=>true));
     $this->define("flagged", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable()));
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships','editable'=>false));
@@ -48,12 +48,11 @@ class Job extends WildfireResource{
     //disgard any <=3 letter words
     foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
     if(count($words) < 10) $this->add_error("content", "Please provide a better description of the job");
-    //make sure its a deadline during working week
-    if(($day = date("N", strtotime($this->date_go_live))) && $day > 5) $this->add_error("date_go_live", "Deadlines must be withing the working week.");
-    //make sure deadline is the latest day
+    //make sure its a deadline during working week and make sure deadline is the latest day
     $go_live = date("Ymd", $this->date_go_live);
     foreach($this->columns as $name=>$details){
-      if($details[1]['date_col'] && $name != "date_go_live" && ($comp = date("Ymd", $this->$col)) && $comp > $go_live) $this->add_error($col, "Cannot be after the go live date");
+      if($details[1]['date_col'] && ($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
+      if($details[1]['date_col'] && $name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "Cannot be after the go live date");
     }
 
     $this->send_notification = 1;
