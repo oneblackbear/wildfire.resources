@@ -17,7 +17,7 @@ class Job extends WildfireResource{
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
-    $this->define("rating", "IntegerField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(1, 5)) );
+    $this->define("rating", "IntegerField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
   }
 
   public function before_insert(){
