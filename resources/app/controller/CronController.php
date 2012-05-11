@@ -24,7 +24,7 @@ class CronController extends WaxController{
       $available = 0;
       echo "Department: $dept->title<br>\r\n";
       foreach($dept->staff as $staff){
-        $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, $dept->primval);
+        $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, array($dept->primval));
         $allowed = $staff->weekly_hours();
         //now find the time logged
         $worked += $hrs;

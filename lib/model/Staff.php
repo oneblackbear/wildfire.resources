@@ -133,7 +133,7 @@ class Staff extends WildfireResource{
 
   public function work_by_date_and_department($start, $end, $departments=array(0), $col="hours"){
     $work = array();
-    if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
+    if($cache = Staff::$work_cache[$this->primval][$start.$end.serialize($departments)]) return $cache;
     elseif(($worked = $this->work) && ($worked = $worked->filter("department_id", $departments)->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all())){
       $cal = new Calendar;
       foreach($worked as $row){
@@ -145,7 +145,7 @@ class Staff extends WildfireResource{
         }
       }
     }
-    Staff::$work_cache[$this->primval][$start.$end] = $work;
+    Staff::$work_cache[$this->primval][$start.$end.serialize($departments)] = $work;
     return $work;
   }
 
