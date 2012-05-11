@@ -12,7 +12,7 @@ class Staff extends WildfireResource{
     $this->define("organisations", "ManyToManyField", array('target_model'=>"Organisation", 'group'=>'relationships','scaffold'=>true));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'editable'=>false));
-    foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
+    foreach(self::$days_of_week as $day) $this->define("hours_on_".$day, "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates', 'hours_col'=>true));
     $this->define("rate", "FloatField", array('maxlength'=>"5,2", 'default'=>0, 'group'=>'hours and rates'));
     $this->define("telephone", "CharField", array('scaffold'=>true, 'export'=>true));
     $this->define("email", "CharField", array('required'=>true,'scaffold'=>true, 'export'=>true, 'unique'=>true));
@@ -36,6 +36,17 @@ class Staff extends WildfireResource{
     return $roles;
   }
 
+  /**
+   * total number of hours this person works in a week
+   */
+  public function weekly_hours(){
+    $hrs = 0;
+    foreach($this->columns as $col=>$info) if($info[1]['hours_col']) $hrs += $this->$col;
+    return $hrs;
+  }
+  /**
+   * hours available on a day
+   */
   public static function hours_available($day_of_week="monday", $token, $filters=array()){
     $model = new Staff;
     if($id = $filters['staff']) $model = $model->filter("id", $id);
@@ -119,16 +130,17 @@ class Staff extends WildfireResource{
     return $permissions;
   }
 
-  public function work_by_date($start, $end){
+
+  public function work_by_date_and_department($start, $end, $departments=array(0), $col="hours"){
     $work = array();
     if($cache = Staff::$work_cache[$this->primval][$start.$end]) return $cache;
-    elseif(($worked = $this->work) && ($worked = $worked->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all())){
+    elseif(($worked = $this->work) && ($worked = $worked->filter("department_id", $departments)->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all())){
       $cal = new Calendar;
       foreach($worked as $row){
         $work[$row->primval]['title'] = $row->title;
         $range = array_intersect(array_keys($cal->date_range_array($start, $end)), array_keys($cal->date_range_array($row->date_start, $row->date_end)) );
         foreach($range as $index){
-          $work[$row->primval]['hours'][$index] = $row->hours;
+          $work[$row->primval]['hours'][$index] = $row->$col;
           $d = date("Ymd", strtotime($d+1));
         }
       }
@@ -137,14 +149,30 @@ class Staff extends WildfireResource{
     return $work;
   }
 
+  public function work_by_date($start, $end){
+    return $this->work_by_date_and_department($start,$end, $this->department_id());
+  }
+
+  public function hours_worked_by_date_and_department($start, $end, $department){
+    $time = 0 ;
+    $hrs = $this->work_by_date_and_department($start, $end, $department, "hours_used");
+    foreach($hrs as $job_id => $details) $time += array_shift($details['hours']);
+    return $time;
+  }
+  /**
+   * persons work usage
+   */
   public function usage($start, $end){
     if($cache = Staff::$work_cache['totals'][$start.$end]) return $cache;
     $work = $this->work_by_date($start, $end);
-
     $total_work = 0;
     foreach($work as $day) foreach($day['hours'] as $t) $total_work+= $t;
     return $total_work;
   }
+
+  /**
+   * permission helpers
+   */
   public function owner($exact=false){
     return ($this->role == "owner");
   }
@@ -159,6 +187,10 @@ class Staff extends WildfireResource{
     if($exact) return ($this->role == "standard");
     else return ($this->admin() || $this->privileged(true) || $this->role == "standard");
   }
+
+  /**
+   * find staff deparment ids
+   */
   public function department($func="all"){
     if(($depts = $this->departments) && ($res = $depts->$func()) ) return $res;
     else return false;
