@@ -2,7 +2,7 @@
 $previous = $table['previous_info'];
 $next = $table['next_info'];
 $staff = new Staff;
-$allstaff = $staff->for_department($active_staff->department_id(), "staff")->all();
+$allstaff = $staff->for_department($model_filters['department'], "staff")->all();
 if($staff_id = $model_filters['staff']) $allstaff->filter("id", $staff_id);
 ?>
 <div class='pagination_block clearfix top_pagintion'>
