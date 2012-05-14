@@ -47,7 +47,7 @@ class Job extends WildfireResource{
     $words = array_unique($words);
     //disgard any <=3 letter words
     foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
-    if(count($words) < 10) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
+    if(count($words) < 7) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
     //make sure its a deadline during working week and make sure deadline is the latest day
     $go_live = date("Ymd", strtotime($this->date_go_live));
     foreach($this->columns as $name=>$details){
