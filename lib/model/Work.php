@@ -30,6 +30,7 @@ class Work extends WaxModel{
     $this->define("send_notification", "BooleanField", array('default'=>1));
     $this->define("notified", "IntegerField", array('editable'=>false));
     $this->define("notified_of_invite", "IntegerField", array('editable'=>false));
+    $this->define("adhoc", "BooleanField", array('editable'=>false));
     //an invite mechanism, so you can add meetings etc to multiple people
     //$this->define("invite", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
 

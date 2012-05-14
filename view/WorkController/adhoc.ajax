@@ -7,6 +7,7 @@
   <input type='hidden' name="<?=$model->table?>[status]" value="scheduled">
   <input type='hidden' name="<?=$model->table?>[date_start]" value="<?=date("Y-m-d")?>">
   <input type='hidden' name="<?=$model->table?>[date_end]" value="<?=date("Y-m-d")?>">
+  <input type='hidden' name="<?=$model->table?>[adhoc]" value="1">
   <div class='split clearfix'>
     <span class='clearfix'><?=$$form_name->title->render();?></span>
     <?$jobs = new Job("live");?>
