@@ -34,7 +34,7 @@ class CronController extends WaxController{
           echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
         }
         $percentages[$dept->primval] = (100/$available) * $worked;
-        echo "&nbsp;".$percentage[$dept->primval]."<br>\r\n";
+        echo "&nbsp;".$percentages[$dept->primval]."<br>\r\n";
       }
       $notify = new ResourceNotify;
       $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);

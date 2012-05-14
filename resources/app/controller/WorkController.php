@@ -99,6 +99,10 @@ class WorkController extends BaseController{
   }
 
   public function adhoc(){
+    WaxEvent::add("form.save.after", function(){
+      $controller = WaxEvent::data();
+      if($save = $controller->model_saved->update_attributes(array('adhoc'=>1))) $controller->model_saved = $controler->model = $save;
+    });
     $this->edit();
   }
 
@@ -151,7 +155,7 @@ class WorkController extends BaseController{
           echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
         }
         $percentages[$dept->primval] = (100/$available) * $worked;
-        echo "&nbsp;".$percentage[$dept->primval]."<br>\r\n";
+        echo "&nbsp;".$percentages[$dept->primval]."<br>\r\n";
       }
 
     }
