@@ -77,6 +77,16 @@ class ResourceNotify extends WaxEmail{
     $this->from = Config::get("site/email");
     $this->from_name = Config::get("site/email_name");
   }
+  public function weekly_hours($staff, $hours, $start, $end, $emails){
+    $this->add_to_address("charles@oneblackbear.com");
+    $this->staff = $staff;
+    $this->hours = $hours;
+    $this->start = $start;
+    $this->end = $end;
+    $this->subject = "Your Logged time [$start - $end]";
+    $this->from = Config::get("site/email");
+    $this->from_name = Config::get("site/email_name");
+  }
 
 }
 ?>
