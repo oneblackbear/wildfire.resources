@@ -126,7 +126,7 @@ class WorkController extends BaseController{
   }
 
 
-  public function weeky_summary(){
+  public function weekly_summary(){
     $tokens = array($this->active_staff->group_token);
     $model = new Department("live");
 
