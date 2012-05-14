@@ -74,7 +74,7 @@ class WorkController extends BaseController{
   }
 
   public function to_do(){
-    unset($this->filter_fields['department'], $this->filter_fields['job']);
+    unset($this->filter_fields['department'], $this->filter_fields['job'], $this->filter_fields['client']);
     //add in the days filter
     $this->filter_fields['days'] = array(
                                     'columns'=>array('date_start', 'date_end'),
