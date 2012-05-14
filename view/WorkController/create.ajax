@@ -7,9 +7,13 @@
   $jobs = new Job("live");
   $staff = new Staff;
   $dept = new Department;
-  $dept = $dept->for_department($active_staff->department_id(), false);
+  $depts = $active_staff->department_id();
   if(!$active_staff->admin()) $staff = $staff->filter("id", $active_staff->primval);
-  else $staff = $staff->for_department($active_staff->department_id(), "staff");
+  else $staff = $staff->for_department($depts, "staff");
+  if($active_staff->restricted){
+    $jobs->for_department($depts);
+    $dept = $dept->for_department($depts, false);
+  }
   ?>
   <div class='split clearfix'>
     <span class='clearfix'>
@@ -17,7 +21,7 @@
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
       <option value="">-- Select --</option>
       <?$org = false;?>
-      <?foreach($jobs->for_department($active_staff->department_id())->order("organisation_id ASC, date_go_live ASC")->all() as $job):?>
+      <?foreach($jobs->order("organisation_id ASC, date_go_live ASC")->all() as $job):?>
         <?if($org != $job->organisation_id):?>
           <?if($org):?></optgroup><?endif?>
           <optgroup label="<?=(($o = $job->client)? $o->title : "No Client")?>">

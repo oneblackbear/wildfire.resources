@@ -23,6 +23,7 @@ class Staff extends WildfireResource{
     $this->define("invited", "BooleanField", array('editable'=>false, 'default'=>0));
     $this->define("password_token", "CharField", array('editable'=>false));
     $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
+    $this->define("restricted", "BooleanField", array('default'=>1));
     $this->columns['send_notification'][1]['editable'] = true;
   }
 
