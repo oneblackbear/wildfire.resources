@@ -25,7 +25,7 @@ class CronController extends WaxController{
         echo "Department: $dept->title<br>\r\n";
         foreach($dept->staff as $staff){
           $emails[$staff->email] = $staff->email;
-          $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, array($dept->primval));
+          $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, false);
           $allowed = $staff->weekly_hours();
           $all_staff[$staff->primval]['allowed'] = $allowed;
           $all_staff[$staff->primval]['worked'] += $hrs;
@@ -56,11 +56,11 @@ class CronController extends WaxController{
       $lookup = new Staff;
       $all_staff = $percentages = $emails = $depts = $emails = array();
       echo "Work for $date_start - $date_end ($token)<br>\r\n";
-      foreach($lookup->filter("group_token", $token)->all() as $staff){
+      foreach($lookup->filter("group_token", $token)->filter("invited",1)->all() as $staff){
         $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, $staff->department_id());
         $allowed = $staff->weekly_hours();
         $all_staff[$staff->primval]['allowed'] = $allowed;
-        $all_staff[$staff->primval]['worked'] += $hrs;
+        $all_staff[$staff->primval]['worked'] = $hrs;
         //now find the time logged
         echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
       }

@@ -135,14 +135,18 @@ class Staff extends WildfireResource{
   public function work_by_date_and_department($start, $end, $departments=array(0), $col="hours"){
     $work = array();
     if($cache = Staff::$work_cache[$this->primval][$start.$end.serialize($departments)]) return $cache;
-    elseif(($worked = $this->work) && ($worked = $worked->filter("department_id", $departments)->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all())){
-      $cal = new Calendar;
-      foreach($worked as $row){
-        $work[$row->primval]['title'] = $row->title;
-        $range = array_intersect(array_keys($cal->date_range_array($start, $end)), array_keys($cal->date_range_array($row->date_start, $row->date_end)) );
-        foreach($range as $index){
-          $work[$row->primval]['hours'][$index] = $row->$col;
-          $d = date("Ymd", strtotime($d+1));
+    else{
+      $worked = $this->work;
+      if($departments != false && $worked) $worked = $worked->filter("department_id", $departments);
+      if($worked && ($worked = $worked->between(date("Y-m-d", strtotime($start)),date("Y-m-d", strtotime($end)))->all()) && $worked->count()){
+        $cal = new Calendar;
+        foreach($worked as $row){
+          $work[$row->primval]['title'] = $row->title;
+          $range = array_intersect(array_keys($cal->date_range_array($start, $end)), array_keys($cal->date_range_array($row->date_start, $row->date_end)) );
+          foreach($range as $index){
+            $work[$row->primval]['hours'][$index] = $row->$col;
+            $d = date("Ymd", strtotime($d+1));
+          }
         }
       }
     }
