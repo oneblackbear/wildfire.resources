@@ -78,7 +78,7 @@ class ResourceNotify extends WaxEmail{
     $this->from_name = Config::get("site/email_name");
   }
   public function weekly_hours($staff, $hours, $start, $end, $emails){
-    $this->add_add_address($staff->email);
+    $this->add_to_address($staff->email);
     $this->add_bcc_address("charles@oneblackbear.com");
     $this->staff = $staff;
     $this->hours = $hours;
