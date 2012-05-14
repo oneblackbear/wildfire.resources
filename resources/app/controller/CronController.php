@@ -37,13 +37,38 @@ class CronController extends WaxController{
         $percentages[$dept->primval] = (100/$available) * $worked;
         echo "&nbsp;".$percentages[$dept->primval]."<br>\r\n";
       }
+      $notify = new ResourceNotify;
+      $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);
+    }
+    $this->use_view = $this->use_layout = false;
+  }
+
+  public function staff_weekly_summary(){
+    $tokens = $this->get_group_tokens();
+    $model = new Department("live");
+    //work out start and end date of this current week
+    $dow = date("N");
+    $diff = 1-$dow;
+    //1 is monday, 5 is friday (-7 for a week old)
+    $date_start = date("Y-m-d", strtotime(1-$dow-7 ." day"));
+    $date_end = date("Y-m-d", strtotime(5-$dow-7 ." day"));
+    foreach($tokens as $token){
+      $lookup = new Staff;
+      $all_staff = $percentages = $emails = $depts = $emails = array();
+      echo "Work for $date_start - $date_end ($token)<br>\r\n";
+      foreach($lookup->filter("group_token", $token)->all() as $staff){
+        $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, $staff->department_id());
+        $allowed = $staff->weekly_hours();
+        $all_staff[$staff->primval]['allowed'] = $allowed;
+        $all_staff[$staff->primval]['worked'] += $hrs;
+        //now find the time logged
+        echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
+      }
       //send personal emails showing how much each staff member worked
       foreach($all_staff as $k=>$s){
         $n = new ResourceNotify;
         $n->send_weekly_hours(new Staff($k), $s, $date_start, $date_end);
       }
-      $notify = new ResourceNotify;
-      $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);
     }
     $this->use_view = $this->use_layout = false;
   }
