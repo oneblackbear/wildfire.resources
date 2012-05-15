@@ -15,14 +15,13 @@ jQuery(document).ready(function(){
 
   jQuery(window).on("keyup", function(e){
     //escape
-    if(e.which == 27 && jQuery(".help_tab").hasClass("show")) jQuery(".help_tab .button").trigger("click");
+    if(e.which == 27 && jQuery(".help_tab").hasClass("show")) jQuery(".help_tab a.button").trigger("click");
   });
   jQuery(window).on("resize", function(){
     jQuery(".help_tab .inside").css({"height":jQuery(window).height()-(start_pos), "overflow":"auto"});
   });
 
   jQuery(document).scroll(function(e){
-    jQuery(document).scrollTop();
     if(jQuery(document).scrollTop() > start_pos) jQuery(".help_tab").css({"position":"fixed", "top":0});
     else jQuery(".help_tab").css({"position":"absolute", "top":""});
   });
