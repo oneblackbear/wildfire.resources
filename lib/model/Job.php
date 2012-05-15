@@ -36,11 +36,14 @@ class Job extends WildfireResource{
       $depts = $d->filter("id", $posted)->all();
     }elseif(($departmentjoin = $this->departments) && $departmentjoin->count()) $depts = $departmentjoin;
 
-    if(($depts) && ($dept = $depts->first()) ){
+    if(($depts) && ($depts->count()) ){
       $golive = date("Ymd", strtotime($this->date_go_live));
-      $found = $model->for_department($dept->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
-      if($golive && ($found) && ($found->count() > $dept->deadlines_allowed)){
-        $this->add_error("date_go_live", $dept->title." has too many deadlines for that day (".$found->count().").");
+      foreach($depts as $d){
+        $j = new Job;
+        $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
+        if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
+          $this->add_error("date_go_live", $d->title." has too many deadlines for that day (".$found->count()." / ".$d->deadlines_allowed.").");
+        }
       }
     }
     //check the content/description of this job
