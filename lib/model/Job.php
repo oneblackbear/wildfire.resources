@@ -4,6 +4,7 @@ class Job extends WildfireResource{
   public static $scope_cache = array();
   public function setup(){
     parent::setup();
+    $this->columns['id'][1]['scaffold']=true;
     $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true));
     $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true));
     $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true));
