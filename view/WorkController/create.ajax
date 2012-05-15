@@ -9,10 +9,10 @@
   $dept = new Department;
   $depts = $active_staff->department_id();
   if(!$active_staff->admin()) $staff = $staff->filter("id", $active_staff->primval);
-  else $staff = $staff->for_department($depts, "staff");
   if($active_staff->restricted){
     $jobs->for_department($depts);
     $dept = $dept->for_department($depts, false);
+    $staff = $staff->for_department($depts, "staff");
   }
   ?>
   <div class='split clearfix'>
