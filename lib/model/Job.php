@@ -140,8 +140,14 @@ class Job extends WildfireResource{
     else return $base ." due_future ";
   }
 
+  public function get_date_cols(){
+    $cols = array();
+    foreach($this->columns as $col=>$info) if($info[1]['date_col']) $cols[] = $col;
+    return $cols;
+  }
+
   public function times($format = "jS F Y", $use_label=true, $cols=false){
-    if(!$cols) $cols = array('date_creative_required_for', 'date_internal_testing', 'date_client_testing', 'date_go_live');
+    if(!$cols) $cols = $this->get_date_cols();
     $dates = array();
     foreach($cols as $col){
       if($this->$col){
