@@ -88,14 +88,15 @@ class BaseController extends WaxController{
       foreach((array)$obj->model_filters as $name=>$value){
         $col_filter = "";
         if(strlen($value) && ($filter = $obj->filter_fields[$name])){
-          if($filter['columns']){
+          if($filter['columns'] && $filter['dates'] && ($start = $filter['columns'][0]) && ($end = $filter['columns'][1]) ){
+            //elseif($filter['dates'] && ($choices = $filter['choices']) && ($range = $choices[$value])){
+            $choices = $filter['choices'];
+            $range = $choices[$value];
+            $filterstring .= "((`$start` <= '".date("Y-m-d", strtotime($range['max']))."') AND (`$end` >= '".date("Y-m-d", strtotime($range['min']))."') ) AND ";
+          }elseif($filter['columns']){
             foreach($filter['columns'] as $col){
               if($opp = $filter['opposite_join_column']){
-                // echo "$opp - $col<br>";
-                // var_dump( $obj->model->columns);
-                // exit;
                 $target = $obj->model->columns[$col][1]['target_model'];
-
                 $join = new $target($value);
                 $ids = array(0);
                 foreach($join->$opp as $opposite) $ids[] = $opposite->primval;
@@ -104,14 +105,13 @@ class BaseController extends WaxController{
               elseif($filter['fuzzy']) $col_filter .= "`$col` LIKE '%".($value)."%' OR";
               elseif($filter['fuzzy_right']) $col_filter .= "`$col` LIKE '".($value)."%' OR";
               elseif($filter['fuzzy_left']) $col_filter .= "`$col` LIKE '%".($value)."' OR";
-              elseif($filter['dates'] && ($choices = $filter['choices']) && ($range = $choices[$value])) $col_filter .= "(`$col` BETWEEN '".date("Y-m-d", strtotime($range['min']))."' AND '".date("Y-m-d", strtotime($range['max']))."') OR ";
               else $col_filter .= "`$col`='".($value)."' OR";
             }
             $filterstring .= "(".trim($col_filter, " OR").") AND ";
           }
         }
       }
-
+      echo $filterstring;exit;
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
     WaxEvent::add("model.columns", function(){
