@@ -111,7 +111,6 @@ class BaseController extends WaxController{
           }
         }
       }
-      echo $filterstring;exit;
       if($filterstring) $obj->model->filter(trim($filterstring, " AND "));
     });
     WaxEvent::add("model.columns", function(){
