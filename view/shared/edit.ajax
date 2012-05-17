@@ -8,7 +8,7 @@
   ?>
   <div class='clearfix grouped groups-<?=count($grouped)?>'>
     <?foreach($grouped as $group=>$fields):?>
-    <fieldset<?if($model_saved):?> class='updated'<?endif?>>
+    <fieldset>
     <h3><?=ucwords($group)?></h3>
       <?foreach($fields as $field):?>
       <span class='clearfix'><?=$field->render()?></span>

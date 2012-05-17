@@ -8,7 +8,7 @@
   ?>
   <div class='clearfix grouped groups-<?=count($grouped)?>'>
     <?foreach($grouped as $group=>$fields):?>
-    <fieldset<?if($model_saved):?> class='updated'<?endif?>>
+    <fieldset>
     <h3><?=ucwords($group)?></h3>
       <?foreach($fields as $field):?>
       <span class='clearfix'><?=$field->render()?></span>
@@ -20,8 +20,10 @@
   <div class='submission clearfix'>
     <input type="submit" name="form_submit" value="Create <?=$controller?>" class='button submit_button'>
   </div>
+  <?if($model->primval):?>
   <div class='info'>
     <?$staff = new Staff($model->created_by);?>
     <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
   </div>
+  <?endif?>
 </form>

@@ -62,7 +62,9 @@ form.updated fieldset:first-child{
   background:url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right center;
 }
 */
-
+label span.required{
+  color:red;
+}
 form .grouped{
   border:8px solid rgba(94, 94, 94, 0.2);
   padding:1%;
