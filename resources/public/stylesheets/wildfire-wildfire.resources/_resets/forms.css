@@ -1,17 +1,3 @@
-
-.form fieldset{
-  margin-bottom:10px;
-}
-.restricted_form{
-  width:62%;
-  max-width:800px;
-  margin:20px auto;
-  padding:10px;
-}
-.inline_fields label{display:none;}
-.form li label{
-  display:inline;
-}
 ul.inline li{
   float:left;
   width:30%;
@@ -28,42 +14,19 @@ ul.inline li label{
   float:left;
   width:99%;
 }
-  #dynamic-tab-content span.error_message{display:none;}
+
+form label,
+form input[type="text"],
+form select,
 form textarea{
-  width:96%;
-  height:100px;
-  padding:10px 2%;
-}
-
-form span{
   display:block;
-  margin-bottom:15px;
-}
-form span.button,
-form .button span{
-  margin-bottom:0;
-}
-form .button span
-form span label{
-  float:left;
-  font-weight:bold;
-  font-size:108%;
-  width:43%;
-  padding-top:5px;
-}
-  #dynamic-tab-content span label{
-    width:25%;
-  }
-
-form span em{
-  float:left;
-  width:52%;
-  display:block;
-  font-style:normal;
-  padding-top:6px;
+  float:none;
+  width:99%;
 }
 form label{
-  margin-right:10px;
+  font-size:108%;
+  margin:8px 0;
+  font-family:"Open Sans", helvetica, arial;
 }
 form input,
 form textarea{
@@ -78,11 +41,11 @@ form textarea{
   form input.error_field{
     border-color:#a91c12;
   }
-  #dynamic-tab-content span input,
-  #dynamic-tab-content span textarea{
-    width:65%;
-  }
-
+form textarea,
+.scrolling{
+  height:180px;
+  background:rgb(253,248,146);
+}
 form input[type="text"][disabled="disabled"]{
   border-width:0;
   background:#f7f7f7;
@@ -93,86 +56,39 @@ form input[type="checkbox"]{
   margin-right:1%;
   float:left;
 }
-body form span.checkbox{
-  margin-top:3px;
-}
-body form span.checkbox label{
-  padding:0;
-}
 
-form span input,
-form span select,
-form span textarea{
-  float:left;
-  width:52%;
-}
-form span select{
-  width:52%;
-}
-form span.no-label select{width:98%;}
-
-form span.split_field input{
-  float:left;
-  width:44%;
-}
-form span.split_field input:last-child{
-  margin-left:3%;
-}
-form span.split_field label{display:none;}
-
-
-.inline_fields .error_message{display:none;}
-form.updated{
-  margin-bottom:20px;
-}
-form.updated:last-child{
-  margin-bottom:0;
-  border-bottom-width:0;
-}
+/*
 form.updated fieldset:first-child{
   background:url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right center;
 }
-form.updated .submit_button{
-  display:none;
-}
+*/
 
-.repeat form:first-child{
-  padding-bottom:10px;
-  margin-bottom:20px;
-  border-bottom:8px solid rgba(204,204,204,0.5);
-}
-.no_border form:first-child{
-  border-bottom-width:0px;
-  padding-bottom:0;
-  margin-bottom:0;
-}
-
-form.editing fieldset{
-  float:left;
-  width:45%;
-  padding:10px;
-  margin-bottom:15px;
+form .grouped{
+  border:8px solid rgba(94, 94, 94, 0.2);
+  padding:1%;
   background:white;
-  border:8px solid rgba(204,204,204,0.5);
+  border-radius:4px;
 }
-form.editing fieldset:nth-of-type(even){
-  float:right;
-}
-
-form.editing span label{
+form .grouped fieldset{
   float:left;
-  width:35%;
-  font-weight:bold;
-  padding-top:6px;
-}
-.editing fieldset.updated{
-  background: white url('/images/wildfire-wildfire.resources/icons/updated.png') no-repeat right 98%;
 }
 
-form .split{
-  margin:5px 0;
-  padding:10px 0 0 0;
-  border-bottom:1px solid rgba(204,204,204,0.5);
+  .groups-2 fieldset{
+    width:48%;
+  }
+    .groups-2 fieldset:first-child{
+      margin-right:4%;
+    }
+  .groups-3 fieldset{
+    width:30%;
+  }
+    .groups-3 fieldset:nth-child(2){
+      margin:0 4%;
+    }
+
+
+form .submission input[type=submit]{
+  float:right;
 }
 
 form.completed label,

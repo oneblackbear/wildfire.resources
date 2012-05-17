@@ -63,7 +63,8 @@ a.legend.db-click{
   .join,
   .continue,
   .on,
-  .allow_notifications{
+  .allow_notifications,
+  .submit_button{
     color:#5d7731;
     background: rgb(215,233,164); /* Old browsers */
     background: -moz-linear-gradient(top, rgba(215,233,164,1) 0%, rgba(202,226,133,1) 4%, rgba(185,217,114,1) 52%, rgba(159,203,87,1) 100%); /* FF3.6+ */
@@ -73,6 +74,9 @@ a.legend.db-click{
     background: -ms-linear-gradient(top, rgba(215,233,164,1) 0%,rgba(202,226,133,1) 4%,rgba(185,217,114,1) 52%,rgba(159,203,87,1) 100%); /* IE10+ */
     background: linear-gradient(top, rgba(215,233,164,1) 0%,rgba(202,226,133,1) 4%,rgba(185,217,114,1) 52%,rgba(159,203,87,1) 100%); /* IE10+ */
   }
+    .submit_button{
+      font-size:131%;
+    }
   .login{
     color:#42788e;
     background: rgb(192,235,250); /* Old browsers */

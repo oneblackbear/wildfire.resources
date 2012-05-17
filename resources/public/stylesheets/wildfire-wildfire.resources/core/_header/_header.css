@@ -23,7 +23,9 @@
 #header_search input{
   display:block;
   float:left;
+  margin:0;
 }
+
   #header_search label span{
     display:none;
   }

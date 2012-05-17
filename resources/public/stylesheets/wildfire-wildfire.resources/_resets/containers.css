@@ -35,6 +35,9 @@
   padding:15px 5%;
 }
 
+.scrolling{
+  padding:5px;
+}
 .scrolling.small{
   height:80px;
   overflow:auto;

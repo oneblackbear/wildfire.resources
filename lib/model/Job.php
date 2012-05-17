@@ -5,20 +5,20 @@ class Job extends WildfireResource{
   public function setup(){
     parent::setup();
     $this->columns['id'][1]['scaffold']=true;
-    $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true));
-    $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true));
-    $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true));
-    $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date', 'date_col'=>true));
-    $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date', 'date_col'=>true));
-    $this->define("date_go_live", "DateTimeField", array('label'=>'Go live date', 'required'=>true, 'scaffold'=>true, 'date_col'=>true));
-    $this->define("flagged", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable()));
-    $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships','editable'=>false));
-    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
-    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'relationships', 'eager_load'=>false));
-    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
-    $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'relationships', 'scaffold'=>true, 'eager_load'=>false));
+    $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'label'=>'Estimated hours <span class="required">*</span>'));
+    $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'editable'=>false));
+    $this->define("date_go_live", "DateTimeField", array('label'=>'Project due date <span class="required">*</span>', 'required'=>true, 'scaffold'=>true, 'date_col'=>true, 'group'=>'hours'));
+    $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true, 'group'=>'hours'));
+    $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date', 'date_col'=>true, 'group'=>'hours'));
+    $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date', 'date_col'=>true, 'group'=>'hours'));
+    $this->define("flagged", "BooleanField", array('editable'=>false, 'scaffold'=>$this->is_editable()));
+    $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'allocations','editable'=>false));
+    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'allocations', 'eager_load'=>true, 'editable'=>false));
+    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'allocations', 'eager_load'=>false));
+    $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
+    $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
-    $this->define("rating", "IntegerField", array('editable'=>$this->is_editable(), 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
+    $this->define("rating", "IntegerField", array('editable'=>false, 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
   }
 
   public function before_insert(){
@@ -54,9 +54,9 @@ class Job extends WildfireResource{
     if(count($words) < 7) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
     //make sure its a deadline during working week and make sure deadline is the latest day
     $go_live = date("Ymd", strtotime($this->date_go_live));
-    foreach($this->columns as $name=>$details){
-      if($details[1]['date_col'] && ($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
-      if($details[1]['date_col'] && $name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name ($comp) cannot be after the go live date ($go_live)");
+    foreach($this->get_date_cols() as $name=>$details){
+      if(($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
+      if($name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name ($comp) cannot be after the go live date ($go_live)");
     }
 
     $this->send_notification = 1;
@@ -142,12 +142,12 @@ class Job extends WildfireResource{
 
   public function get_date_cols(){
     $cols = array();
-    foreach($this->columns as $col=>$info) if($info[1]['date_col']) $cols[] = $col;
+    foreach($this->columns as $col=>$info) if($info[1]['date_col']) $cols[$col] = $info;
     return $cols;
   }
 
   public function times($format = "jS F Y", $use_label=true, $cols=false){
-    if(!$cols) $cols = $this->get_date_cols();
+    if(!$cols) $cols = array_keys($this->get_date_cols());
     $dates = array();
     foreach($cols as $col){
       if($this->$col){
