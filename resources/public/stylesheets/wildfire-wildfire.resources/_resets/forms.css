@@ -56,6 +56,9 @@ form input[type="checkbox"]{
   margin-right:1%;
   float:left;
 }
+.editing .submit_button{
+  font-size:131%;
+}
 
 /*
 form.updated fieldset:first-child{
