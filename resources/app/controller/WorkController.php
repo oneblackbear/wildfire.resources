@@ -7,7 +7,8 @@ class WorkController extends BaseController{
                           'department' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'job' => array('columns'=>array('job'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
-                          'client' => array('columns'=>array('client'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
+                          'client' => array('columns'=>array('client'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
+                          'fee' => array('columns'=>array('fee'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work')
                         );
   public $navigation_links = array('index', 'listing', 'to_do', 'graphs');
   public $permissions = array(
