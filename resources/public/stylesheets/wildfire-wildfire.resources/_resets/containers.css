@@ -43,10 +43,10 @@
   overflow:auto;
 }
 .scrolling.medium{
-  height:120px;
+  height:400px;
   overflow: auto;
 }
 .scrolling.large{
-  height:180px;
+  height:580px;
   overflow: auto;
 }
