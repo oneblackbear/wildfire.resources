@@ -8,6 +8,7 @@ class Fee extends WildfireResource{
     $this->define("hours", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true));
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'relationships'));
     $this->define("jobs", "HasManyField", array('target_model'=>"Job", 'group'=>'relationships'));
+    $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'relationships', 'eager_load'=>true));
   }
 
 }
