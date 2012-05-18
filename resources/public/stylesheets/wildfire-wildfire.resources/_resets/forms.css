@@ -44,7 +44,7 @@ form textarea{
 form textarea,
 .scrolling{
   height:180px;
-  background:rgb(253,248,146);
+  background:#f6f6f6;
 }
 form input[type="text"][disabled="disabled"]{
   border-width:0;
