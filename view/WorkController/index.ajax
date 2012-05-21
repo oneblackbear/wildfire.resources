@@ -70,7 +70,7 @@ if($staff_id = $model_filters['staff']) $allstaff->filter("id", $staff_id);
           <?endif?>
         <?endforeach?>
         <?$available = Staff::hours_available(date("l", strtotime($index)), $active_staff->group_token, $model_filters);?>
-        <span class='tiny day-data clearfix'><?=$used?> of <?=$available?> hrs (<strong><?=number_format(($used / ($available/100)))?>%</strong>)</span>
+        <span class='tiny day-data clearfix'>(<strong><?=number_format(($used / ($available/100)))?>%</strong>)</span>
       </td>
 
       <?if(fmod($count+1,7)==0):?>
