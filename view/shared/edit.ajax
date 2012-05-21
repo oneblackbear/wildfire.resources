@@ -18,7 +18,7 @@
     <?endforeach?>
   </div>
   <div class='submission clearfix'>
-    <input type="submit" name="form_submit" value="Create <?=$controller?>" class='button submit_button'>
+    <input type="submit" name="form_submit" value="Update <?=$controller?>" class='button submit_button'>
   </div>
   <div class='info'>
     <?$staff = new Staff($model->created_by);?>

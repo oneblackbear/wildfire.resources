@@ -7,7 +7,7 @@ class Job extends WildfireResource{
     $this->columns['id'][1]['scaffold']=true;
     $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'label'=>'Estimated hours <span class="required">*</span>'));
     $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'editable'=>false));
-    $this->define("date_go_live", "DateTimeField", array('label'=>'Project due date <span class="required">*</span>', 'required'=>true, 'scaffold'=>true, 'date_col'=>true, 'group'=>'hours'));
+    $this->define("date_go_live", "DateTimeField", array('label'=>'Due date <span class="required">*</span>', 'required'=>true, 'scaffold'=>true, 'date_col'=>true, 'group'=>'hours'));
     $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true, 'group'=>'hours'));
     $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date', 'date_col'=>true, 'group'=>'hours'));
     $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date', 'date_col'=>true, 'group'=>'hours'));
