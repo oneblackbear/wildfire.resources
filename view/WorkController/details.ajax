@@ -74,3 +74,7 @@ $allstaff = new Staff;
 <?if($active_staff->admin()):?>
 </form>
 <?endif?>
+<div class='info'>
+  <?$staff = new Staff($model->created_by);?>
+  <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
+</div>

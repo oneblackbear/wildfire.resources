@@ -14,10 +14,12 @@
       <?endforeach?>
     <?$count++;?>
     <?endforeach?>
-    <div class='clearfix split details'>
-      <?$staff = new Staff($model->created_by);?>
-      <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
-    </div>
-    <input type="submit" name="form_submit" value="Save" class='button submit_button'>
+  </div>
+  <div class='submission clearfix'>
+    <input type="submit" name="form_submit" value="Update <?=$controller?>" class='button submit_button'>
+  </div>
+  <div class='info'>
+    <?$staff = new Staff($model->created_by);?>
+    <p>Created by <?=$staff->title?> on <?=date("jS F Y H:i", strtotime($model->date_created))?>, last modified on <?=date("jS F Y H:i", strtotime($model->date_modified))?>.</p>
   </div>
 </form>
