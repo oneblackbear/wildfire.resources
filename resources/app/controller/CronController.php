@@ -17,7 +17,7 @@ class CronController extends WaxController{
     foreach($tokens as $token){
       $all_staff = $percentages = $emails = $depts = $emails = array();
       echo "Work for $date_start - $date_end ($token)<br>\r\n";
-      $departments = $model->filter("group_token", $token)->all();
+      $departments = $model->filter("is_client", 0)->filter("group_token", $token)->all();
       foreach($departments as $dept){
         $depts[$dept->primval] = $dept;
         $worked = 0;
@@ -55,8 +55,12 @@ class CronController extends WaxController{
     foreach($tokens as $token){
       $lookup = new Staff;
       $all_staff = $percentages = $emails = $depts = $emails = array();
+      $organisation = new Organisation("live");
+      $org_staff = array();
+      $organisations = $organisation->filter("group_token", $token)->filter("is_client", 0)->all();
+      foreach($organisations as $org) foreach($org->staff as $s) $org_staff[] = $s;
       echo "Work for $date_start - $date_end ($token)<br>\r\n";
-      foreach($lookup->filter("group_token", $token)->filter("invited",1)->all() as $staff){
+      foreach($org_staff as $staff){
         $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, false);
         $allowed = $staff->weekly_hours();
         $all_staff[$staff->primval]['allowed'] = $allowed;
@@ -67,7 +71,7 @@ class CronController extends WaxController{
       //send personal emails showing how much each staff member worked
       foreach($all_staff as $k=>$s){
         $n = new ResourceNotify;
-        //$n->send_weekly_hours(new Staff($k), $s, $date_start, $date_end);
+        $n->send_weekly_hours(new Staff($k), $s, $date_start, $date_end);
       }
     }
     $this->use_view = $this->use_layout = false;
