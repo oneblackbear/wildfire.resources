@@ -89,18 +89,18 @@ class Work extends WaxModel{
       $emails = $this->contact_emails();
       $this->update_attributes(array('notified'=>1));
       //send them out
-      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
+      // foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
     //a completed job
     }else if($this->notified == 1 && $this->status == "completed" && $this->send_notification){
       $emails = $this->contact_emails();
       //send them out
-      foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
+      // foreach($emails as $person) $notify->send_work_scheduled($this, $job, $person, $emails);
       $this->update_attributes(array('notified'=>2, 'date_completed'=>date("Y-m-d H:i:s")));
     //an updated job
     }else if($this->notified == 1 && $this->send_notification){
       $emails = $this->contact_emails();
       //send them out
-      foreach($emails as $person) $notify->send_work_updated($this, $job, $person, $emails);
+      // foreach($emails as $person) $notify->send_work_updated($this, $job, $person, $emails);
     }
   }
 

@@ -64,14 +64,14 @@ class Job extends WildfireResource{
 
   public function notifications(){
     if(!$this->notified && $this->created_by && $this->send_notification){
-      $notify = new ResourceNotify;
-      $emails = $this->contact_emails();
-      foreach($emails as $staff) $notify->send_job_creation($this, $staff, $emails);
+      // $notify = new ResourceNotify;
+      // $emails = $this->contact_emails();
+      // foreach($emails as $staff) $notify->send_job_creation($this, $staff, $emails);
       $this->update_attributes(array('notified'=>1));
     }else if($this->created_by && $this->send_notification){
-      $notify = new ResourceNotify;
-      $emails = $this->contact_emails();
-      foreach($emails as $staff) $notify->send_job_updated($this, $staff, $emails);
+      // $notify = new ResourceNotify;
+      // $emails = $this->contact_emails();
+      // foreach($emails as $staff) $notify->send_job_updated($this, $staff, $emails);
     }
   }
 
