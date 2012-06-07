@@ -44,7 +44,7 @@ class Job extends WildfireResource{
         $j = new Job;
         $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
         if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
-          $this->add_error("date_go_live", $d->title." has too many deadlines for that day (".$found->count()." / ".$d->deadlines_allowed.").");
+          $this->add_error("date_go_live", $d->title." has too many deadlines for  ".date("js F", strtotime($golive))." (".$found->count()." / ".$d->deadlines_allowed.").");
         }
       }
     }
