@@ -136,6 +136,9 @@ class WildfireResource extends WaxModel{
       $ids = array(0);
       if(!$dept->columns[$join]) $join = strtolower(get_class($this))."s";
       foreach($departments as $dept) foreach($dept->$join as $j) $ids[] = $j->primval;
+      echo "<!-- FD: ";
+      print_r($ids);
+      echo "-->"
       return $this->filter("id", $ids);
     }
   }
