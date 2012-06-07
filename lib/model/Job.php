@@ -19,6 +19,8 @@ class Job extends WildfireResource{
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
     $this->define("rating", "IntegerField", array('editable'=>false, 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
+    //this is flag for admin jobs like holidays etc
+    $this->define("permanent_job", "BooleanField");
   }
 
   public function before_insert(){
@@ -92,7 +94,8 @@ class Job extends WildfireResource{
       $jobs = new Job;
       foreach($jobs->filter("group_token", $this->group_token)->all() as $job){
         $work = $job->work;
-        if($work && ($all = $work->count())){
+        if($job->permanent_job) $ids[] = $job->primval;
+        else if($work && ($all = $work->count())){
           $complete = $work->filter("status", "completed")->all()->count();
           if($complete >= $all) $ids[] = $job->primval;
         }
