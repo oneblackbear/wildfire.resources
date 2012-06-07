@@ -41,7 +41,7 @@ class Job extends WildfireResource{
     if(($depts) && ($depts->count()) ){
       $golive = date("Ymd", strtotime($this->date_go_live));
       foreach($depts as $d){
-        $j = new Job;
+        $j = new Job("live");
         $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
         if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
           $job_id_string = "";
