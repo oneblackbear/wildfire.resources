@@ -12,8 +12,8 @@ class CronController extends WaxController{
     $dow = date("N");
     $diff = 1-$dow;
     //1 is monday, 5 is friday (-7 for a week old)
-    $date_start = date("Y-m-d", strtotime(1-$dow-7 ." day"));
-    $date_end = date("Y-m-d", strtotime(5-$dow-7 ." day"));
+    $date_start = date("Y-m-d", strtotime(0-$dow-7 ." day"));
+    $date_end = date("Y-m-d", strtotime(6-$dow-7 ." day"));
     foreach($tokens as $token){
       $all_staff = $percentages = $emails = $depts = $emails = array();
       echo "Work for $date_start - $date_end ($token)<br>\r\n";
@@ -50,8 +50,8 @@ class CronController extends WaxController{
     $dow = date("N");
     $diff = 1-$dow;
     //1 is monday, 5 is friday (-7 for a week old)
-    $date_start = date("Y-m-d", strtotime(1-$dow-7 ." day"));
-    $date_end = date("Y-m-d", strtotime(5-$dow-7 ." day"));
+    $date_start = date("Y-m-d", strtotime(0-$dow-7 ." day"));
+    $date_end = date("Y-m-d", strtotime(6-$dow-7 ." day"));
     foreach($tokens as $token){
       $lookup = new Staff;
       $all_staff = $percentages = $emails = $depts = $emails = array();
