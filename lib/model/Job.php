@@ -186,6 +186,9 @@ class Job extends WildfireResource{
     return $this->filter("((`date_go_live` BETWEEN '".$start."' AND '".$end."') )");
   }
 
+  public function search_details(){
+    return "#".$this->primval." - ".parent::search_details();
+  }
 
 
 }
