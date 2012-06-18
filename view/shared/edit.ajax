@@ -1,5 +1,5 @@
 <form action="#step" method="post" class='async editing' data-action="/<?=$controller?>/<?=$action?>/<?=$model->primval?>.ajax" data-trigger-element="#filters_department" data-trigger="change">
-  <h1 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span>Editing <?=$model->title?></span></h1>
+  <h1 id="editheader"<?if($model_saved):?> class='updated'<?endif?>><span>Editing #<?=$model->primval?> <?=$model->title?></span></h1>
   <?=$$form_name->errors();?>
   <?
   $grouped = array();
