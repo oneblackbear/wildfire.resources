@@ -116,7 +116,7 @@ class Staff extends WildfireResource{
             if(($info->class == "BaseController" || $info->class == $name) && $info->name[0] != "_" && $info->name != "controller_global"){
               if(!($roles = $controller->permissions[$info->name]) || ($roles && in_array($this->role, $roles) ) ){
                 if(($for_navigation && in_array($info->name, $controller->navigation_links)) || !$for_navigation){
-                  if($info->name == "index") $methods[] = "Overview";
+                  if($info->name == "index") $methods["index"] = "Overview";
                   else $methods[$info->name] = Inflections::humanize($info->name);
                 }
               }

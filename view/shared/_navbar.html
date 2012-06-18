@@ -1,54 +1,13 @@
-<div class='full clearfix navbar content'>
-  <ul class='skiplinks'>
-    <?$keys = array();?>
-    <?foreach($structure as $controller_name=>$data):?>
-    <li><?=$data['name']?>
-    <ul>
-      <?foreach($data['options'] as $action_name=>$name):?>
-        <?
-        $str = str_replace(" ", "", $name);
-        if(is_numeric($action_name)) $letter = strtoupper($data['name'][0]);
-        else $letter = strtoupper($name[0]);
-        $i=0;
-        while($keys[$letter] && $i<strlen($str)){
-          $letter = strtoupper($str[$i]);
-          $i++;
-        }
-        $keys[$letter] = $letter;
-        ?>
-      <li><a accesskey="<?=$letter?>" href="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"><?=$data['name']?> <?=$name?></a></li>
-      <?endforeach?>
-    </ul>
+
+<ul class='navigation clearfix'>
+<?foreach($structure as $section_name => $more):?>
+  <li class='top-level'>
+    <a href="/<?=$section_name?>/" class='top'><?=strtoupper($more['name'])?></a>
+    <ul class='sub-navigation clearfix'>
+    <?foreach($more['options'] as $action_url => $action_name):?>
+    <li class='sub_nav_item'><a href="/<?=$section_name?>/<?=$action_url?>/"><?=$action_name?></a></li>
     <?endforeach?>
-  </ul>
-
-  <a href="#" class='allow_notifications button'>Alerts</a>
-  <form class='goto' action="#top">
-    <h4>Go to</h4>
-    <select name="redirect">
-      <option value="">-- Select --</option>
-      <?foreach($structure as $controller_name=>$data):?>
-      <optgroup label="<?=$data['name']?>">
-        <?foreach($data['options'] as $action_name=>$name):?>
-        <option value="/<?=$controller_name?>/<?=((is_numeric($action_name))? "" : $action_name."/" )?>"><?=$data['name']?> <?=$name?></option>
-        <?endforeach?>
-      </optgroup>
-      <?endforeach?>
-    </select>
-  </form>
-  <?if(count($filter_fields)):?>
-  <form class='filters' action="#top">
-
-    <h4>Filters</h4>
-    <fieldset class='filters_container' id="filters_container" data-replace=".listing_block" data-action="/<?=$controller?>/<?=$action?>/.ajax">
-      <input type="hidden" name="month" value="<?=Request::param("month")?>">
-      <input type="hidden" name="year" value="<?=Request::param("year")?>">
-      <?foreach($filter_fields as $name=>$field):?>
-      <?if($field['editable'] !== false):?>
-      <?=partial($field['partial'], array('controller'=>$controller, 'field'=>$field, 'name'=>$name, 'data'=>$data, 'model'=>$model, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters))?>
-      <?endif?>
-      <?endforeach?>
-    </fieldset>
-  </form>
-  <?endif?>
-</div>
+    </ul>
+  </li>
+<?endforeach?>
+</ul>

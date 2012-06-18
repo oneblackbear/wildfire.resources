@@ -40,3 +40,78 @@
   padding-top:5px;
   margin-right:10px;
 }
+
+
+
+.navigation{
+  margin:0;
+  width:auto;
+  float:left;
+}
+
+.navigation li{
+  list-style-type:none;
+  margin:0 !important;
+  display:block;
+  float:left;
+}
+  .navigation a.top{
+    display:block;
+    line-height:1em;
+    cursor:pointer;
+    padding:8px 9px;
+    letter-spacing:1px;
+    text-decoration:none;
+    font-weight:normal;
+    text-transform:uppercase;
+    border-radius:4px;
+    border-width:0;
+    font-family:"open sans", arial;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    font-size:85%;
+    text-decoration:none;
+  }
+  .navigation .top-level:hover a.top{
+    box-shadow:1px 1px 3px rgba(0,0,0,0.5);
+    color:white;
+    text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+    background: rgb(94,94,94); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(94,94,94,1) 0%, rgba(82,82,82,1) 54%, rgba(67,67,67,1) 98%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(94,94,94,1)), color-stop(54%,rgba(82,82,82,1)), color-stop(98%,rgba(67,67,67,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(94,94,94,1) 0%,rgba(82,82,82,1) 54%,rgba(67,67,67,1) 98%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(94,94,94,1) 0%,rgba(82,82,82,1) 54%,rgba(67,67,67,1) 98%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(94,94,94,1) 0%,rgba(82,82,82,1) 54%,rgba(67,67,67,1) 98%); /* IE10+ */
+    background: linear-gradient(top, rgba(94,94,94,1) 0%,rgba(82,82,82,1) 54%,rgba(67,67,67,1) 98%); /* W3C */
+
+  }
+
+.sub-navigation{
+  position:absolute;
+  display:none;
+  width:130px;
+  margin-top:-6px;
+  padding-top:6px;
+  z-index:20;
+  background: rgb(67,67,67); /* Old browsers */
+  background: linear-gradient(top, rgba(67,67,67,1) 0%,rgba(67,67,67,1) 54%,rgba(67,67,67,1) 100%); /* W3C */
+  border-radius:4px;
+  border-width:0;
+  font-family:"open sans", arial;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+}
+.navigation .sub-navigation li{
+  display:block;
+  float:none;
+}
+.sub-navigation a{
+  text-decoration:none;
+  color:white;
+  display:block;
+  padding:4px 9px;
+  font-size:85%;
+}
+.navigation .top-level:hover .sub-navigation{
+  display:block;
+}

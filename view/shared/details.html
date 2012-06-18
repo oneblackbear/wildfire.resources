@@ -1,4 +1,4 @@
-<?=partial("_navbar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'model'=>$model, 'filter_fields'=>array(), 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>array()));?>
+<?=partial("_filter_bar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'model'=>$model, 'filter_fields'=>array(), 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>array()));?>
 
 <div class='full padded clearfix'>
   <?=partial("$controller/_dynamic_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
