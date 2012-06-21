@@ -1,8 +1,8 @@
 <?
-class JobController extends BaseController{
+class ProjectController extends BaseController{
   public $model_class = "Job";
   public $form_name = "job_form";
-  public $name = "Jobs";
+  public $name = "Projects";
   public $filter_fields=array(
                           'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true),
                           'departments' => array('columns'=>array('departments'),'target_model'=>'Department', 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs'),
@@ -44,6 +44,8 @@ class JobController extends BaseController{
     $this->model_scope = "ordered";
     parent::index();
   }
+
+
   /**
    * listing of active jobs
    */

@@ -6,19 +6,13 @@ class Job extends WildfireResource{
     parent::setup();
     $this->columns['id'][1]['scaffold']=true;
     $this->define("hours_estimated", "FloatField", array('required'=>true, 'maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'label'=>'Estimated hours <span class="required">*</span>'));
-    $this->define("hours_actual", "FloatField", array('maxlength'=>"12,2", 'scaffold'=>true, 'group'=>'hours', 'editable'=>false));
     $this->define("date_go_live", "DateTimeField", array('label'=>'Due date <span class="required">*</span>', 'required'=>true, 'scaffold'=>true, 'date_col'=>true, 'group'=>'hours'));
-    $this->define("date_creative_required_for", "DateTimeField", array('label'=>'Creative required for', 'date_col'=>true, 'group'=>'hours'));
-    $this->define("date_internal_testing", "DateTimeField", array('label'=>'Internal testing date', 'date_col'=>true, 'group'=>'hours'));
-    $this->define("date_client_testing", "DateTimeField", array('label'=>'Client testing date', 'date_col'=>true, 'group'=>'hours'));
-    $this->define("flagged", "BooleanField", array('editable'=>false, 'scaffold'=>$this->is_editable()));
-    $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'allocations','editable'=>false));
     $this->define("work", "HasManyField", array('target_model'=>"Work", 'group'=>'allocations', 'eager_load'=>true, 'editable'=>false));
-    $this->define("fee", "ForeignKey", array('target_model'=>"Fee", 'group'=>'allocations', 'eager_load'=>false));
+    $this->define("parent", "ForeignKey", array('target_model'=>"Job", 'group'=>'allocations', 'eager_load'=>false));
+    $this->define("children", "ForeignKey", array('target_model'=>"Job", 'group'=>'allocations', 'eager_load'=>false));
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
-    $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
+    $this->define("department", "ForeignKey", array('target_model'=>"Department", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
-    $this->define("rating", "IntegerField", array('editable'=>false, 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
     //this is flag for admin jobs like holidays etc
     $this->define("permanent_job", "BooleanField");
   }
@@ -30,40 +24,40 @@ class Job extends WildfireResource{
 
   public function before_save(){
     parent::before_save();
-    $model = new Job;
-    //check the amount of go lives for the department on this day, if its more than the number of staff in the department, flag an error
-    $depts = false;
-    if(($posted = Request::param($this->table)) && ($posted = $posted['departments'])){
-      $d = new Department;
-      $depts = $d->filter("id", $posted)->all();
-    }elseif(($departmentjoin = $this->departments) && $departmentjoin->count()) $depts = $departmentjoin;
+    // $model = new Job;
+    // //check the amount of go lives for the department on this day, if its more than the number of staff in the department, flag an error
+    // $depts = false;
+    // if(($posted = Request::param($this->table)) && ($posted = $posted['departments'])){
+    //   $d = new Department;
+    //   $depts = $d->filter("id", $posted)->all();
+    // }elseif(($departmentjoin = $this->departments) && $departmentjoin->count()) $depts = $departmentjoin;
 
-    if(($depts) && ($depts->count()) ){
-      $golive = date("Ymd", strtotime($this->date_go_live));
-      foreach($depts as $d){
-        $j = new Job("live");
-        $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
-        if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
-          $job_id_string = "";
-          foreach($found as $f) $job_id_string .= "#".$f->primval.", ";
-          $this->add_error("date_go_live", $d->title." has too many deadlines for  ".date("jS F", strtotime($this->date_go_live))." (".$found->count()." / ".$d->deadlines_allowed.") - ". trim($job_id_string, ", "));
-        }
-      }
-    }
-    //check the content/description of this job
-    $words = explode(" ", trim($this->content));
-    $words = array_unique($words);
-    //disgard any <=3 letter words
-    foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
-    if(count($words) < 7) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
-    //make sure its a deadline during working week and make sure deadline is the latest day
-    $go_live = date("Ymd", strtotime($this->date_go_live));
-    foreach($this->get_date_cols() as $name=>$details){
-      if(($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
-      if($name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name ($comp) cannot be after the go live date ($go_live)");
-    }
+    // if(($depts) && ($depts->count()) ){
+    //   $golive = date("Ymd", strtotime($this->date_go_live));
+    //   foreach($depts as $d){
+    //     $j = new Job("live");
+    //     $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
+    //     if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
+    //       $job_id_string = "";
+    //       foreach($found as $f) $job_id_string .= "#".$f->primval.", ";
+    //       $this->add_error("date_go_live", $d->title." has too many deadlines for  ".date("jS F", strtotime($this->date_go_live))." (".$found->count()." / ".$d->deadlines_allowed.") - ". trim($job_id_string, ", "));
+    //     }
+    //   }
+    // }
+    // //check the content/description of this job
+    // $words = explode(" ", trim($this->content));
+    // $words = array_unique($words);
+    // //disgard any <=3 letter words
+    // foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
+    // if(count($words) < 7) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
+    // //make sure its a deadline during working week and make sure deadline is the latest day
+    // $go_live = date("Ymd", strtotime($this->date_go_live));
+    // foreach($this->get_date_cols() as $name=>$details){
+    //   if(($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
+    //   if($name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name ($comp) cannot be after the go live date ($go_live)");
+    // }
 
-    $this->send_notification = 1;
+    // $this->send_notification = 1;
   }
 
   public function notifications(){

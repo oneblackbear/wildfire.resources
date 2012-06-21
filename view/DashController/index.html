@@ -1,11 +1,5 @@
 <?=partial("_filter_bar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action));?>
 <div class='full padded clearfix'>
   <?=partial("$controller/_dynamic_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
-  <div class='content clearfix'>
-    <?foreach(array_reverse($structure) as $con => $info):?>
-      <?if($info['options']['index'] && $con != $controller):?>
-      <?=partial("$con/_dash", array('con'=>$con, 'info'=>$info, 'active_staff'=>$active_staff));?>
-      <?endif?>
-    <?endforeach?>
-  </div>
+
 </div>

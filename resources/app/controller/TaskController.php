@@ -1,8 +1,8 @@
 <?
-class WorkController extends BaseController{
+class TaskController extends BaseController{
   public $model_class = "Work";
   public $form_name = "work_form";
-  public $name = "Work";
+  public $name = "Tasks";
   public $filter_fields=array(
                           'department' => array('columns'=>array('department'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),

@@ -1,9 +1,6 @@
 <div class='top_bar'>
   <div class='content clearfix'>
-    <?if($active_staff):?>
-    <a href="/logout/" class='button logout'>Logout</a>
-    <a href="/dash/" class='button dash'>Dashboard</a>
-    <?else:?>
+    <?if(!$active_staff):?>
     <a href="/login/" class='button login'>Login</a>
     <a href="/join/" class='button join'>Join</a>
     <?endif?>
