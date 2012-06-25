@@ -66,13 +66,7 @@ class Work extends WaxModel{
       if(!$this->title) $this->title = $job->title;
       if(!$this->organisation_id) $this->organisation_id = $job->organisation_id;
       if(!$this->fee_id) $this->fee_id = $job->fee_id;
-      //if this has been joined to a job, check to make sure the time is before the end date of the job
-      if(($end = date("Ymd", strtotime($job->date_go_live)))){
-        $work_start = date("Ymd", strtotime($this->date_start));
-        $work_end = date("Ymd", strtotime($this->date_end));
-        if($end < $work_start) $this->add_error("date_start", "Work must start before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
-        if($end < $work_end) $this->add_error("date_end", "Work must end before the deadline (".date("jS M", strtotime($job->date_go_live)).")");
-      }
+
     }
     parent::before_save();
   }
