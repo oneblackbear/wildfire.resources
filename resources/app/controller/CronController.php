@@ -38,7 +38,9 @@ class CronController extends WaxController{
         echo "&nbsp;".$percentages[$dept->primval]."<br>\r\n";
       }
       $notify = new ResourceNotify;
-      $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);
+      echo "sending emails to:";
+      print_r($emails);
+      if(!Request::param('debug')) $notify->send_weekly_departmental_hours($depts, $percentages, $date_start, $date_end, $emails);
     }
     $this->use_view = $this->use_layout = false;
   }
