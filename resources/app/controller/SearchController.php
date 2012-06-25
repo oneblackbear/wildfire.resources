@@ -28,13 +28,13 @@ class SearchController extends BaseController{
         $class = $info['model'];
         $model = new $class;
         $res = array();
-        foreach($info['cols'] as $col){
-          foreach($model->clear()->scope("live")->filter("$col LIKE ?", "%".$q."%", "raw")->limit(3)->all() as $row) $res[$row->primval] = $row;
-        }
+        $sql = "";
+        foreach($info['cols'] as $col) $sql .= $col." LIKE ? OR ";
+        $sql = trim($sql, "OR ");
+        foreach($model->filter($sql, array_fill(0, count($info['cols']), "%".$q."%"), "raw")->limit(5)->all() as $row) $res[$row->primval] = $row;
         if(count($res)) $this->search_results[$name] = $res;
       }
     }
-
   }
 
 }
