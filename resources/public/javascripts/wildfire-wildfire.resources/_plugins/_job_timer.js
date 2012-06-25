@@ -25,12 +25,32 @@ jQuery(document).ready(function(){
           ;
       job.data("time", t);
       seconds_passed += 5;
-      //if a multiple of an 300 (5mins) has passed, update the field
-      if(seconds_passed%300 == 0) field.val();
+
+      field.val(hours);
+      //if its multiple of 5mins, autosave
+      if(seconds_passed%300 == 0) jQuery(window).trigger("job.timer.autosave", [job.parents("form")]);
       //if its been an hour, trigger an alert
       if(seconds_passed%3600 == 0) jQuery(window).trigger("alert", [job.data("title"), "is still running.. "+hours+"hrs"]);
+
+
     }, 5000);
 
+  });
+
+  jQuery(window).bind("job.timer.autosave", function(e, form){
+    e.preventDefault();
+    var dest = form.attr("data-action"),
+        method = form.attr("method"),
+        data = form.serialize()
+        ;
+    jQuery.ajax({
+      url:dest,
+      data:data,
+      type:method.toUpperCase(),
+      success:function(){
+        if(typeof console != "undefined") console.log("updated..");
+      }
+    });
   });
 
   jQuery(window).bind("job.timer.stop", function(e, job){
