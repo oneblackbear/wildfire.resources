@@ -39,7 +39,7 @@
     <tr>
       <td colspan="2">
         <p>Hello <?=$staff->title?>,</p>
-        <p>Work (<?=$work->date_string()?> from <?=$dept->title?>) has been completed on <?=$job->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></p>
+        <p>Work on <?=$work->title?> (<?=$work->date_string()?> from <?=$dept->title?>) has been completed.</p>
       </td>
     </tr>
     <tr>
