@@ -27,7 +27,7 @@
           <optgroup label="<?=(($o = $job->client)? $o->title : "No Client")?>">
           <?$org = $job->organisation_id;?>
         <?endif?>
-      <option value="<?=$job->primval?>"><?=$job->primval?> <?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
+      <option value="<?=$job->primval?>">#<?=$job->primval?> - <?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
       <?endforeach?>
       </select>
     </span>

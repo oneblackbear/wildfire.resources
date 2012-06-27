@@ -15,7 +15,7 @@ $due = $model->due_date(true);
     <input type="submit" class="button submit_button" value="update" name="form_update">
     <input type="checkbox" name="<?=$model->table?>[status]" value="completed"<?if($model->status == "completed"):?> checked="checked"<?endif?> class='input_field checkbox'>
     <?endif?>
-    <label class='dbl-click' data-href="/<?=$controller?>/details/<?=$model->primval?>/" title="click for details"><?=$job->primval?> <?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></label>
+    <label class='dbl-click' data-href="/<?=$controller?>/details/<?=$model->primval?>/" title="click for details">#<?=$job->primval?> - <?=$model->title?> <?if($client && $job):?><small>(<?=$client->title?> @ <?=$job->deadline()?>)</small><?endif?></label>
     <?if($active_staff->admin() || $active_staff->primval == $model->staff_id):?>
       <input type="text" name="<?=$model->table?>[hours_used]" class='small inline' value="<?=$model->hours_used?>" placeholder="hours used">
     <?else:?>
