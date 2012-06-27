@@ -55,7 +55,7 @@ class Work extends WaxModel{
   }
 
   public function before_save(){
-
+    $this->send_notification = 1;
     if(!$this->status) $this->status = array_shift(array_keys(self::$status_options));
     if(!$this->hours && $this->hours_used) $this->hours = $this->hours_used;
     $this->date_modified = date("Y-m-d H:i:s");
