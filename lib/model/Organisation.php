@@ -16,7 +16,10 @@ class Organisation extends WildfireResource{
     $this->define("postcode", "CharField");
     $this->define("address", "TextField");
     $this->define("telephone", "CharField");
+    $this->define("alternative_telephone", "CharField");
+    $this->define("contact_name", "CharField");
     $this->define("email", "CharField", array('required'=>true));
+    $this->define("alternative_email", "CharField");
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
   }
 
