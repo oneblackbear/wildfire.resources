@@ -12,6 +12,9 @@ class Responsibility extends WildfireResource{
     $this->define("staff", "ManyToManyField", array('target_model'=>"Staff", 'group'=>'relationships', 'scaffold'=>true));
   }
 
+  public function before_save(){
+    if(!$this->title) $this->title = "Responsibility";
+  }
 
 
 }
