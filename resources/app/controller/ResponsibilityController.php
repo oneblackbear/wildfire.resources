@@ -5,7 +5,7 @@ class ResponsibilityController extends BaseController{
   public $per_page = 100;
   public $filter_fields=array(
                           'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
-                          'lead' => array('columns'=>array('project_lead'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
+                          'project_lead' => array('columns'=>array('project_lead'), 'partial'=>'_filters_select', 'opposite_join_column'=>'lead'),
                           'client' => array('columns'=>array('client'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
                         );
   public $permissions = array(
