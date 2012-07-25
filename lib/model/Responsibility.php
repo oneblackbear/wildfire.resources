@@ -14,6 +14,7 @@ class Responsibility extends WildfireResource{
 
   public function before_save(){
     if(!$this->title) $this->title = "Responsibility";
+    parent::before_save();
   }
 
 
