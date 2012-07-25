@@ -21,6 +21,8 @@ class Organisation extends WildfireResource{
     $this->define("email", "CharField", array('required'=>true));
     $this->define("alternative_email", "CharField");
     $this->define("comments", "ManyToManyField", array('target_model'=>"Comment", 'group'=>'relationships')); //used for notes about organisation
+
+    $this->define("responsibilities", "HasManyField", array('target_model'=>"Responsibility", 'group'=>'relationships', 'editable'=>false));
   }
 
   public function search_details(){
