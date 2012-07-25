@@ -4,8 +4,9 @@ class ResponsibilityController extends BaseController{
   public $form_name = "responsibility_form";
   public $per_page = 100;
   public $filter_fields=array(
-                          'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
-                          'client' => array('columns'=>array('client'), 'partial'=>'_filters_select', 'opposite_join_column'=>'work'),
+                          'staff' => array('columns'=>array('staff'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
+                          'lead' => array('columns'=>array('project_lead'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
+                          'client' => array('columns'=>array('client'), 'partial'=>'_filters_select', 'opposite_join_column'=>'responsibilities'),
                         );
   public $permissions = array(
                           'create'=>array('owner'),
