@@ -104,3 +104,7 @@ form.completed h5
 {
   text-decoration:line-through;
 }
+
+form select[multiple="multiple"]{
+  height:300px;
+}
