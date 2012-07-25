@@ -25,7 +25,8 @@ class Staff extends WildfireResource{
     $this->define("api_tokens", "HasManyField", array('target_model'=>'AccessToken', 'editable'=>false,"eager_loading"=>true));
     $this->define("restricted", "BooleanField", array('default'=>1));
     $this->columns['send_notification'][1]['editable'] = true;
-    $this->define("responsibilities", "HasManyField", array('target_model'=>"Responsibility", 'group'=>'relationships', 'editable'=>false));
+    $this->define("responsibilities", "ManyToManyField", array('target_model'=>"Responsibility", 'group'=>'relationships', 'editable'=>false));
+    $this->define("lead", "HasManyField", array('target_model'=>"Responsibility", 'group'=>'relationships', 'editable'=>false));
   }
 
   public static function get_roles(){
