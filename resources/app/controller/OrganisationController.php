@@ -4,7 +4,7 @@ class OrganisationController extends BaseController{
   public $form_name = "organisation_form";
   public $permissions = array(
                           'create'=>array('owner', 'admin', 'staff'),
-                          'edit'=>array('owner', 'admin'),
+                          'edit'=>array('owner', 'admin', 'staff'),
                           'delete'=>array('owner'),
                           'index'=>array('owner', 'admin', 'staff')
                         );
