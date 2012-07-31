@@ -100,7 +100,7 @@ class Job extends WildfireResource{
       foreach($jobs->filter("group_token", $this->group_token)->all() as $job){
         if($job->permanent_job) $ids[] = $job->primval;
         else if(!$job->dead && !$job->complete && ($work = $job->work) && ($all = $work->count())){
-          $complete = $all->filter("status", "completed")->all()->count();
+          $complete = $work->filter("status", "completed")->all()->count();
           if($complete >= $all) $ids[] = $job->primval;
         }
       }
