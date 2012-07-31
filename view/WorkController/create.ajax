@@ -21,7 +21,7 @@
       <select name="<?=$model->table?>[job_id]" id="<?=$model->table?>_jobs">
       <option value="">-- Select --</option>
       <?$org = false;?>
-      <?foreach($jobs->order("organisation_id ASC, date_go_live ASC")->all() as $job):?>
+      <?foreach($jobs->filter("dead",0)->filter("complete",0)->order("organisation_id ASC, date_go_live ASC")->all() as $job):?>
         <?if($org != $job->organisation_id):?>
           <?if($org):?></optgroup><?endif?>
           <optgroup label="<?=(($o = $job->client)? $o->title : "No Client")?>">
@@ -53,7 +53,7 @@
       </select>
     </span>
   </div>
-  
+
   <?else:?>
   <input type='hidden' name="<?=$model->table?>[staff_id]" value="<?=$active_staff->primval?>">
   <input type='hidden' name="<?=$model->table?>[status]" value="scheduled">
