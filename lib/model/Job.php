@@ -120,7 +120,7 @@ class Job extends WildfireResource{
   public function scope_unscheduled(){
     $ids = array(0);
     $model = new Work;
-    foreach($model->filter("group_token", $this->group_token)->filter("job_id > 0")->group("job_id")->all() as $w) $this->filter("id", $w->job_id, "!=");
+    foreach($model->filter("dead", 0)->filter("complete", 0)->filter("group_token", $this->group_token)->filter("job_id > 0")->group("job_id")->all() as $w) $this->filter("id", $w->job_id, "!=");
     return $this;
   }
 
