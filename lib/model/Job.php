@@ -117,9 +117,10 @@ class Job extends WildfireResource{
     return $this->order("date_created DESC");
   }
   //find work that has nothing attached to it
-  public function scope_unscheduled(){
+  public function unscheduled($department_id=false){
     $ids = array(0);
     $model = new Work;
+    if($department_id) $model->filter("department_id", $department_id);
     foreach($model->filter("group_token", $this->group_token)->filter("job_id > 0")->group("job_id")->all() as $w) $this->filter("id", $w->job_id, "!=");
     return $this->filter("dead", 0)->filter("complete", 0);
   }
