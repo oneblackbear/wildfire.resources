@@ -14,7 +14,7 @@ class JobController extends BaseController{
                           'edit'=>array('owner', 'admin', 'staff'),
                           'listing'=>array('owner', 'admin', 'staff'),
                           'delete'=>array('owner'),
-                          'not_billed'=>array('owner', 'admin', 'staff')
+                          'not_billed'=>array('owner', 'admin')
                         );
 
   protected function _events(){
