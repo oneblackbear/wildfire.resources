@@ -13,7 +13,8 @@ class JobController extends BaseController{
                           'create'=>array('owner', 'admin', 'staff'),
                           'edit'=>array('owner', 'admin', 'staff'),
                           'listing'=>array('owner', 'admin', 'staff'),
-                          'delete'=>array('owner')
+                          'delete'=>array('owner'),
+                          'not_billed'=>array('owner', 'admin', 'staff')
                         );
 
   protected function _events(){
@@ -43,6 +44,12 @@ class JobController extends BaseController{
   public function listing(){
     $this->model_scope = "ordered";
     parent::index();
+  }
+
+  public function not_billed(){
+    $this->index();
+    $this->cms_content = $this->cms_content->filter(array('billed'=>0))->all();
+    $this->use_view = "index";
   }
   /**
    * listing of active jobs
