@@ -47,9 +47,9 @@ class JobController extends BaseController{
   }
 
   public function not_billed(){
-    $this->index();
+    $this->listing();
     $this->cms_content = $this->cms_content->filter(array('billed'=>0))->all();
-    $this->use_view = "index";
+    $this->use_view = "listing";
   }
   /**
    * listing of active jobs
