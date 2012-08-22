@@ -8,7 +8,7 @@ class JobController extends BaseController{
                           'departments' => array('columns'=>array('departments'),'target_model'=>'Department', 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs'),
                           'client' => array('columns'=>array('client'),'target_model'=>'Organisation', 'partial'=>'_filters_select', 'opposite_join_column'=>'jobs')
                         );
-  public $navigation_links = array('index', 'create', 'listing');
+  public $navigation_links = array('index', 'create', 'listing','not_billed');
   public $permissions = array(
                           'create'=>array('owner', 'admin', 'staff'),
                           'edit'=>array('owner', 'admin', 'staff'),
