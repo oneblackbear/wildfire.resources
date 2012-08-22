@@ -18,11 +18,10 @@ class Job extends WildfireResource{
     $this->define("client", "ForeignKey", array('target_model'=>"Organisation", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("departments", "ManyToManyField", array('target_model'=>"Department", 'group'=>'allocations', 'scaffold'=>true, 'eager_load'=>false));
     $this->define("notified", "BooleanField", array('editable'=>false));
-    $this->define("rating", "IntegerField", array('editable'=>false, 'scaffold'=>$this->is_editable(), 'widget'=>'SelectInput', 'choices'=>range(0, 5)) );
     //this is flag for admin jobs like holidays etc
     $this->define("permanent_job", "BooleanField");
     $this->define("dead", "BooleanField", array('editable'=>$this->is_editable()));
-    $this->define("complete", "BooleanField", array('editable'=>$this->is_editable()));
+    $this->define("complete", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>true));
   }
 
   public function before_insert(){
