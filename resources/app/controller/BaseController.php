@@ -17,7 +17,7 @@ class BaseController extends WaxController{
   public $scaffold_columns = array();
   public $model_filters = array();
   public $filter_fields=array(
-                          'text' => array('columns'=>array('title'), 'partial'=>'_filters_text', 'fuzzy'=>true)
+                          'text' => array('columns'=>array('title', 'id'), 'partial'=>'_filters_text', 'fuzzy'=>true)
                         );
   public $permissions = array(
                           'create'=>array('owner', 'admin'),
