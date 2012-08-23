@@ -1,0 +1,8 @@
+<?=partial("_filter_bar", array('structure'=>$structure, 'controller'=>$controller, 'action'=>$action, 'model'=>$model, 'filter_fields'=>$filter_fields, 'model_class'=>$model_class, 'model_scope'=>$model_scope, 'model_filters'=>$model_filters));?>
+<div class='full padded clearfix'>
+  <?=partial("$controller/_dynamic_tab", array('active_staff'=>$active_staff, 'controller'=>$controller, 'action'=>$action));?>
+
+  <div class='content clearfix listing_block'>
+    <h3>Select Month</h3>
+  </div>
+</div>

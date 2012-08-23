@@ -14,7 +14,7 @@ class JobController extends BaseController{
                           'edit'=>array('owner', 'admin', 'staff'),
                           'listing'=>array('owner', 'admin', 'staff'),
                           'delete'=>array('owner'),
-                          'not_billed'=>array('owner', 'admin')
+                          'not_billed'=>array('owner', 'admin'),
                         );
 
   protected function _events(){
@@ -51,6 +51,8 @@ class JobController extends BaseController{
     $this->cms_content = $this->cms_content->limit(0)->filter(array('billed'=>0))->all();
     $this->use_view = "listing";
   }
+
+
   /**
    * listing of active jobs
    */
