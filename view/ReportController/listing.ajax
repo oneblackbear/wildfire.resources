@@ -12,9 +12,13 @@ foreach($cms_content as $work){
   if($work->hours_used > 0){
     if(!$client_staff_hours[$org_name][$staff_name]) $client_staff_hours[$org_name][$staff_name] = 0;
     $client_staff_hours[$org_name][$staff_name] += $work->hours_used;
+    $client_staff_hours[$org_name]['total_hours'] += $work->hours_used;
   }
 }
 
+uasort($client_staff_hours, function($a, $b){
+  return ($a['total_hours'] > $b['total_hours']) ? -1 : 1;
+});
 
 ?>
 <table class='client_staff_hours'>
@@ -30,11 +34,12 @@ foreach($cms_content as $work){
     <?$staff_totals = array();?>
     <?foreach($client_staff_hours as $client=>$staff_hours):?>
     <tr>
-      <?$line_total = 0;?>
+      <?$line_total = $staff_hours['total_hours'];
+      unset($staff_hours['total_hours']);
+      ?>
      <th><?=$client?></th>
       <?foreach($all_staff as $id=>$name):?>
         <?
-        $line_total += $staff_hours[$name];
         $staff_totals[$name] += $staff_hours[$name];
         ?>
 
