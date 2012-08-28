@@ -22,7 +22,7 @@ class Job extends WildfireResource{
     $this->define("permanent_job", "BooleanField");
     $this->define("dead", "BooleanField", array('editable'=>$this->is_editable()));
     $this->define("complete", "BooleanField", array('editable'=>true, 'scaffold'=>true));
-    $this->define("billed", "BooleanField", array('editable'=>$this->is_editable(), 'scaffold'=>true));
+    $this->define("billed", "BooleanField", array('editable'=>true, 'scaffold'=>true));
   }
 
   public function before_insert(){
