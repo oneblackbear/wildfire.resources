@@ -22,7 +22,7 @@
       <option value="">-- Select --</option>
       <?$org = false;?>
       <?foreach($jobs->filter("dead",0)->filter("complete",0)->order("id")->all() as $job):?>
-      <option value="<?=$job->primval?>">#<?=$job->primval?> - <?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
+      <option value="<?=$job->primval?>"><?=$job->primval?> - <?=$job->title?> (<?if($c = $job->client):?><?=$c->title?> <?endif?>@<?=date("jS M", strtotime($job->date_go_live))?>)</option>
       <?endforeach?>
       </select>
     </span>
