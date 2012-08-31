@@ -35,6 +35,7 @@ jQuery(document).ready(function(){
         if(trigger && trigger_ele){
           jQuery(trigger_ele).trigger(trigger);
         }
+        $(window).trigger("select.combobox");
       }
     });
 

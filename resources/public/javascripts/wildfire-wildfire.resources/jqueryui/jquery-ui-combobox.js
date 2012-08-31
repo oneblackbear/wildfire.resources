@@ -106,5 +106,7 @@
 })( jQuery );
 
 $(function() {
-  $(".select_field").not('[multiple="multiple"]').combobox();
+  $(window).bind("select.combobox", function(){
+    $(".select_field").not('[multiple="multiple"]').combobox();
+  }).trigger("select.combobox");
 });
