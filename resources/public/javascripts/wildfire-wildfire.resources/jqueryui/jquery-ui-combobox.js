@@ -106,5 +106,5 @@
 })( jQuery );
 
 $(function() {
-  $(".select_field").combobox();
+  $(".select_field").not('[multiple="multiple"]').combobox();
 });
