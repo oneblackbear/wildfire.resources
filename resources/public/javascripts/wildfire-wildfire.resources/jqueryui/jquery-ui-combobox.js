@@ -107,6 +107,6 @@
 
 $(function() {
   $(window).bind("select.combobox", function(){
-    $(".select_field").not('[multiple="multiple"]').combobox();
+    $("select").not('[multiple="multiple"]').combobox();
   }).trigger("select.combobox");
 });
