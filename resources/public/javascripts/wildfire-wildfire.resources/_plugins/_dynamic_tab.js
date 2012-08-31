@@ -41,6 +41,7 @@ jQuery(document).ready(function(){
         tab.find(".inside").html(res);
         if(tab.hasClass("show")) jQuery(".help_tab .help.button").trigger("click").trigger("click");
         else jQuery(".help_tab .help.button").trigger("click");
+        $(window).trigger("select.combobox");
       }
     });
   });
