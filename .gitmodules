@@ -1,3 +1,0 @@
-[submodule "resources/public/javascripts/plugins/chosen"]
-	path = resources/public/javascripts/plugins/chosen
-	url = git://github.com/harvesthq/chosen.git
