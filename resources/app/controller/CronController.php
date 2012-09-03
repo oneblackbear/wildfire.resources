@@ -5,6 +5,22 @@ class CronController extends WaxController{
     if(ENV == "production" && Request::param("knock_knock") != "who_is_there") $this->redirect_to("/?naughty=1");
   }
 
+
+  public function daily_work(){
+    $tokens = $this->get_group_tokens();
+    $date = date("Y-m-d");
+    foreach($tokend as $token){
+      $st = new Staff;
+      foreach($st->filter("group_token", $token)->filter("id", array(3,4,5))->all() as $staff){
+        $work = new Work;
+        $res = $work->filter("staff_id", $staff->primval)->filter("date_end >= '$date' and date_start <= '$date'")->all();
+        print_r($res);
+        exit;
+      }
+    }
+  }
+
+
   public function department_weekly_summary(){
     $tokens = $this->get_group_tokens();
     $model = new Department("live");
