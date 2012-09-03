@@ -15,7 +15,7 @@ class CronController extends WaxController{
     echo "time per staff for ".$ind." - $date<br>";
     foreach($tokens as $token){
       $st = new Staff;
-      foreach($st->filter("group_token", $token)->filter("id", array(1,3,4,5))->all() as $staff){
+      foreach($st->filter("group_token", $token)->all() as $staff){
 
         $hours = $staff->{"hours_on_".$ind};
         echo "$staff->title: $hours<br>";
