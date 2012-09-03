@@ -70,10 +70,12 @@ class CronController extends WaxController{
         //now find the time logged
         echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
       }
-      //send personal emails showing how much each staff member worked
-      foreach($all_staff as $k=>$s){
-        $n = new ResourceNotify;
-        $n->send_weekly_hours(new Staff($k), $s, $date_start, $date_end);
+      if(Request::param('debug') != 1){
+        //send personal emails showing how much each staff member worked
+        foreach($all_staff as $k=>$s){
+          $n = new ResourceNotify;
+          $n->send_weekly_hours(new Staff($k), $s, $date_start, $date_end);
+        }
       }
     }
     $this->use_view = $this->use_layout = false;
