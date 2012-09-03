@@ -127,42 +127,6 @@ class WorkController extends BaseController{
   }
 
 
-  public function weekly_summary(){
-    $tokens = array($this->active_staff->group_token);
-    $model = new Department("live");
-
-    //work out start and end date of this current week
-    $dow = date("N");
-    $diff = 1-$dow;
-    //1 is monday, 5 is friday (-7 for a week old)
-    $date_start = date("Y-m-d", strtotime(0-$dow-7 ." day"));
-    $date_end = date("Y-m-d", strtotime(6-$dow-7 ." day"));
-    foreach($tokens as $token){
-      $percentages = $emails = $depts = $emails = array();
-      echo "Work for $date_start - $date_end ($token)<br>\r\n";
-      $departments = $model->filter("group_token", $token)->all();
-      foreach($departments as $dept){
-        $depts[$dept->primval] = $dept;
-        $worked = 0;
-        $available = 0;
-        echo "Department: $dept->title<br>\r\n";
-        foreach($dept->staff as $staff){
-          $emails[$staff->email] = $staff->email;
-          $hrs = $staff->hours_worked_by_date_and_department($date_start, $date_end, array($dept->primval));
-          $allowed = $staff->weekly_hours();
-          //now find the time logged
-          $worked += $hrs;
-          $available += $allowed;
-          echo "&nbsp;&nbsp;Staff: $staff->title - $hrs / $allowed<br>\r\n";
-        }
-        $percentages[$dept->primval] = (100/$available) * $worked;
-        echo "&nbsp;".$percentages[$dept->primval]."<br>\r\n";
-      }
-
-    }
-  }
-
-
 
 }
 ?>
