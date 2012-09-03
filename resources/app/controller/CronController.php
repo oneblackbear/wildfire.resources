@@ -7,15 +7,26 @@ class CronController extends WaxController{
 
 
   public function daily_work(){
+    $this->use_view = $this->use_layout = false;
     $tokens = $this->get_group_tokens();
     $date = date("Y-m-d");
-    foreach($tokend as $token){
+    $day_of_week = date("N")-1;
+    $ind = Staff::$days_of_week[$day_of_week];
+    echo "time per staff for ".$ind." - $date<br>";
+    foreach($tokens as $token){
       $st = new Staff;
-      foreach($st->filter("group_token", $token)->filter("id", array(3,4,5))->all() as $staff){
+      foreach($st->filter("group_token", $token)->filter("id", array(1,3,4,5))->all() as $staff){
+
+        $hours = $staff->{"hours_on_".$ind};
+        echo "$staff->title: $hours<br>";
         $work = new Work;
         $res = $work->filter("staff_id", $staff->primval)->filter("date_end >= '$date' and date_start <= '$date'")->all();
-        print_r($res);
-        exit;
+        $used = 0;
+        foreach($res as $row) $used += $row->hours_used;
+        echo "Sending Email!<br>";
+        $notify = new ResourceNotify;
+        $notify->send_daily_summary($staff, $date, $ind, $res);
+        echo "<hr>";
       }
     }
   }

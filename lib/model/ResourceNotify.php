@@ -89,5 +89,16 @@ class ResourceNotify extends WaxEmail{
     $this->from_name = Config::get("site/email_name");
   }
 
+
+  public function daily_summary($staff, $date, $dow, $work){
+    $this->add_to_address($staff->email);
+    $this->staff = $staff;
+    $this->work = $work;
+    $this->subject = "Your daily summary [$dow - $date]";
+    $this->from = Config::get("site/email");
+    $this->from_name = Config::get("site/email_name");
+
+  }
+
 }
 ?>
