@@ -93,7 +93,7 @@ class Job extends WildfireResource{
    * or who have work items that aren't set as complete
    */
   public function scope_live(){
-    return $this->filter("group_token", $this->group_token)->order("title ASC");
+    return $this->filter("group_token", Session::get("GROUP"))->order("title ASC");
   }
 
   public function scope_ordered(){
