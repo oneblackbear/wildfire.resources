@@ -14,19 +14,21 @@ class CronController extends WaxController{
     $ind = Staff::$days_of_week[$day_of_week];
     echo "time per staff for ".$ind." - $date<br>";
     foreach($tokens as $token){
-      $st = new Staff;
-      foreach($st->filter("group_token", $token)->all() as $staff){
-
-        $hours = $staff->{"hours_on_".$ind};
-        echo "$staff->title: $hours<br>";
-        $work = new Work;
-        $res = $work->filter("staff_id", $staff->primval)->filter("date_end >= '$date' and date_start <= '$date'")->all();
-        $used = 0;
-        foreach($res as $row) $used += $row->hours_used;
-        echo "Sending Email!<br>";
-        $notify = new ResourceNotify;
-        $notify->send_daily_summary($staff, $date, $ind, $res);
-        echo "<hr>";
+      $organisation = new Organisation("live");
+      foreach($organisation->filter("group_token", $token)->filter("is_client", 0)->all() as $org){
+        $st = new Staff;
+        foreach($org->staff as $staff){
+          $hours = $staff->{"hours_on_".$ind};
+          echo "$staff->title: $hours<br>";
+          $work = new Work;
+          $res = $work->filter("staff_id", $staff->primval)->filter("date_end >= '$date' and date_start <= '$date'")->all();
+          $used = 0;
+          foreach($res as $row) $used += $row->hours_used;
+          echo "Sending Email!<br>";
+          $notify = new ResourceNotify;
+          $notify->send_daily_summary($staff, $date, $ind, $res);
+          echo "<hr>";
+        }
       }
     }
   }
