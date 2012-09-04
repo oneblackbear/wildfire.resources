@@ -93,24 +93,7 @@ class Job extends WildfireResource{
    * or who have work items that aren't set as complete
    */
   public function scope_live(){
-    $ids = array(0);
-    if(!$ids = Job::$scope_cache["live"]){
-      $ids = array(0);
-      $jobs = new Job;
-      foreach($jobs->filter("group_token", $this->group_token)->all() as $job){
-        if($job->permanent_job) $ids[] = $job->primval;
-        else if(!$job->dead && !$job->complete && ($work = $job->work) && ($all = $work->count())){
-          $complete = $work->filter("status", "completed")->all()->count();
-          if($complete >= $all) $ids[] = $job->primval;
-        }
-      }
-    }
-
-    if(count($ids)){
-      if(count($ids) > 1) Job::$scope_cache["live"] = $ids;
-      foreach($ids as $id) $this->filter("id", $id, "!=");
-    }
-    return $this->order("title ASC");
+    return $this->filter("group_token", $this->group_token)->order("title ASC");
   }
 
   public function scope_ordered(){

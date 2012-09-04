@@ -10,7 +10,6 @@
   $depts = $active_staff->department_id();
   if(!$active_staff->admin()) $staff = $staff->filter("id", $active_staff->primval);
   if($active_staff->restricted){
-    $jobs->for_department($depts);
     $dept = $dept->for_department($depts, false);
     $staff = $staff->for_department($depts, "staff");
   }
