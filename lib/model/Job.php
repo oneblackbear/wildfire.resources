@@ -20,7 +20,7 @@ class Job extends WildfireResource{
     $this->define("notified", "BooleanField", array('editable'=>false));
     //this is flag for admin jobs like holidays etc
     $this->define("permanent_job", "BooleanField");
-    $this->define("dead", "BooleanField", array('editable'=>$this->is_editable()));
+    $this->define("dead", "BooleanField", array('editable'=>true));
     $this->define("complete", "BooleanField", array('editable'=>true, 'scaffold'=>true));
     $this->define("billed", "BooleanField", array('editable'=>true, 'scaffold'=>true));
   }

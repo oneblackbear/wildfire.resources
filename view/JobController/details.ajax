@@ -21,16 +21,17 @@
   <?if(($tasks = $model->work) && $tasks->count()):?>
   <div class='info'>
     <h4 class='header no-margin'>Scheduled Work:</h4>
-      <?$total = 0;?>
+      <?$est_total = $total = 0;?>
       <?foreach($tasks as $work):?>
         <?
         $dept = $work->department;
         $staff = $work->staff;
         $total += $work->hours_used;
+        $est_total += $work->hours;
         ?>
         <p><?if($work->status == "completed"):?>COMPLETE <?endif?><?=$work->title?> by <?=$staff->title?> (<?=$work->date_string()?>)<br><small>Used:<?=$work->hours_used?></small><br><small>Estimated:<?=$work->hours?></small></p>
       <?endforeach?>
-      <h4 class='header no-margin'>Total: <?=$total?></h4>
+    <h4 class='header no-margin'>Total: <?=$total?><br>Estimated total: <?=$est_total?></h4>
   </div>
   <?endif?>
   <div class='info'>
