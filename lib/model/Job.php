@@ -32,39 +32,7 @@ class Job extends WildfireResource{
 
   public function before_save(){
     parent::before_save();
-    $model = new Job;
-    //check the amount of go lives for the department on this day, if its more than the number of staff in the department, flag an error
-    $depts = false;
-    if(($posted = Request::param($this->table)) && ($posted = $posted['departments'])){
-      $d = new Department;
-      $depts = $d->filter("id", $posted)->all();
-    }elseif(($departmentjoin = $this->departments) && $departmentjoin->count()) $depts = $departmentjoin;
 
-    if(($depts) && ($depts->count()) ){
-      $golive = date("Ymd", strtotime($this->date_go_live));
-      foreach($depts as $d){
-        $j = new Job("live");
-        if($this->primval); $j->filter("id", $this->primval, "!=");
-        $found = $j->for_department($d->primval)->filter("DATE_FORMAT(date_go_live, '%Y%m%d') = '$golive'")->all();
-        if($golive && ($found) && ($found->count() > $d->deadlines_allowed)){
-          $job_id_string = "";
-          foreach($found as $f) $job_id_string .= "#".$f->primval.", ";
-          $this->add_error("date_go_live", $d->title." has too many deadlines for  ".date("jS F", strtotime($this->date_go_live))." (".$found->count()." / ".$d->deadlines_allowed.") - ". trim($job_id_string, ", "));
-        }
-      }
-    }
-    //check the content/description of this job
-    $words = explode(" ", trim($this->content));
-    $words = array_unique($words);
-    //disgard any <=3 letter words
-    foreach($words as $i=>$w) if(strlen($w) <= 3) unset($words[$i]);
-    if(count($words) < 7) $this->add_error("content", "Please provide a better description of the job (".count($words).")");
-    //make sure its a deadline during working week and make sure deadline is the latest day
-    $go_live = date("Ymd", strtotime($this->date_go_live));
-    foreach($this->get_date_cols() as $name=>$details){
-      if(($val = $this->$name) && ($day = date("N", strtotime($val))) && $day > 5) $this->add_error($name, "Must be within the working week.");
-      if($name != "date_go_live" && ($val = $this->$name) && ($comp = date("Ymd", strtotime($val))) && $comp > $go_live) $this->add_error($name, "$name ($comp) cannot be after the go live date ($go_live)");
-    }
 
     $this->send_notification = 1;
   }
