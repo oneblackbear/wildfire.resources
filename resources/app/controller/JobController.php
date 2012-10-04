@@ -48,7 +48,7 @@ class JobController extends BaseController{
 
   public function not_billed(){
     $this->listing();
-    $this->cms_content = $this->cms_content->limit(0)->filter(array('billed'=>0))->all();
+    $this->cms_content = $this->cms_content->limit(0)->filter(array('billed'=>0, 'dead'=>0))->all();
     $this->use_view = "listing";
   }
 
