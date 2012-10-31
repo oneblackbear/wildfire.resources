@@ -10,7 +10,7 @@ class ResponsibilityController extends BaseController{
                         );
   public $permissions = array(
                           'create'=>array('owner'),
-                          'edit'=>array('owner', 'admin'),
+                          'edit'=>array('owner', 'admin', 'staff'),
                           'delete'=>array('owner'),
                           'index'=>array('owner', 'admin', 'staff')
                         );
