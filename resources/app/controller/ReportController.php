@@ -7,7 +7,7 @@ class ReportController extends BaseController{
   public $filter_fields=array(
                           'date_start' => array('columns'=>array('date_end'), 'partial'=>'_filters_date', 'fuzzy'=>true)
                         );
-  public $navigation_links = array('index');
+  public $navigation_links = array('index', 'by_job');
   public $permissions = array(
                           'index'=>array('owner', 'admin'),
                           'by_job'=>array('owner', 'admin')
