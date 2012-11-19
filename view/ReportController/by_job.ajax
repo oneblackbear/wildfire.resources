@@ -1,0 +1,61 @@
+<?
+$all_orgs = $all_staff = $client_staff_hours = array();
+$staff = new Staff;
+foreach($staff->filter("group_token", Session::get("GROUP"))->filter("role", array('staff', 'admin', 'owner'))->order("title ASC")->all() as $s) $all_staff[$s->primval] = $s->title;
+
+
+foreach($cms_content as $work){
+  $staff_name = $all_staff[$work->staff_id];
+  $org_name = $work->job_id;
+  if($work->hours_used > 0){
+    if(!$client_staff_hours[$org_name][$staff_name]) $client_staff_hours[$org_name][$staff_name] = 0;
+    $client_staff_hours[$org_name][$staff_name] += $work->hours_used;
+    $client_staff_hours[$org_name]['total_hours'] += $work->hours_used;
+  }
+}
+
+uasort($client_staff_hours, function($a, $b){
+  return ($a['total_hours'] > $b['total_hours']) ? -1 : 1;
+});
+
+?>
+<table class='client_staff_hours'>
+  <thead>
+    <tr>
+      <td></td>
+      <?foreach($all_staff as $id=>$name):?>
+      <th><?=$name?></th>
+      <?endforeach?>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+    <?$staff_totals = array();?>
+    <?foreach($client_staff_hours as $client=>$staff_hours):?>
+    <tr>
+      <?$line_total = $staff_hours['total_hours'];
+      unset($staff_hours['total_hours']);
+      ?>
+     <th><?=$client?></th>
+      <?foreach($all_staff as $id=>$name):?>
+        <?
+        $staff_totals[$name] += $staff_hours[$name];
+        ?>
+
+      <td><?=$staff_hours[$name]?></td>
+      <?endforeach?>
+      <td><?=$line_total?></td>
+    </tr>
+    <?endforeach?>
+    <?$total = 0;?>
+    <tr class='staff_totals'>
+      <td>staff totals</td>
+      <?foreach($all_staff as $id=>$name):?>
+      <td><?=$staff_totals[$name]?></td>
+      <?$total += $staff_totals[$name];?>
+      <?endforeach?>
+      <td></td>
+    </tr>
+    <tr class='overall_total'>
+      <th colspan="<?=(2+count($all_staff))?>">TOTAL HOURS: <?=$total?></th>
+    </tr>
+</table>

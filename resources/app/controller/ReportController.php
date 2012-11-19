@@ -9,7 +9,12 @@ class ReportController extends BaseController{
                         );
   public $navigation_links = array('index');
   public $permissions = array(
-                          'index'=>array('owner', 'admin')
+                          'index'=>array('owner', 'admin'),
+                          'by_job'=>array('owner', 'admin')
                         );
+
+  public function by_job(){
+    WaxEvent::run("model.setup", $this);
+  }
 }
 ?>
