@@ -38,10 +38,12 @@ class WorkController extends BaseController{
     $this->per_page = false;
     parent::index();
     //default to current date
-    if((!$month = Request::param("month")) && (!$year = Request::param("year"))){
-      $month = date("m");
-      $year = date("Y");
-    }
+    $year = Request::param("year");
+    $month = Request::param("month");
+    if(!$month) $month = date("m");
+    if(!$year) $year = date("Y");
+
+
     $this->calendar = new Calendar($year, $month);
     $this->table = $this->calendar->generate();
     $this->use_view = "index";

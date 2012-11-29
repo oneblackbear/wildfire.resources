@@ -58,7 +58,7 @@ class Calendar{
     $table_array['previous'] = date("Ym", mktime(0,0,0, $this->current_month-1, 0, $this->current_year));
     $table_array['range'] = $this->date_range_array($table_array['start_date'], $table_array['end_date']);
     $table_array['previous_info'] = array('month'=>date("m", mktime(0,0,0, $this->current_month-1, 1, $this->current_year)), 'year'=>date("Y", mktime(0,0,0, $this->current_month-1, 0, $this->current_year)) );
-    $table_array['next_info'] = array('month'=>date("m", mktime(0,0,0, $this->current_month+1, 1, $this->current_year)), 'year'=>date("Y", mktime(0,0,0, $this->current_month+1, 0, $this->current_year)) );
+    $table_array['next_info'] = array('month'=>date("m", mktime(0,0,0, $this->current_month+1, 1, $this->current_year)), 'year'=>date("Y", mktime(0,0,0, $this->current_month+1, 31, $this->current_year)) );
     return $table_array;
   }
 
