@@ -33,6 +33,7 @@ class BaseController extends WaxController{
     $this->_events();
     $this->_access();
     $this->cms_stacks();
+    if($this->use_format != "json") throw new WXRoutingException('The page you are looking for is not available', "Page not found", '404');
   }
 
   public function _base_url(){
